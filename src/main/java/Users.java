@@ -29,8 +29,8 @@ public class Users {
     }
 
     @Id
-    @JoinColumn(name="connectiondataid")
-    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
+//    @JoinColumn(name="connectiondataid")
+//    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     private String login;
     @Column (name="name")
     private String name;

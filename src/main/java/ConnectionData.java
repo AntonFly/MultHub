@@ -28,7 +28,7 @@ public class ConnectionData {
     }
 
     @Id
-    @Column(name= "login")
+//    @Column(name= "login")
     @OneToOne(mappedBy = "connectiondata")
     private String login;
     @Column(name = "E-mail")
