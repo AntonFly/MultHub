@@ -12,7 +12,7 @@ public class Projects {
     private String description;
     private long curbudget;
     private long goalbudget;
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "user", orphanRemoval = true)
     private List<Commits> commits;
 
     public Projects(){}
@@ -23,12 +23,14 @@ public class Projects {
         this.description = description;
         this.curbudget = curbudget;
         this.goalbudget = goalbudget;
-        commits = new ArrayList<>();
+        commits = new ArrayList<Commits>();
     }
 
     public void addCommit(Commits commit) //developer
     {
         commit.setProjectid(projectid);
+        //commit.setDeveloper();
+        //commit.s
         commits.add(commit);
     }
     public void removeCommit(Commits commit){

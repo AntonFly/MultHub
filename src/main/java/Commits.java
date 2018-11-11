@@ -6,6 +6,8 @@ import java.time.LocalDateTime;
 public class Commits {
 
     @Id
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_projectid")
     private int projectid;
     @Id
     private String developer;
@@ -64,5 +66,10 @@ public class Commits {
 
     public Approved getApproved() {
         return approved;
+    }
+
+    @Override
+    public String toString(){
+        return projectid+" "+developer;
     }
 }
