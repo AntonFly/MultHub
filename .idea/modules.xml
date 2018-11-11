@@ -2,7 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/MultHub.iml" filepath="$PROJECT_DIR$/.idea/MultHub.iml" />
+      <module fileurl="file://$PROJECT_DIR$/MultHub.iml" filepath="$PROJECT_DIR$/MultHub.iml" />
+      <module fileurl="file://$PROJECT_DIR$/src/main/main.iml" filepath="$PROJECT_DIR$/src/main/main.iml" />
     </modules>
   </component>
 </project>
