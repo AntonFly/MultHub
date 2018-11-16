@@ -8,7 +8,7 @@ public class ConnectionData {
     }
 
     public void setLogin(String login) {
-        this.login = login;
+        this.login=(login);
     }
 
     public String getEmail() {
@@ -28,8 +28,6 @@ public class ConnectionData {
     }
 
     @Id
-//    @Column(name= "login")
-    @OneToOne(mappedBy = "connectiondata")
     private String login;
     @Column(name = "E-mail")
     private String email;

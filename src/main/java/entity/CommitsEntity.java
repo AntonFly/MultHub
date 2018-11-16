@@ -65,9 +65,6 @@ public class CommitsEntity {
         return approved;
     }
 
-    public void setApproved(Approved approved) {
-        this.approved = approved;
-    }
 
     @Override
     public boolean equals(Object o) {

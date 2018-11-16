@@ -44,9 +44,6 @@ public class DevelopersEntity {
         return projpos;
     }
 
-    public void setProjpos(Projpos projpos) {
-        this.projpos = projpos;
-    }
 
     @Basic
     @Column(name = "description", nullable = true, length = -1)

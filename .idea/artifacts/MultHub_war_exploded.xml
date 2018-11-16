@@ -24,6 +24,7 @@
           <element id="library" level="project" name="Maven: javax.inject:javax.inject:1" />
           <element id="library" level="project" name="Maven: org.postgresql:postgresql:42.2.5" />
           <element id="library" level="project" name="Maven: com.jcraft:jsch:0.1.54" />
+          <element id="library" level="project" name="Maven: javax.persistence:javax.persistence-api:2.2" />
         </element>
       </element>
       <element id="directory" name="META-INF">

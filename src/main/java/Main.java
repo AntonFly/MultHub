@@ -10,7 +10,7 @@ public class Main {
     public static void main(String... args) throws SQLException {
         connectBd();
         UserService userService = new UserService();
-        Users user = new Users("fly","fly","f");
+        Users user = new Users("fly2","fly","f");
         userService.saveUser(user);
 
 

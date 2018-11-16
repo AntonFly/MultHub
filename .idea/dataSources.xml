@@ -1,11 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
-    <data-source source="LOCAL" name="studs@pg" uuid="c39662a8-9170-4a06-94e3-168bbd32fe35">
+    <data-source source="LOCAL" name="multhub@fly.sytes.net" uuid="9c81a433-c969-4d22-ba65-9bc2b7df0379">
       <driver-ref>postgresql</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>org.postgresql.Driver</jdbc-driver>
-      <jdbc-url>jdbc:postgresql://pg:5432/studs</jdbc-url>
+      <jdbc-url>jdbc:postgresql://fly.sytes.net:5432/multhub</jdbc-url>
+    </data-source>
+    <data-source source="LOCAL" name="hibernate.cfg.xml/Hibernate" uuid="92fcdbbd-c713-4a72-9de3-91a2cfad67f6">
+      <driver-ref>postgresql</driver-ref>
+      <synchronize>true</synchronize>
+      <imported>true</imported>
+      <remarks>Hibernate
+
+C:/Users/anton/IdeaProjects/MultHub/src/main/resources/hibernate.cfg.xml</remarks>
+      <jdbc-driver>org.postgresql.Driver</jdbc-driver>
+      <jdbc-url>jdbc:postgresql://fly.sytes.net:5432/multhub</jdbc-url>
     </data-source>
   </component>
 </project>

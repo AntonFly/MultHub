@@ -1,3 +1,5 @@
+import entity.Commits;
+
 import javax.persistence.*;
 import java.util.*;
 
@@ -23,7 +25,7 @@ public class Projects {
         this.description = description;
         this.curbudget = curbudget;
         this.goalbudget = goalbudget;
-        commits = new ArrayList<>();
+        commits = new ArrayList();
     }
 
     public void addCommit(Commits commit) //developer
