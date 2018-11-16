@@ -1,0 +1,29 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+
+    <class name="entity.CommitsEntity" table="commits" schema="public" catalog="multhub">
+        <composite-id mapped="true" class="entity.CommitsEntityPK">
+            <key-property name="projectid">
+                <column name="projectid" sql-type="integer"/>
+            </key-property>
+            <key-property name="developer">
+                <column name="developer" sql-type="varchar(30)" length="30"/>
+            </key-property>
+            <key-property name="time">
+                <column name="time" sql-type="timestamp"/>
+            </key-property>
+        </composite-id>
+        <property name="filedirectory">
+            <column name="filedirectory" sql-type="text" not-null="true"/>
+        </property>
+        <property name="approved">
+            <column name="approved" sql-type="approved" not-null="true"/>
+        </property>
+        <many-to-one name="projectsByProjectid" class="entity.ProjectsEntity">
+            <column name="projectid"/>
+        </many-to-one>
+    </class>
+</hibernate-mapping>

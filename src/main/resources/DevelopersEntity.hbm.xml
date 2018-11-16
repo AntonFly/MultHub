@@ -1,0 +1,29 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+
+    <class name="entity.DevelopersEntity" table="developers" schema="public" catalog="multhub">
+        <composite-id mapped="true" class="entity.DevelopersEntityPK">
+            <key-property name="login">
+                <column name="login" sql-type="varchar(30)" length="30"/>
+            </key-property>
+            <key-property name="projectid">
+                <column name="projectid" sql-type="integer"/>
+            </key-property>
+        </composite-id>
+        <property name="projpos">
+            <column name="projpos" sql-type="pos_type" not-null="true"/>
+        </property>
+        <property name="description">
+            <column name="description" sql-type="text" not-null="true"/>
+        </property>
+        <many-to-one name="usersByLogin" class="entity.UsersEntity">
+            <column name="login"/>
+        </many-to-one>
+        <many-to-one name="projectsByProjectid" class="entity.ProjectsEntity">
+            <column name="projectid"/>
+        </many-to-one>
+    </class>
+</hibernate-mapping>

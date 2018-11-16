@@ -1,0 +1,22 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+
+    <class name="entity.CreditinfoEntity" table="creditinfo" schema="public" catalog="multhub">
+        <id name="login">
+            <column name="login" sql-type="varchar(30)" length="30"/>
+        </id>
+        <property name="cardnumber">
+            <column name="cardnumber" sql-type="integer" not-null="true"/>
+        </property>
+        <property name="qiwimobilephone">
+            <column name="qiwimobilephone" sql-type="integer" not-null="true"/>
+        </property>
+        <property name="yamoney">
+            <column name="yamoney" sql-type="bigint" not-null="true"/>
+        </property>
+        <one-to-one name="usersByLogin" class="entity.UsersEntity"/>
+    </class>
+</hibernate-mapping>
