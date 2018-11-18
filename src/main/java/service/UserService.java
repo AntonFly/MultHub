@@ -1,7 +1,9 @@
 package service;
 
+import dao.CreditInfoDAO;
 import dao.DaoFactory;
 import dao.UsersDAO;
+import entity.CreditinfoEntity;
 import entity.UsersEntity;
 import exception.DBException;
 import org.hibernate.HibernateException;
@@ -11,8 +13,8 @@ import util.DBService;
 import javax.persistence.NoResultException;
 import java.util.List;
 
-public class DeveloperService extends AbstractService<UsersEntity,String> {
-    public DeveloperService() {
+public class UserService extends AbstractService<UsersEntity,String> {
+    public UserService() {
     }
 
     @Override
@@ -100,5 +102,21 @@ public class DeveloperService extends AbstractService<UsersEntity,String> {
         return true;
     }
 
+    public boolean create(CreditinfoEntity credits) throws DBException {
+        Transaction transaction = DBService.getTransaction();
+        try {
+            CreditInfoDAO dao = DaoFactory.getCreditInfoDAO();
+            dao.create(credits);
+
+            transaction.commit();
+
+//            logger.fine("Create item " + user);
+
+        } catch (HibernateException | NoResultException e) {
+            DBService.transactionRollback(transaction);
+            throw new DBException(e);
+        }
+        return true;
+    }
 
 }

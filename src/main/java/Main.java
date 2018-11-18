@@ -1,8 +1,9 @@
 import com.jcraft.jsch.JSch;
 import com.jcraft.jsch.JSchException;
 import com.jcraft.jsch.Session;
+import entity.CreditinfoEntity;
 import entity.UsersEntity;
-import service.DeveloperService;
+import service.UserService;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -15,8 +16,12 @@ public class Main {
         usersEntity.setName("dipidor");
         usersEntity.setSurname("ffkgf");
         usersEntity.setPassword("danxyi");
-        DeveloperService ds= new DeveloperService();
+        CreditinfoEntity credits = new CreditinfoEntity();
+        credits.setCardnumber(213);
+        credits.setLogin("2d");
+        UserService ds= new UserService();
         try{
+            ds.create(credits);
             List<UsersEntity> list =ds.getAll();
             for (UsersEntity us:list
                  ) {
