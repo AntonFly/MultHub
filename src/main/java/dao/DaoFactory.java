@@ -3,6 +3,7 @@ package dao;
 public class DaoFactory {
     private static volatile UsersDAO usersDAO;
     private static volatile CreditInfoDAO creditInfoDAO;
+    private static volatile ConnectiondataDao connectiondataDao;
 
 
     public static UsersDAO getUsersDAO(){
@@ -27,5 +28,15 @@ public class DaoFactory {
         return creditInfoDAO;
     }
 
+    public static ConnectiondataDao ConnectiondataDao(){
+        if(connectiondataDao == null) {
+            synchronized(DaoFactory.class) {
+                if(connectiondataDao == null) {
+                    connectiondataDao = new ConnectiondataDao();
+                }
+            }
+        }
+        return connectiondataDao;
+    }
 
 }

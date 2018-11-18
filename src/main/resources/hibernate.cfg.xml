@@ -8,8 +8,6 @@
     <property name="hibernate.connection.driver_class">org.postgresql.Driver</property>
     <property name="hibernate.dialect">org.hibernate.dialect.PostgreSQL9Dialect</property>
     <!--<property name="show_sql">true</property>-->
-    <property name="hibernate.connection.username">anton_fly</property>
-    <property name="hibernate.connection.password">qwe123!@#</property>
     <property name="hibernate.current_session_context_class">thread</property>
     <property name="show_sql">true</property>
     <property name="format_sql">true</property>
@@ -62,6 +60,12 @@
     <mapping resource="ConnectiondataEntity.hbm.xml"/>
     <mapping resource="CreditinfoEntity.hbm.xml"/>
     <mapping resource="UsersEntity.hbm.xml"/>
+    <mapping resource="CommentsEntity.hbm.xml"/>
+    <mapping resource="CommitsEntity.hbm.xml"/>
+    <mapping resource="DevelopersEntity.hbm.xml"/>
+    <mapping resource="ProjectsEntity.hbm.xml"/>
+    <mapping resource="RequestsEntity.hbm.xml"/>
+    <mapping resource="SubsEntity.hbm.xml"/>
 
   </session-factory>
 </hibernate-configuration>

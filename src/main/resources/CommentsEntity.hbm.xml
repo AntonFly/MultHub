@@ -20,5 +20,8 @@
         <property name="time">
             <column name="time" sql-type="timestamp" not-null="true"/>
         </property>
+        <many-to-one name="projectsByProjectid" class="entity.ProjectsEntity">
+            <column name="projectid" not-null="true"/>
+        </many-to-one>
     </class>
 </hibernate-mapping>

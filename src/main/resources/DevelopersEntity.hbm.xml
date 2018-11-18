@@ -19,5 +19,8 @@
         <property name="description">
             <column name="description" sql-type="text" not-null="true"/>
         </property>
+        <many-to-one name="projectsByProjectid" class="entity.ProjectsEntity">
+            <column name="projectid"/>
+        </many-to-one>
     </class>
 </hibernate-mapping>
