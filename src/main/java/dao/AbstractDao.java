@@ -6,9 +6,9 @@ import java.util.List;
 abstract class AbstractDao<E> {
 
         public abstract List<E> getAll();
-//        public abstract E getEntityById(K id);
+        public abstract E getEntityById(String id);
         public abstract void update(E entity);
-//        public abstract boolean delete(K id);
+        public abstract void delete(E entity);
         public abstract Serializable create(E entity);
 
 }

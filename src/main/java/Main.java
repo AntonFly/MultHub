@@ -11,18 +11,21 @@ import java.util.Properties;
 public class Main {
     public static void main(String... args) throws SQLException {
         UsersEntity usersEntity = new UsersEntity();
-        usersEntity.setLogin("l");
-        usersEntity.setName("anto2n");
-        usersEntity.setSurname("fgjfkgf");
-        usersEntity.setPassword("divanxyi");
+        usersEntity.setLogin("1d");
+        usersEntity.setName("dipidor");
+        usersEntity.setSurname("ffkgf");
+        usersEntity.setPassword("danxyi");
         DeveloperService ds= new DeveloperService();
-        try{ List<UsersEntity> list =ds.getAll();
+        try{
+            List<UsersEntity> list =ds.getAll();
             for (UsersEntity us:list
                  ) {
                 System.out.println(us.getLogin()+" "+us.getName()+" "+ us.getSurname());
 
             }
-            ds.update(usersEntity);
+            ds.create(usersEntity);
+            UsersEntity us= ds.get("1d");
+            System.out.println(us.getLogin()+" "+us.getName()+" "+ us.getSurname());
         }catch (Exception e){
             e.printStackTrace();
         }

@@ -11,7 +11,7 @@ import util.DBService;
 import javax.persistence.NoResultException;
 import java.util.List;
 
-public class DeveloperService extends AbstractService<UsersEntity> {
+public class DeveloperService extends AbstractService<UsersEntity,String> {
     public DeveloperService() {
     }
 
@@ -70,10 +70,34 @@ public class DeveloperService extends AbstractService<UsersEntity> {
     }
 
 
+    @Override
+    public UsersEntity get(String id) throws DBException {
+        Transaction transaction =DBService.getTransaction();
+        try {
+            UsersDAO dao = DaoFactory.getUsersDAO();
+            UsersEntity ue =dao.getEntityById(id);
+            transaction.commit();
+            return ue;
+        }catch (HibernateException | NoResultException e) {
+            DBService.transactionRollback(transaction);
+            throw new DBException(e);
+        }
+
+
+    }
 
     @Override
-    void delete(long id) throws DBException {
-
+    public boolean delete(UsersEntity item) throws DBException {
+        Transaction transaction = DBService.getTransaction();
+        try{
+            UsersDAO dao= DaoFactory.getUsersDAO();
+            dao.delete(item);
+            transaction.commit();
+        } catch (HibernateException | NoResultException e) {
+            DBService.transactionRollback(transaction);
+            throw new DBException(e);
+        }
+        return true;
     }
 
 
