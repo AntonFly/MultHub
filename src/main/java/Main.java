@@ -1,7 +1,6 @@
 import com.jcraft.jsch.JSch;
 import com.jcraft.jsch.JSchException;
 import com.jcraft.jsch.Session;
-import entity.CreditinfoEntity;
 import entity.UsersEntity;
 import service.UserService;
 
@@ -12,23 +11,20 @@ import java.util.Properties;
 public class Main {
     public static void main(String... args) throws SQLException {
         UsersEntity usersEntity = new UsersEntity();
-        usersEntity.setLogin("1d");
+        usersEntity.setLogin("3d");
         usersEntity.setName("dipidor");
         usersEntity.setSurname("ffkgf");
         usersEntity.setPassword("danxyi");
-        CreditinfoEntity credits = new CreditinfoEntity();
-        credits.setCardnumber(213);
-        credits.setLogin("2d");
         UserService ds= new UserService();
         try{
-            ds.create(credits);
+            ds.create(usersEntity);
             List<UsersEntity> list =ds.getAll();
             for (UsersEntity us:list
                  ) {
                 System.out.println(us.getLogin()+" "+us.getName()+" "+ us.getSurname());
 
             }
-            ds.create(usersEntity);
+//            ds.create(usersEntity);
             UsersEntity us= ds.get("1d");
             System.out.println(us.getLogin()+" "+us.getName()+" "+ us.getSurname());
         }catch (Exception e){

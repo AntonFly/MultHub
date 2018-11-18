@@ -2,7 +2,10 @@ package dao;
 
 import entity.*;
 import org.hibernate.LockMode;
+import org.hibernate.Session;
 import util.DBService;
+
+import java.io.Serializable;
 import java.util.List;
 
 public class UsersDAO extends AbstractDao<UsersEntity,String> {
@@ -23,4 +26,8 @@ public class UsersDAO extends AbstractDao<UsersEntity,String> {
                 .getCurrentSession()
                 .get(UsersEntity.class, id, LockMode.PESSIMISTIC_READ);
     }
+
+
+
+
 }
