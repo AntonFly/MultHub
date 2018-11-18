@@ -1,15 +1,17 @@
 package service;
 import exception.DBException;
 
-
+import java.util.List;
 
 
 abstract class AbstractService<E>  {
 
-    abstract long create(E item) throws DBException;
+    abstract boolean create(E item) throws DBException;
 
-    abstract void update(E item) throws DBException;
+    abstract boolean update(E item) throws DBException;
 
     abstract void delete(long id) throws DBException;
+
+    abstract List<E> getAll() throws DBException;
 
 }

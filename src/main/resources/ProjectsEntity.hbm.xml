@@ -20,35 +20,5 @@
         <property name="goalbudget">
             <column name="goalbudget" sql-type="money" not-null="true"/>
         </property>
-        <set name="commentsByProjectid" inverse="true">
-            <key>
-                <column name="projectid" not-null="true"/>
-            </key>
-            <one-to-many not-found="ignore" class="entity.CommentsEntity"/>
-        </set>
-        <set name="commitsByProjectid" inverse="true">
-            <key>
-                <column name="projectid"/>
-            </key>
-            <one-to-many not-found="ignore" class="entity.CommitsEntity"/>
-        </set>
-        <set name="developersByProjectid" inverse="true">
-            <key>
-                <column name="projectid"/>
-            </key>
-            <one-to-many not-found="ignore" class="entity.DevelopersEntity"/>
-        </set>
-        <set name="requestsByProjectid" inverse="true">
-            <key>
-                <column name="projectid"/>
-            </key>
-            <one-to-many not-found="ignore" class="entity.RequestsEntity"/>
-        </set>
-        <set name="subsByProjectid" inverse="true">
-            <key>
-                <column name="projectid"/>
-            </key>
-            <one-to-many not-found="ignore" class="entity.SubsEntity"/>
-        </set>
     </class>
 </hibernate-mapping>

@@ -2,40 +2,34 @@ package dao;
 
 import entity.*;
 import org.hibernate.Session;
+import util.DBService;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class UsersDAO extends AbstractDao {
+public class UsersDAO extends AbstractDao<UsersEntity> {
     public UsersDAO() {
     }
 
     @Override
-    public List getAll() {
-        System.out.println("polucheni vse user");
-        return null;
+    public List<UsersEntity> getAll() {
+        return  DBService.getSessionFactory()
+                .getCurrentSession()
+                .createQuery("from UsersEntity ", UsersEntity.class).list();
+
     }
 
     @Override
-    public Object getEntityById(Object id) {
-        System.out.println("poluchen user");
-        return null;
+    public void update(UsersEntity entity) {
+         DBService.getSessionFactory()
+                .getCurrentSession()
+                .update(entity);
     }
 
     @Override
-    public Object update(Object entity) {
-        System.out.println("obnovlen user");
-        return null;
-    }
-
-    @Override
-    public boolean delete(Object id) {
-        System.out.println("udalen user");
-        return false;
-    }
-
-    @Override
-    public boolean create(Object entity) {
-        System.out.println("sozdan user");
-        return false;
+    public Serializable create(UsersEntity entity) {
+        return  DBService.getSessionFactory()
+                .getCurrentSession()
+                .save(entity);
     }
 }

@@ -10,7 +10,6 @@ public class CreditinfoEntity {
     private Integer cardnumber;
     private Integer qiwimobilephone;
     private Long yamoney;
-    private UsersEntity usersByLogin;
 
     @Id
     @Column(name = "login", nullable = false, length = 30)
@@ -68,13 +67,4 @@ public class CreditinfoEntity {
         return Objects.hash(login, cardnumber, qiwimobilephone, yamoney);
     }
 
-    @OneToOne
-    @JoinColumn(name = "login", referencedColumnName = "login", nullable = false)
-    public UsersEntity getUsersByLogin() {
-        return usersByLogin;
-    }
-
-    public void setUsersByLogin(UsersEntity usersByLogin) {
-        this.usersByLogin = usersByLogin;
-    }
 }

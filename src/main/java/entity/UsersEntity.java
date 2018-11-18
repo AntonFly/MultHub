@@ -1,7 +1,6 @@
 package entity;
 
 import javax.persistence.*;
-import java.util.Collection;
 import java.util.Objects;
 
 @Entity
@@ -10,12 +9,7 @@ public class UsersEntity {
     private String login;
     private String name;
     private String surname;
-    private Collection<CommentsEntity> commentsByLogin;
-    private ConnectiondataEntity connectiondataByLogin;
-    private CreditinfoEntity creditinfoByLogin;
-    private Collection<DevelopersEntity> developersByLogin;
-    private Collection<RequestsEntity> requestsByLogin;
-    private Collection<SubsEntity> subsByLogin;
+    private String password;
 
     @Id
     @Column(name = "login", nullable = false, length = 30)
@@ -47,6 +41,16 @@ public class UsersEntity {
         this.surname = surname;
     }
 
+    @Basic
+    @Column(name = "password", nullable = true, length = -1)
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -54,65 +58,13 @@ public class UsersEntity {
         UsersEntity that = (UsersEntity) o;
         return Objects.equals(login, that.login) &&
                 Objects.equals(name, that.name) &&
-                Objects.equals(surname, that.surname);
+                Objects.equals(surname, that.surname) &&
+                Objects.equals(password, that.password);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(login, name, surname);
+        return Objects.hash(login, name, surname, password);
     }
 
-    @OneToMany(mappedBy = "usersByLogin")
-    public Collection<CommentsEntity> getCommentsByLogin() {
-        return commentsByLogin;
-    }
-
-    public void setCommentsByLogin(Collection<CommentsEntity> commentsByLogin) {
-        this.commentsByLogin = commentsByLogin;
-    }
-
-    @OneToOne(mappedBy = "usersByLogin")
-    public ConnectiondataEntity getConnectiondataByLogin() {
-        return connectiondataByLogin;
-    }
-
-    public void setConnectiondataByLogin(ConnectiondataEntity connectiondataByLogin) {
-        this.connectiondataByLogin = connectiondataByLogin;
-    }
-
-    @OneToOne(mappedBy = "usersByLogin")
-    public CreditinfoEntity getCreditinfoByLogin() {
-        return creditinfoByLogin;
-    }
-
-    public void setCreditinfoByLogin(CreditinfoEntity creditinfoByLogin) {
-        this.creditinfoByLogin = creditinfoByLogin;
-    }
-
-    @OneToMany(mappedBy = "usersByLogin")
-    public Collection<DevelopersEntity> getDevelopersByLogin() {
-        return developersByLogin;
-    }
-
-    public void setDevelopersByLogin(Collection<DevelopersEntity> developersByLogin) {
-        this.developersByLogin = developersByLogin;
-    }
-
-    @OneToMany(mappedBy = "usersByLogin")
-    public Collection<RequestsEntity> getRequestsByLogin() {
-        return requestsByLogin;
-    }
-
-    public void setRequestsByLogin(Collection<RequestsEntity> requestsByLogin) {
-        this.requestsByLogin = requestsByLogin;
-    }
-
-    @OneToMany(mappedBy = "usersByLogin")
-    public Collection<SubsEntity> getSubsByLogin() {
-        return subsByLogin;
-    }
-
-    public void setSubsByLogin(Collection<SubsEntity> subsByLogin) {
-        this.subsByLogin = subsByLogin;
-    }
 }

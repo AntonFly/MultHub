@@ -1,17 +1,33 @@
 import com.jcraft.jsch.JSch;
 import com.jcraft.jsch.JSchException;
 import com.jcraft.jsch.Session;
+import entity.UsersEntity;
+import service.DeveloperService;
 
-import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.List;
 import java.util.Properties;
 
 public class Main {
     public static void main(String... args) throws SQLException {
-        connectBd();
-        UserService userService = new UserService();
-        Users user = new Users("fly2","fly","f");
-        userService.saveUser(user);
+        UsersEntity usersEntity = new UsersEntity();
+        usersEntity.setLogin("l");
+        usersEntity.setName("anto2n");
+        usersEntity.setSurname("fgjfkgf");
+        usersEntity.setPassword("divanxyi");
+        DeveloperService ds= new DeveloperService();
+        try{ List<UsersEntity> list =ds.getAll();
+            for (UsersEntity us:list
+                 ) {
+                System.out.println(us.getLogin()+" "+us.getName()+" "+ us.getSurname());
+
+            }
+            ds.update(usersEntity);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
+
 
 
 

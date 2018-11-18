@@ -14,31 +14,9 @@
         <property name="surname">
             <column name="surname" sql-type="text" not-null="true"/>
         </property>
+        <property name="password">
+            <column name="password" sql-type="text" not-null="true"/>
+        </property>
         <one-to-one name="connectiondataByLogin" class="entity.ConnectiondataEntity"/>
-        <one-to-one name="creditinfoByLogin" class="entity.CreditinfoEntity"/>
-        <set name="commentsByLogin" inverse="true">
-            <key>
-                <column name="login" not-null="true"/>
-            </key>
-            <one-to-many not-found="ignore" class="entity.CommentsEntity"/>
-        </set>
-        <set name="developersByLogin" inverse="true">
-            <key>
-                <column name="login"/>
-            </key>
-            <one-to-many not-found="ignore" class="entity.DevelopersEntity"/>
-        </set>
-        <set name="requestsByLogin" inverse="true">
-            <key>
-                <column name="login"/>
-            </key>
-            <one-to-many not-found="ignore" class="entity.RequestsEntity"/>
-        </set>
-        <set name="subsByLogin" inverse="true">
-            <key>
-                <column name="login"/>
-            </key>
-            <one-to-many not-found="ignore" class="entity.SubsEntity"/>
-        </set>
     </class>
 </hibernate-mapping>

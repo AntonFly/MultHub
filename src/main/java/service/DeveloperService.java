@@ -1,25 +1,80 @@
 package service;
 
+import dao.DaoFactory;
+import dao.UsersDAO;
+import entity.UsersEntity;
 import exception.DBException;
+import org.hibernate.HibernateException;
 import org.hibernate.Transaction;
 import util.DBService;
 
-public class DeveloperService extends AbstractService {
+import javax.persistence.NoResultException;
+import java.util.List;
+
+public class DeveloperService extends AbstractService<UsersEntity> {
     public DeveloperService() {
     }
 
     @Override
-    long create(Object item) throws DBException {
+    public List<UsersEntity> getAll() throws DBException {
         Transaction transaction = DBService.getTransaction();
+        try {
+            UsersDAO dao = DaoFactory.getUsersDAO();
+            List<UsersEntity> list =  dao.getAll();
+
+            transaction.commit();
+            return list;
+//            logger.fine("Create item " + user);
+
+        } catch (HibernateException | NoResultException e) {
+            DBService.transactionRollback(transaction);
+            throw new DBException(e);
+        }
+
     }
 
     @Override
-    void update(Object item) throws DBException {
+    public boolean create(UsersEntity user) throws DBException {
+        Transaction transaction = DBService.getTransaction();
+        try {
+            UsersDAO dao = DaoFactory.getUsersDAO();
+            dao.create(user);
 
+            transaction.commit();
+
+//            logger.fine("Create item " + user);
+
+        } catch (HibernateException | NoResultException e) {
+            DBService.transactionRollback(transaction);
+            throw new DBException(e);
+        }
+        return true;
     }
+
+    @Override
+    public boolean update(UsersEntity item) throws DBException {
+        Transaction transaction = DBService.getTransaction();
+        try {
+            UsersDAO dao = DaoFactory.getUsersDAO();
+            dao.update(item);
+
+            transaction.commit();
+
+//            logger.fine("Create item " + user);
+
+        } catch (HibernateException | NoResultException e) {
+            DBService.transactionRollback(transaction);
+            throw new DBException(e);
+        }
+        return true;
+    }
+
+
 
     @Override
     void delete(long id) throws DBException {
 
     }
+
+
 }

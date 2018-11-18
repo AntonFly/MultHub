@@ -9,10 +9,10 @@ public class ConnectiondataEntity {
     private String login;
     private String eMail;
     private Integer mobilenumb;
-    private UsersEntity usersByLogin;
 
     @Id
     @Column(name = "login", nullable = false, length = 30)
+    @PrimaryKeyJoinColumn
     public String getLogin() {
         return login;
     }
@@ -56,13 +56,4 @@ public class ConnectiondataEntity {
         return Objects.hash(login, eMail, mobilenumb);
     }
 
-    @OneToOne
-    @JoinColumn(name = "login", referencedColumnName = "login", nullable = false)
-    public UsersEntity getUsersByLogin() {
-        return usersByLogin;
-    }
-
-    public void setUsersByLogin(UsersEntity usersByLogin) {
-        this.usersByLogin = usersByLogin;
-    }
 }
