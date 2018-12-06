@@ -17,7 +17,8 @@ abstract class AbstractDao<E, K> {
                         .update(entity);
         };
 
-        public  void delete(E entity){
+        public  void delete(K id){
+                E entity= getEntityById(id);
                 DBService.getSessionFactory()
                         .getCurrentSession()
                         .delete(entity);

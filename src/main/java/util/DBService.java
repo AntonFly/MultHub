@@ -14,11 +14,7 @@ public class DBService {
         private static SessionFactory sessionFactory;
 
         static {
-//            try {
                 sessionFactory = initSessionFactory();
-//            }catch (ServiceException e){
-//                e.printStackTrace();
-//            }
         }
 
         private DBService() {}

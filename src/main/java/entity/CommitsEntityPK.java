@@ -11,6 +11,12 @@ public class CommitsEntityPK implements Serializable {
     private String developer;
     private Timestamp time;
 
+    public CommitsEntityPK(int projectid, String developer, Timestamp time) {
+        this.projectid = projectid;
+        this.developer = developer;
+        this.time = time;
+    }
+
     @Column(name = "projectid", nullable = false)
     @Id
     public int getProjectid() {

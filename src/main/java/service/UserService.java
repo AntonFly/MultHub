@@ -1,14 +1,14 @@
 package service;
 
-import dao.CreditInfoDAO;
+import dao.CommitsDao;
 import dao.DaoFactory;
-import dao.DevelopersDAO;
 import dao.UsersDAO;
-import entity.CreditinfoEntity;
-import entity.DevelopersEntity;
-import entity.DevelopersEntityPK;
+import entity.CommitsEntity;
+import entity.CommitsEntityPK;
+import entity.ProjectsEntity;
 import entity.UsersEntity;
 import exception.DBException;
+import javafx.beans.property.Property;
 import org.hibernate.HibernateException;
 import org.hibernate.Transaction;
 import util.DBService;
@@ -17,6 +17,7 @@ import javax.persistence.NoResultException;
 import java.util.List;
 
 public class UserService extends AbstractService<UsersEntity,String> {
+
     public UserService() {
     }
 
@@ -26,8 +27,11 @@ public class UserService extends AbstractService<UsersEntity,String> {
         try {
             UsersDAO dao = DaoFactory.getUsersDAO();
             List<UsersEntity> list =  dao.getAll();
+
             transaction.commit();
             return list;
+//            logger.fine("Create item " + user);
+
         } catch (HibernateException | NoResultException e) {
             DBService.transactionRollback(transaction);
             throw new DBException(e);
@@ -41,7 +45,11 @@ public class UserService extends AbstractService<UsersEntity,String> {
         try {
             UsersDAO dao = DaoFactory.getUsersDAO();
             dao.create(user);
+
             transaction.commit();
+
+//            logger.fine("Create item " + user);
+
         } catch (HibernateException | NoResultException e) {
             DBService.transactionRollback(transaction);
             throw new DBException(e);
@@ -55,7 +63,11 @@ public class UserService extends AbstractService<UsersEntity,String> {
         try {
             UsersDAO dao = DaoFactory.getUsersDAO();
             dao.update(item);
+
             transaction.commit();
+
+//            logger.fine("Create item " + user);
+
         } catch (HibernateException | NoResultException e) {
             DBService.transactionRollback(transaction);
             throw new DBException(e);
@@ -81,11 +93,11 @@ public class UserService extends AbstractService<UsersEntity,String> {
     }
 
     @Override
-    public boolean delete(UsersEntity item) throws DBException {
+    public boolean delete(String id) throws DBException {
         Transaction transaction = DBService.getTransaction();
         try{
             UsersDAO dao= DaoFactory.getUsersDAO();
-            dao.delete(item);
+            dao.delete(id);
             transaction.commit();
         } catch (HibernateException | NoResultException e) {
             DBService.transactionRollback(transaction);
@@ -94,34 +106,19 @@ public class UserService extends AbstractService<UsersEntity,String> {
         return true;
     }
 
-    public boolean create(CreditinfoEntity credits) throws DBException {
-        Transaction transaction = DBService.getTransaction();
-        try {
-            CreditInfoDAO dao = DaoFactory.getCreditInfoDAO();
-            dao.create(credits);
-            transaction.commit();
-        } catch (HibernateException | NoResultException e) {
-            DBService.transactionRollback(transaction);
-            throw new DBException(e);
-        }
-        return true;
-    }
-
-    public List<DevelopersEntity> getDev(DevelopersEntityPK id) throws DBException {
-        Transaction transaction =DBService.getTransaction();
-        try {
-            DevelopersDAO dao = DaoFactory.getDevelopersDAO();
-            List<DevelopersEntity> ue = dao.getEntityById(id);
-            transaction.commit();
-            return ue;
-        }catch (HibernateException | NoResultException e) {
-            DBService.transactionRollback(transaction);
-            throw new DBException(e);
-        }
-
-
-    }
-
-
-
+//    public List<CommitsEntity> getProgectCommits(ProjectsEntity item) throws DBException {
+//        Transaction transaction = DBService.getTransaction();
+//        try {
+//            CommitsDao dao = DaoFactory.getCommitsDao();
+//            CommitsEntity cU = dao.getEntityById(item);
+//            transaction.commit();
+//            return cU;
+//
+//        } catch (HibernateException | NoResultException e) {
+//            DBService.transactionRollback(transaction);
+//            throw new DBException(e);
+//        }
+//
+//
+//    }
 }
