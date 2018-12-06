@@ -10,7 +10,7 @@ abstract class AbstractService<E,K>  {
 
     abstract boolean update(E item) throws DBException;
 
-    abstract boolean delete(E item) throws DBException;
+    abstract boolean delete(K id) throws DBException;
 
     abstract List<E> getAll() throws DBException;
 

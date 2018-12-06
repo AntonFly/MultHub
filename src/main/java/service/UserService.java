@@ -1,9 +1,14 @@
 package service;
 
+import dao.CommitsDao;
 import dao.DaoFactory;
 import dao.UsersDAO;
+import entity.CommitsEntity;
+import entity.CommitsEntityPK;
+import entity.ProjectsEntity;
 import entity.UsersEntity;
 import exception.DBException;
+import javafx.beans.property.Property;
 import org.hibernate.HibernateException;
 import org.hibernate.Transaction;
 import util.DBService;
@@ -88,11 +93,11 @@ public class UserService extends AbstractService<UsersEntity,String> {
     }
 
     @Override
-    public boolean delete(UsersEntity item) throws DBException {
+    public boolean delete(String id) throws DBException {
         Transaction transaction = DBService.getTransaction();
         try{
             UsersDAO dao= DaoFactory.getUsersDAO();
-            dao.delete(item);
+            dao.delete(id);
             transaction.commit();
         } catch (HibernateException | NoResultException e) {
             DBService.transactionRollback(transaction);
@@ -101,7 +106,19 @@ public class UserService extends AbstractService<UsersEntity,String> {
         return true;
     }
 
-//    void signUp()
-
-
+//    public List<CommitsEntity> getProgectCommits(ProjectsEntity item) throws DBException {
+//        Transaction transaction = DBService.getTransaction();
+//        try {
+//            CommitsDao dao = DaoFactory.getCommitsDao();
+//            CommitsEntity cU = dao.getEntityById(item);
+//            transaction.commit();
+//            return cU;
+//
+//        } catch (HibernateException | NoResultException e) {
+//            DBService.transactionRollback(transaction);
+//            throw new DBException(e);
+//        }
+//
+//
+//    }
 }

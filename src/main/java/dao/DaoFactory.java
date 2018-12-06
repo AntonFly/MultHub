@@ -4,7 +4,7 @@ public class DaoFactory {
     private static volatile UsersDAO usersDAO;
     private static volatile CreditInfoDAO creditInfoDAO;
     private static volatile ConnectiondataDao connectiondataDao;
-
+    private static volatile CommitsDao commitsDao;
 
     public static UsersDAO getUsersDAO(){
         if(usersDAO == null) {
@@ -28,7 +28,7 @@ public class DaoFactory {
         return creditInfoDAO;
     }
 
-    public static ConnectiondataDao ConnectiondataDao(){
+    public static ConnectiondataDao getConnectiondataDao(){
         if(connectiondataDao == null) {
             synchronized(DaoFactory.class) {
                 if(connectiondataDao == null) {
@@ -37,6 +37,17 @@ public class DaoFactory {
             }
         }
         return connectiondataDao;
+    }
+
+    public static CommitsDao getCommitsDao(){
+        if(commitsDao == null) {
+            synchronized(DaoFactory.class) {
+                if(commitsDao == null) {
+                    commitsDao = new CommitsDao();
+                }
+            }
+        }
+        return commitsDao;
     }
 
 }
