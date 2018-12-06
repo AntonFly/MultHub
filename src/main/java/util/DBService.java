@@ -60,8 +60,8 @@ public class DBService {
             .addAnnotatedClass(ConnectiondataEntity.class)
             .addAnnotatedClass(SubsEntity.class)
 //            .addAnnotatedClass(CommitsEntity.class)
-//            .addAnnotatedClass(CommentsEntity.class)
-//            .addAnnotatedClass(ProjectsEntity.class)
+            .addAnnotatedClass(CommentsEntity.class)
+            .addAnnotatedClass(ProjectsEntity.class)
 //            .addAnnotatedClass(RequestsEntity.class)
 //            .addAnnotatedClass(DevelopersEntity.class)
             .addAnnotatedClass(CreditinfoEntity.class);

@@ -1,5 +1,8 @@
 package entity;
 
+import org.hibernate.annotations.Generated;
+import org.hibernate.annotations.GenerationTime;
+
 import javax.persistence.*;
 import java.sql.Timestamp;
 import java.util.Objects;
@@ -7,12 +10,13 @@ import java.util.Objects;
 @Entity
 @Table(name = "comments", schema = "public", catalog = "multhub")
 public class CommentsEntity {
+    @Generated(GenerationTime.INSERT)
     private int id;
     private Integer projectid;
     private String login;
     private String filedirectory;
     private Timestamp time;
-    private ProjectsEntity projectsByProjectid;
+    //private ProjectsEntity projectsByProjectid;
 
     @Id
     @Column(name = "id", nullable = false)
@@ -81,13 +85,13 @@ public class CommentsEntity {
         return Objects.hash(id, projectid, login, filedirectory, time);
     }
 
-    @ManyToOne
-    @JoinColumn(name = "projectid", referencedColumnName = "projectid")
-    public ProjectsEntity getProjectsByProjectid() {
-        return projectsByProjectid;
-    }
-
-    public void setProjectsByProjectid(ProjectsEntity projectsByProjectid) {
-        this.projectsByProjectid = projectsByProjectid;
-    }
+//    @ManyToOne
+//    @JoinColumn(name = "projectid", referencedColumnName = "projectid")
+//    public ProjectsEntity getProjectsByProjectid() {
+//        return projectsByProjectid;
+//    }
+//
+//    public void setProjectsByProjectid(ProjectsEntity projectsByProjectid) {
+//        this.projectsByProjectid = projectsByProjectid;
+//    }
 }

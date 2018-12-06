@@ -7,6 +7,7 @@ import javafx.beans.property.Property;
 import org.hibernate.HibernateException;
 import org.hibernate.Transaction;
 import util.DBService;
+import java.sql.Timestamp;
 
 import javax.persistence.NoResultException;
 import java.util.List;
@@ -129,6 +130,18 @@ public class UserService extends AbstractService<UsersEntity,String> {
         }
         return true;
     }
+
+
+
+    /**
+     *
+     * @param user UserEntity obj
+     * @param projectsEntity ProjectEntity obj
+     * @return in case of success TRUE
+     * @throws DBException Hiber exceptions replaced with
+     *
+     * adds new sub into SubsEntity
+     */
      public  boolean sub(UsersEntity user, ProjectsEntity projectsEntity)throws DBException{
         Transaction transaction =DBService.getTransaction();
         SubsEntity subsEntity = new SubsEntity();
@@ -144,4 +157,79 @@ public class UserService extends AbstractService<UsersEntity,String> {
         }
          return true;
      }
+
+
+    /**
+     *
+     * @param user UserEntity obj
+     * @param projectsEntity ProjectEntity obj
+     * @return in case of success TRUE
+     * @throws DBException Hiber exceptions replaced with
+     * so just !sub
+     */
+     public boolean unsub(UsersEntity user, ProjectsEntity projectsEntity)throws DBException {
+         Transaction transaction =DBService.getTransaction();
+         SubsEntityPK subsEntitypk = new SubsEntityPK();
+         subsEntitypk.setLogin(user.getLogin());
+         subsEntitypk.setProjectid(projectsEntity.getProjectid());
+         try{
+                SubsDAO subsDAO= DaoFactory.getSubsDAO();
+                subsDAO.delete(subsEntitypk);
+                transaction.commit();
+         }catch (HibernateException | NoResultException e){
+             DBService.transactionRollback(transaction);
+             throw new DBException(e);
+         }
+         return true;
+     }
+
+    /**
+     *
+     * @param user
+     * @param projectsEntity
+     * @param comment
+     * @return
+     * @throws DBException
+     */
+     public boolean doComment(UsersEntity user, ProjectsEntity projectsEntity, String comment)throws DBException{
+         Transaction transaction =DBService.getTransaction();
+
+         //Timestamp time = new Timestamp();
+
+
+        CommentsEntity commentsEntity = new CommentsEntity();
+        //commentsEntity.setId();
+        commentsEntity.setLogin(user.getLogin());
+        commentsEntity.setProjectid(projectsEntity.getProjectid());
+        commentsEntity.setFiledirectory(comment); //нужно переименовать в коммент
+        commentsEntity.setTime(new Timestamp(System.currentTimeMillis()));   //могут быть косяки со временем у клиента, тип время с сервака указывается
+         try{
+             CommentsDAO commentsDAO = DaoFactory.getCommentsDAO();
+             commentsDAO.create(commentsEntity);
+             transaction.commit();
+         }catch (HibernateException | NoResultException e){
+             DBService.transactionRollback(transaction);
+             throw new DBException(e);
+         }
+         return true;
+     }
+
+    /**
+     * ????????????????????????????????using GUID
+     * @return
+     * @throws DBException
+     */
+     public boolean deleteComment() throws DBException{
+         Transaction transaction =DBService.getTransaction();
+         try{
+             CommentsDAO commentsDAO = DaoFactory.getCommentsDAO();
+             commentsDAO.delete("0");
+             transaction.commit();
+         }catch (HibernateException | NoResultException e){
+             DBService.transactionRollback(transaction);
+             throw new DBException(e);
+         }
+         return true;
+     }
+
 }
