@@ -1,12 +1,7 @@
 package service;
 
-import dao.CommitsDao;
-import dao.DaoFactory;
-import dao.UsersDAO;
-import entity.CommitsEntity;
-import entity.CommitsEntityPK;
-import entity.ProjectsEntity;
-import entity.UsersEntity;
+import dao.*;
+import entity.*;
 import exception.DBException;
 import javafx.beans.property.Property;
 import org.hibernate.HibernateException;
@@ -106,19 +101,47 @@ public class UserService extends AbstractService<UsersEntity,String> {
         return true;
     }
 
-//    public List<CommitsEntity> getProgectCommits(ProjectsEntity item) throws DBException {
-//        Transaction transaction = DBService.getTransaction();
-//        try {
-//            CommitsDao dao = DaoFactory.getCommitsDao();
-//            CommitsEntity cU = dao.getEntityById(item);
-//            transaction.commit();
-//            return cU;
-//
-//        } catch (HibernateException | NoResultException e) {
-//            DBService.transactionRollback(transaction);
-//            throw new DBException(e);
-//        }
-//
-//
-//    }
+    public  boolean signIn(String login,String password ) throws DBException {
+        Transaction transaction= DBService.getTransaction();
+        UsersEntity user=null;
+        try{
+            UsersDAO dao =DaoFactory.getUsersDAO();
+            user =dao.getEntityById(login);
+            transaction.commit();
+        }catch (HibernateException | NoResultException e){
+            DBService.transactionRollback(transaction);
+            throw new DBException(e);
+        }
+        return user.getPassword().equals(password);
+    }
+
+    public boolean signUp(UsersEntity user,ConnectiondataEntity con)throws DBException {
+        Transaction transaction = DBService.getTransaction();
+        try {
+            UsersDAO uDao = DaoFactory.getUsersDAO();
+            ConnectiondataDao connectiondataDao = DaoFactory.getConnectiondataDao();
+            uDao.create(user);
+            connectiondataDao.create(con);
+            transaction.commit();
+        }catch (HibernateException | NoResultException e){
+            DBService.transactionRollback(transaction);
+            throw new DBException(e);
+        }
+        return true;
+    }
+     public  boolean sub(UsersEntity user, ProjectsEntity projectsEntity)throws DBException{
+        Transaction transaction =DBService.getTransaction();
+        SubsEntity subsEntity = new SubsEntity();
+        subsEntity.setLogin(user.getLogin());
+        subsEntity.setProjectid(projectsEntity.getProjectid());
+        try{
+            SubsDAO subsDAO= DaoFactory.getSubsDAO();
+            subsDAO.create(subsEntity);
+            transaction.commit();
+        }catch (HibernateException | NoResultException e){
+            DBService.transactionRollback(transaction);
+            throw new DBException(e);
+        }
+         return true;
+     }
 }

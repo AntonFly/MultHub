@@ -71,8 +71,8 @@
       <ObjectId>2200</ObjectId>
       <Comment>standard public schema</Comment>
       <Owner>postgres</Owner>
-      <IntrospectionTimestamp>2018-12-06.17:27:23.759</IntrospectionTimestamp>
-      <IntrospectionStateNumber>1158</IntrospectionStateNumber>
+      <IntrospectionTimestamp>2018-12-06.19:02:25.105</IntrospectionTimestamp>
+      <IntrospectionStateNumber>2078</IntrospectionStateNumber>
       <Current>1</Current>
       <Visible>1</Visible>
     </schema>
@@ -294,11 +294,11 @@ time</ColNames>
       <StateNumber>1011</StateNumber>
       <TypeId>1043</TypeId>
     </column>
-    <column id="51" parent="25" name="E-mail">
+    <column id="51" parent="25" name="email">
       <Position>2</Position>
       <DataType>text|0s</DataType>
       <NotNull>1</NotNull>
-      <StateNumber>1011</StateNumber>
+      <StateNumber>2078</StateNumber>
       <TypeId>25</TypeId>
     </column>
     <column id="52" parent="25" name="mobilenumb">

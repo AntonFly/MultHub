@@ -9,7 +9,6 @@ import java.util.Objects;
 public class SubsEntity {
     private String login;
     private int projectid;
-    private ProjectsEntity projectsByProjectid;
 
     @Id
     @Column(name = "login", nullable = false, length = 30)
@@ -45,13 +44,4 @@ public class SubsEntity {
         return Objects.hash(login, projectid);
     }
 
-    @ManyToOne
-    @JoinColumn(name = "projectid", referencedColumnName = "projectid", nullable = false)
-    public ProjectsEntity getProjectsByProjectid() {
-        return projectsByProjectid;
-    }
-
-    public void setProjectsByProjectid(ProjectsEntity projectsByProjectid) {
-        this.projectsByProjectid = projectsByProjectid;
-    }
 }

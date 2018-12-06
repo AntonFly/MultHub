@@ -1,9 +1,15 @@
+import entity.CommitsEntityPK;
+import entity.ConnectiondataEntity;
+import entity.ProjectsEntity;
 import entity.UsersEntity;
 import exception.DBException;
 import org.junit.jupiter.api.*;
 import org.junit.runner.JUnitCore;
 import org.junit.runner.Result;
 import service.UserService;
+
+import java.sql.Timestamp;
+
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class UsersEntityTests {
     private UserService ds;
@@ -81,4 +87,57 @@ class UsersEntityTests {
         }
         Assertions.assertEquals(newPassword,usersEntity.getPassword());
     }
+    @Test
+    void signUp(){
+        UsersEntity usersEntity = new UsersEntity();
+        usersEntity.setLogin("4d");
+        usersEntity.setName("dipidor");
+        usersEntity.setSurname("ffkgf");
+        usersEntity.setPassword("danxyi");
+        ConnectiondataEntity con = new ConnectiondataEntity();
+        con.setLogin("3d");
+        con.seteMail("@mail.com");
+        con.setMobilenumb(4452);
+        try{
+        Assertions.assertTrue(ds.signUp(usersEntity,con));
+        ds.delete(usersEntity.getLogin());
+        }catch (DBException e){
+            e.printStackTrace();
+            Assertions.fail("Ошибка регистрации");
+        }
+     }
+    @Test
+    void signIn(){
+        UsersEntity usersEntity = new UsersEntity();
+        usersEntity.setLogin("4d");
+        usersEntity.setName("dipidor");
+        usersEntity.setSurname("ffkgf");
+        usersEntity.setPassword("danxyi");
+        try {
+            ds.create(usersEntity);
+            Assertions.assertTrue(ds.signIn(usersEntity.getLogin(),usersEntity.getPassword()));
+            ds.delete(usersEntity.getLogin());
+        } catch (DBException e) {
+            e.printStackTrace();
+        }
+    }
+    @Test
+    void sub(){
+        UsersEntity usersEntity = new UsersEntity();
+        usersEntity.setLogin("4d");
+        usersEntity.setName("dipidor");
+        usersEntity.setSurname("ffkgf");
+        usersEntity.setPassword("danxyi");
+        ProjectsEntity projectsEntity = new ProjectsEntity();
+        projectsEntity.setProjectid(1);
+        try {
+            ds.create(usersEntity);
+            ds.sub(usersEntity,projectsEntity);
+            ds.delete(usersEntity.getLogin());
+        }catch (DBException e) {
+            e.printStackTrace();
+            Assertions.fail("Ошибка подписки");
+        }
+    }
 }
+

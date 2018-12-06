@@ -58,7 +58,7 @@ public class DBService {
     private static void addAnnotatedClassToConfiguration(Configuration configuration) {
         configuration.addAnnotatedClass(UsersEntity.class)
             .addAnnotatedClass(ConnectiondataEntity.class)
-//            .addAnnotatedClass(SubsEntity.class)
+            .addAnnotatedClass(SubsEntity.class)
 //            .addAnnotatedClass(CommitsEntity.class)
 //            .addAnnotatedClass(CommentsEntity.class)
 //            .addAnnotatedClass(ProjectsEntity.class)

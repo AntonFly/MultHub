@@ -9,7 +9,7 @@
             <column name="login" sql-type="varchar(30)" length="30"/>
         </id>
         <property name="eMail">
-            <column name="E-mail" sql-type="text"/>
+            <column name="Email" sql-type="text"/>
         </property>
         <property name="mobilenumb">
             <column name="mobilenumb" sql-type="integer" not-null="true"/>

@@ -22,7 +22,7 @@ public class ConnectiondataEntity {
     }
 
     @Basic
-    @Column(name = "E-mail", nullable = false, length = -1)
+    @Column(name = "Email", nullable = false, length = -1)
     public String geteMail() {
         return eMail;
     }
