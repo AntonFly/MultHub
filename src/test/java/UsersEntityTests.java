@@ -7,6 +7,8 @@ import service.UserService;
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class UsersEntityTests {
     private UserService ds;
+    String login= "3d";
+    String newPassword="updated";
      static void main(String[] args) {
          JUnitCore runner = new JUnitCore();
          Result result = runner.run(UsersEntityTests.class);
@@ -22,10 +24,10 @@ class UsersEntityTests {
     @Test
     void addUser(){
         UsersEntity usersEntity = new UsersEntity();
-        usersEntity.setLogin("3d");
-        usersEntity.setName("dipidor");
-        usersEntity.setSurname("ffkgf");
-        usersEntity.setPassword("danxyi");
+        usersEntity.setLogin(login);
+        usersEntity.setName("smth");
+        usersEntity.setSurname("smth");
+        usersEntity.setPassword("smth");
         try {
             ds.create(usersEntity);
         } catch (DBException e) {
@@ -37,7 +39,7 @@ class UsersEntityTests {
     @Test
     void deleteUser(){
         UsersEntity usersEntity = new UsersEntity();
-        usersEntity.setLogin("3d");
+        usersEntity.setLogin(login);
         try {
             ds.delete(usersEntity.getLogin());
         } catch (DBException e) {
@@ -49,22 +51,22 @@ class UsersEntityTests {
     void  getUser(){
          UsersEntity user=null;
         try {
-            user =ds.get("3d");
+            user =ds.get(login);
         } catch (DBException e) {
             e.printStackTrace();
             Assertions.fail("Ошибка изъятия объекта");
         }
         Assertions.assertNotNull(user);
-        Assertions.assertEquals("3d", user.getLogin());
+        Assertions.assertEquals(login, user.getLogin());
     }
 
     @Test
     void  updateUser(){
         UsersEntity usersEntity = new UsersEntity();
-        usersEntity.setLogin("3d");
-        usersEntity.setName("dipidor");
-        usersEntity.setSurname("ffkgf");
-        usersEntity.setPassword("updated");
+        usersEntity.setLogin(login);
+        usersEntity.setName("smth");
+        usersEntity.setSurname("smth");
+        usersEntity.setPassword(newPassword);
         try {
             ds.update(usersEntity);
         } catch (DBException e) {
@@ -72,11 +74,11 @@ class UsersEntityTests {
             Assertions.fail("Ошибка обновления объекта");
         }
         try {
-            usersEntity=ds.get("3d");
+            usersEntity=ds.get(login);
         } catch (DBException e) {
             e.printStackTrace();
             Assertions.fail("Ошибка изъятия объекта");
         }
-        Assertions.assertEquals("updated",usersEntity.getPassword());
+        Assertions.assertEquals(newPassword,usersEntity.getPassword());
     }
 }
