@@ -1,7 +1,7 @@
 import com.jcraft.jsch.JSch;
 import com.jcraft.jsch.JSchException;
 import com.jcraft.jsch.Session;
-import entity.UsersEntity;
+import entity.*;
 import service.UserService;
 
 import java.sql.SQLException;
@@ -17,6 +17,10 @@ public class Main {
         usersEntity.setPassword("danxyi");
         UserService ds= new UserService();
         try{
+            DevelopersEntityPK ent = new DevelopersEntityPK();
+            ent.setLogin("1d");
+            ent.setProjectid(1);
+            System.out.println(ds.getDev(ent).get(0).getProjpos());
             ds.create(usersEntity);
             List<UsersEntity> list =ds.getAll();
             for (UsersEntity us:list
