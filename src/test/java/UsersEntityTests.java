@@ -1,7 +1,5 @@
-import entity.CommitsEntityPK;
-import entity.ConnectiondataEntity;
-import entity.ProjectsEntity;
-import entity.UsersEntity;
+import dao.DaoFactory;
+import entity.*;
 import exception.DBException;
 import org.junit.jupiter.api.*;
 import org.junit.runner.JUnitCore;
@@ -140,5 +138,46 @@ class UsersEntityTests {
             Assertions.fail("Ошибка подписки");
         }
     }
+    @Test
+    void unsub(){
+        UsersEntity usersEntity = new UsersEntity();
+        usersEntity.setLogin("4d");
+        usersEntity.setName("dipidor");
+        usersEntity.setSurname("ffkgf");
+        usersEntity.setPassword("danxyi");
+        ProjectsEntity projectsEntity = new ProjectsEntity();
+        projectsEntity.setProjectid(1);
+        try {
+            ds.create(usersEntity);
+            ds.sub(usersEntity,projectsEntity);
+            ds.unsub(usersEntity,projectsEntity); //this shit works
+            ds.delete(usersEntity.getLogin());
+        }catch (DBException e) {
+            e.printStackTrace();
+            Assertions.fail("Ошибка отписки");
+        }
+    }
+
+//    @Test
+//    void doComment(){ //проблема с ключом коммента, поэтому херь с удалением
+//        UsersEntity usersEntity = new UsersEntity();
+//        usersEntity.setLogin("4d");
+//        usersEntity.setName("dipidor");
+//        usersEntity.setSurname("ffkgf");
+//        usersEntity.setPassword("danxyi");
+//        ProjectsEntity projectsEntity = new ProjectsEntity();
+//        projectsEntity.setProjectid(1);
+//         try {
+//            ds.create(usersEntity);
+//            ds.doComment(usersEntity,projectsEntity,"LOL COOL");
+//            ds.deleteComment();
+//             //DaoFactory.getCommentsDAO().delete("0");
+//            ds.delete(usersEntity.getLogin());
+//        }catch (DBException e) {
+//            e.printStackTrace();
+//            Assertions.fail("Ошибка отписки");
+//        }
+//
+//    }
 }
 

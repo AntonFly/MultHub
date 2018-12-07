@@ -16,7 +16,7 @@ import java.util.Properties;
 public class Main {
     public static void main(String... args) throws SQLException {
         UsersEntity usersEntity = new UsersEntity();
-        usersEntity.setLogin("3d");
+        usersEntity.setLogin("xxddddd");
         usersEntity.setName("dipidor");
         usersEntity.setSurname("ffkgf");
         usersEntity.setPassword("danxyi");

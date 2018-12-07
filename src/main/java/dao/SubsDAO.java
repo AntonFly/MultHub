@@ -31,11 +31,20 @@ public class SubsDAO extends AbstractDao<SubsEntity,String> {
     {
         Query query = DBService.getSessionFactory()
                 .getCurrentSession()
-                .createQuery("from DevelopersEntity where login = :paramLogin AND projectid = :paramProjId");
+                .createQuery("from SubsEntity where login = :paramLogin AND projectid = :paramProjId");
         query.setParameter("paramLogin",key.getLogin());
         query.setParameter("paramProjId",key.getProjectid());
         return (SubsEntity) query.uniqueResult();
 
+    }
+
+    public void delete(SubsEntityPK key)
+    {
+        Query query = DBService.getSessionFactory()
+                .getCurrentSession()
+                .createQuery("delete from SubsEntity where login = :paramLogin AND projectid = :paramProjId");
+        query.setParameter("paramLogin",key.getLogin());
+        query.setParameter("paramProjId",key.getProjectid());
     }
 
 
