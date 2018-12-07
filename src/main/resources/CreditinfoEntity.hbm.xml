@@ -17,6 +17,5 @@
         <property name="yamoney">
             <column name="yamoney" sql-type="bigint" not-null="true"/>
         </property>
-        <one-to-one name="usersByLogin" class="entity.UsersEntity"/>
     </class>
 </hibernate-mapping>

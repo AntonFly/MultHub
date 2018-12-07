@@ -13,8 +13,5 @@
                 <column name="projectid" sql-type="integer"/>
             </key-property>
         </composite-id>
-        <many-to-one name="projectsByProjectid" class="entity.ProjectsEntity">
-            <column name="projectid"/>
-        </many-to-one>
     </class>
 </hibernate-mapping>

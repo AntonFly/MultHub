@@ -17,6 +17,12 @@ public class UserService extends AbstractService<UsersEntity,String> {
     public UserService() {
     }
 
+    /**
+     *  Returned all project users
+     * @return list of users
+     * @throws DBException Hiber exceptions replaced with
+     */
+
     @Override
     public List<UsersEntity> getAll() throws DBException {
         Transaction transaction = DBService.getTransaction();
@@ -35,6 +41,12 @@ public class UserService extends AbstractService<UsersEntity,String> {
 
     }
 
+    /**
+     * Generate new user
+     * @param user - user obj
+     * @return true in case of success
+     * @throws DBException Hiber exceptions replaced with
+     */
     @Override
     public boolean create(UsersEntity user) throws DBException {
         Transaction transaction = DBService.getTransaction();
@@ -185,27 +197,25 @@ public class UserService extends AbstractService<UsersEntity,String> {
 
     /**
      *
-     * @param user
-     * @param projectsEntity
      * @param comment
      * @return
      * @throws DBException
      */
-     public boolean doComment(UsersEntity user, ProjectsEntity projectsEntity, String comment)throws DBException{
+     public boolean doComment(CommentsEntity comment)throws DBException{
          Transaction transaction =DBService.getTransaction();
 
-         //Timestamp time = new Timestamp();
-
-
-        CommentsEntity commentsEntity = new CommentsEntity();
-        //commentsEntity.setId();
-        commentsEntity.setLogin(user.getLogin());
-        commentsEntity.setProjectid(projectsEntity.getProjectid());
-        commentsEntity.setFiledirectory(comment); //нужно переименовать в коммент
-        commentsEntity.setTime(new Timestamp(System.currentTimeMillis()));   //могут быть косяки со временем у клиента, тип время с сервака указывается
+//         //Timestamp time = new Timestamp();
+//
+//
+//        CommentsEntity commentsEntity = new CommentsEntity();
+//        //commentsEntity.setId();
+//        commentsEntity.setLogin(user.getLogin());
+//        commentsEntity.setProjectid(projectsEntity.getProjectid());
+//        commentsEntity.setComment(comment); //нужно переименовать в коммент
+//        commentsEntity.setTime(new Timestamp(System.currentTimeMillis()));   //могут быть косяки со временем у клиента, тип время с сервака указывается
          try{
              CommentsDAO commentsDAO = DaoFactory.getCommentsDAO();
-             commentsDAO.create(commentsEntity);
+             commentsDAO.create(comment);
              transaction.commit();
          }catch (HibernateException | NoResultException e){
              DBService.transactionRollback(transaction);
@@ -219,11 +229,11 @@ public class UserService extends AbstractService<UsersEntity,String> {
      * @return
      * @throws DBException
      */
-     public boolean deleteComment() throws DBException{
+     public boolean deleteComment(CommentsEntity comment) throws DBException{
          Transaction transaction =DBService.getTransaction();
          try{
              CommentsDAO commentsDAO = DaoFactory.getCommentsDAO();
-             commentsDAO.delete("0");
+             commentsDAO.delete(comment);
              transaction.commit();
          }catch (HibernateException | NoResultException e){
              DBService.transactionRollback(transaction);

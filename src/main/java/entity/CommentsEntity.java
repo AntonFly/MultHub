@@ -7,19 +7,20 @@ import java.util.Objects;
 @Entity
 @Table(name = "comments", schema = "public", catalog = "multhub")
 public class CommentsEntity {
-    private int id;
+    @GeneratedValue
+    private Integer id;
     private Integer projectid;
     private String login;
-    private String filedirectory;
+    private String comment;
     private Timestamp time;
 
     @Id
     @Column(name = "id", nullable = false)
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -44,13 +45,13 @@ public class CommentsEntity {
     }
 
     @Basic
-    @Column(name = "filedirectory", nullable = true, length = -1)
-    public String getFiledirectory() {
-        return filedirectory;
+    @Column(name = "comment", nullable = true, length = -1)
+    public String getComment() {
+        return comment;
     }
 
-    public void setFiledirectory(String filedirectory) {
-        this.filedirectory = filedirectory;
+    public void setComment(String comment) {
+        this.comment = comment;
     }
 
     @Basic
@@ -71,13 +72,13 @@ public class CommentsEntity {
         return id == that.id &&
                 Objects.equals(projectid, that.projectid) &&
                 Objects.equals(login, that.login) &&
-                Objects.equals(filedirectory, that.filedirectory) &&
+                Objects.equals(comment, that.comment) &&
                 Objects.equals(time, that.time);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, projectid, login, filedirectory, time);
+        return Objects.hash(id, projectid, login, comment, time);
     }
 
 }
