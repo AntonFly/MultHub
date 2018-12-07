@@ -7,7 +7,7 @@ import java.util.Objects;
 @Entity
 @Table(name = "projects", schema = "public", catalog = "multhub")
 public class ProjectsEntity {
-    private int projectid;
+    private String projectid;
     private String name;
     private String description;
     private Serializable curbudget;
@@ -15,11 +15,11 @@ public class ProjectsEntity {
 
     @Id
     @Column(name = "projectid", nullable = false)
-    public int getProjectid() {
+    public String getProjectid() {
         return projectid;
     }
 
-    public void setProjectid(int projectid) {
+    public void setProjectid(String projectid) {
         this.projectid = projectid;
     }
 

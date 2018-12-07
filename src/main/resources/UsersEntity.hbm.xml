@@ -17,5 +17,8 @@
         <property name="password">
             <column name="password" sql-type="text" not-null="true"/>
         </property>
+        <property name="imgpath">
+            <column name="imgpath" sql-type="text" not-null="true"/>
+        </property>
     </class>
 </hibernate-mapping>

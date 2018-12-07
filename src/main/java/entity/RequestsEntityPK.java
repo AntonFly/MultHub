@@ -19,7 +19,7 @@ public class RequestsEntityPK implements Serializable {
         this.login = login;
     }
 
-    @Column(name = "projectid", nullable = false)
+    @Column(name = "projectid", nullable = false, length = -1)
     @Id
     public int getProjectid() {
         return projectid;

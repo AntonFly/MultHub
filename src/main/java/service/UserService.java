@@ -18,7 +18,7 @@ public class UserService extends AbstractService<UsersEntity,String> {
     }
 
     /**
-     *  Returned all project users
+     * Returned all users
      * @return list of users
      * @throws DBException Hiber exceptions replaced with
      */
@@ -65,6 +65,12 @@ public class UserService extends AbstractService<UsersEntity,String> {
         return true;
     }
 
+    /**
+     * Update short user information
+     * @param item user who need to update
+     *@return in case of success TRUE
+     *@throws DBException Hiber exceptions replaced with
+     */
     @Override
     public boolean update(UsersEntity item) throws DBException {
         Transaction transaction = DBService.getTransaction();
@@ -83,7 +89,12 @@ public class UserService extends AbstractService<UsersEntity,String> {
         return true;
     }
 
-
+    /**
+     *  Return short information about one user
+     * @param id user, whose information needed
+     *@return in case of success TRUE
+     *@throws DBException Hiber exceptions replaced with
+     */
     @Override
     public UsersEntity get(String id) throws DBException {
         Transaction transaction =DBService.getTransaction();
@@ -100,6 +111,12 @@ public class UserService extends AbstractService<UsersEntity,String> {
 
     }
 
+    /**
+     *  Delete one user account
+     * @param id user's login, who want
+     *@return in case of success TRUE
+     *@throws DBException Hiber exceptions replaced with
+     */
     @Override
     public boolean delete(String id) throws DBException {
         Transaction transaction = DBService.getTransaction();
@@ -114,6 +131,13 @@ public class UserService extends AbstractService<UsersEntity,String> {
         return true;
     }
 
+    /**
+     *
+     * @param login user's login
+     * @param password input user's password
+     * @return in case of success TRUE
+     * @throws DBException Hiber exceptions replaced with@throws DBException
+     */
     public  boolean signIn(String login,String password ) throws DBException {
         Transaction transaction= DBService.getTransaction();
         UsersEntity user=null;
@@ -128,6 +152,13 @@ public class UserService extends AbstractService<UsersEntity,String> {
         return user.getPassword().equals(password);
     }
 
+    /**
+     *
+     * @param user obj, new user data
+     * @param con obj, new user's connection dara
+     * @return in case of success TRUE
+     * @throws DBException Hiber exceptions replaced withhrows DBException
+     */
     public boolean signUp(UsersEntity user,ConnectiondataEntity con)throws DBException {
         Transaction transaction = DBService.getTransaction();
         try {
@@ -147,11 +178,10 @@ public class UserService extends AbstractService<UsersEntity,String> {
 
     /**
      *
-     * @param user UserEntity obj
-     * @param projectsEntity ProjectEntity obj
+     * @param user UserEntity obj who want to subscribe
+     * @param projectsEntity ProjectEntity obj goal project
      * @return in case of success TRUE
      * @throws DBException Hiber exceptions replaced with
-     *
      * adds new sub into SubsEntity
      */
      public  boolean sub(UsersEntity user, ProjectsEntity projectsEntity)throws DBException{
@@ -172,12 +202,12 @@ public class UserService extends AbstractService<UsersEntity,String> {
 
 
     /**
-     *
-     * @param user UserEntity obj
-     * @param projectsEntity ProjectEntity obj
+     * Delete subscription from one project
+     * @param user UserEntity obj who want to unsubscribe
+     * @param projectsEntity ProjectEntity obj goal project
      * @return in case of success TRUE
      * @throws DBException Hiber exceptions replaced with
-     * so just !sub
+     *
      */
      public boolean unsub(UsersEntity user, ProjectsEntity projectsEntity)throws DBException {
          Transaction transaction =DBService.getTransaction();
@@ -196,23 +226,13 @@ public class UserService extends AbstractService<UsersEntity,String> {
      }
 
     /**
-     *
-     * @param comment
-     * @return
-     * @throws DBException
+     *  Make comment to one project
+     * @param comment obj which want to add
+     * @return in case of success TRUE
+     * @throws DBException Hiber exceptions replaced with
      */
      public boolean doComment(CommentsEntity comment)throws DBException{
          Transaction transaction =DBService.getTransaction();
-
-//         //Timestamp time = new Timestamp();
-//
-//
-//        CommentsEntity commentsEntity = new CommentsEntity();
-//        //commentsEntity.setId();
-//        commentsEntity.setLogin(user.getLogin());
-//        commentsEntity.setProjectid(projectsEntity.getProjectid());
-//        commentsEntity.setComment(comment); //нужно переименовать в коммент
-//        commentsEntity.setTime(new Timestamp(System.currentTimeMillis()));   //могут быть косяки со временем у клиента, тип время с сервака указывается
          try{
              CommentsDAO commentsDAO = DaoFactory.getCommentsDAO();
              commentsDAO.create(comment);
@@ -225,9 +245,10 @@ public class UserService extends AbstractService<UsersEntity,String> {
      }
 
     /**
-     * ????????????????????????????????using GUID
-     * @return
-     * @throws DBException
+     * Delete comment from one project
+     * @param comment comment which want to delete
+     * @return  in case of success TRUE
+     * @throws DBException Hiber exceptions replaced with
      */
      public boolean deleteComment(CommentsEntity comment) throws DBException{
          Transaction transaction =DBService.getTransaction();
@@ -241,5 +262,6 @@ public class UserService extends AbstractService<UsersEntity,String> {
          }
          return true;
      }
+
 
 }

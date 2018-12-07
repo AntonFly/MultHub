@@ -59,11 +59,11 @@ public class DBService {
         configuration.addAnnotatedClass(UsersEntity.class)
             .addAnnotatedClass(ConnectiondataEntity.class)
             .addAnnotatedClass(SubsEntity.class)
-//            .addAnnotatedClass(CommitsEntity.class)
+            .addAnnotatedClass(CommitsEntity.class)
             .addAnnotatedClass(CommentsEntity.class)
             .addAnnotatedClass(ProjectsEntity.class)
-//            .addAnnotatedClass(RequestsEntity.class)
-//            .addAnnotatedClass(DevelopersEntity.class)
+            .addAnnotatedClass(RequestsEntity.class)
+            .addAnnotatedClass(DevelopersEntity.class)
             .addAnnotatedClass(CreditinfoEntity.class);
     }
 

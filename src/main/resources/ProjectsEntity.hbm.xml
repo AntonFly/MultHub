@@ -6,7 +6,7 @@
 
     <class name="entity.ProjectsEntity" table="projects" schema="public" catalog="multhub">
         <id name="projectid">
-            <column name="projectid" sql-type="integer"/>
+            <column name="projectid" sql-type="text"/>
         </id>
         <property name="name">
             <column name="name" sql-type="text"/>

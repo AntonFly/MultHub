@@ -6,7 +6,10 @@ import entity.UsersEntity;
 import org.hibernate.LockMode;
 import org.hibernate.query.Query;
 import util.DBService;
+
+import java.io.Serializable;
 import java.util.List;
+import java.util.UUID;
 
 public class CommentsDAO extends AbstractDao<CommentsEntity,String> {
 
@@ -27,12 +30,14 @@ public class CommentsDAO extends AbstractDao<CommentsEntity,String> {
 
 
     public void delete(CommentsEntity comment) {
-        Query query = DBService.getSessionFactory()
-                .getCurrentSession()
-                .createQuery("delete from CommentsEntity where login = :paramLogin AND projectid = :paramProjId AND comment = :paramComment");
-        query.setParameter("paramLogin",comment.getLogin());
-        query.setParameter("paramProjId",comment.getProjectid());
-        query.setParameter("paramComment", comment.getComment());
+        String uuid=UUID.nameUUIDFromBytes((comment.getComment()+comment.getLogin()).getBytes()).toString();
+        delete(uuid);
 
+    }
+
+
+    public Serializable create(CommentsEntity entity) {
+        entity.setId(UUID.nameUUIDFromBytes((entity.getComment()+entity.getLogin()).getBytes()).toString());
+        return super.create(entity);
     }
 }

@@ -8,7 +8,7 @@ import java.util.Objects;
 @IdClass(RequestsEntityPK.class)
 public class RequestsEntity {
     private String login;
-    private int projectid;
+    private String projectid;
     private Projpos projpos;
     private Boolean isrequest;
 
@@ -24,11 +24,11 @@ public class RequestsEntity {
 
     @Id
     @Column(name = "projectid", nullable = false)
-    public int getProjectid() {
+    public String getProjectid() {
         return projectid;
     }
 
-    public void setProjectid(int projectid) {
+    public void setProjectid(String projectid) {
         this.projectid = projectid;
     }
 

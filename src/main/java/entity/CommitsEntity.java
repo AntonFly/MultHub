@@ -8,19 +8,19 @@ import java.util.Objects;
 @Table(name = "commits", schema = "public", catalog = "multhub")
 @IdClass(CommitsEntityPK.class)
 public class CommitsEntity {
-    private int projectid;
+    private String projectid;
     private String developer;
     private String filedirectory;
     private Timestamp time;
-    private Object approved;
+    private Approved approved;
 
     @Id
     @Column(name = "projectid", nullable = false)
-    public int getProjectid() {
+    public String getProjectid() {
         return projectid;
     }
 
-    public void setProjectid(int projectid) {
+    public void setProjectid(String projectid) {
         this.projectid = projectid;
     }
 
@@ -56,11 +56,11 @@ public class CommitsEntity {
 
     @Basic
     @Column(name = "approved", nullable = true)
-    public Object getApproved() {
+    public Approved getApproved() {
         return approved;
     }
 
-    public void setApproved(Object approved) {
+    public void setApproved(Approved approved) {
         this.approved = approved;
     }
 

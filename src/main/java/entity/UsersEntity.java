@@ -10,6 +10,7 @@ public class UsersEntity {
     private String name;
     private String surname;
     private String password;
+    private String imgpath;
 
     @Id
     @Column(name = "login", nullable = false, length = 30)
@@ -67,4 +68,13 @@ public class UsersEntity {
         return Objects.hash(login, name, surname, password);
     }
 
+    @Basic
+    @Column(name = "imgpath", nullable = true, length = -1)
+    public String getImgpath() {
+        return imgpath;
+    }
+
+    public void setImgpath(String imgpath) {
+        this.imgpath = imgpath;
+    }
 }

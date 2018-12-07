@@ -10,7 +10,7 @@
                 <column name="login" sql-type="varchar(30)" length="30"/>
             </key-property>
             <key-property name="projectid">
-                <column name="projectid" sql-type="integer"/>
+                <column name="projectid" sql-type="text"/>
             </key-property>
         </composite-id>
         <property name="projpos">
