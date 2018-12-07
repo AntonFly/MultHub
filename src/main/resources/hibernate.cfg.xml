@@ -33,6 +33,8 @@
     <mapping resource="FollowersEntity.hbm.xml"/>
     <mapping class="entity.MassageEntity"/>
     <mapping resource="MassageEntity.hbm.xml"/>
+    <mapping class="entity.UserpostEntity"/>
+    <mapping resource="entity/UserpostEntity.hbm.xml"/>
 
   </session-factory>
 </hibernate-configuration>

@@ -5,6 +5,7 @@ import entity.ConnectiondataEntity;
 import entity.CreditinfoEntity;
 import entity.ProjectsEntity;
 import entity.UsersEntity;
+import exception.DBException;
 import org.hibernate.Transaction;
 import util.DBService;
 
@@ -29,24 +30,31 @@ public class ViewService  {
 //
 //        }
 //    }
-    public Map<String,Object> fullUserInformation(String login) throws Exception {
+
+    /**
+     * Return default user information
+     * @param login request user login
+     * @return map of user's parameters
+     * @throws DBException Hiber exceptions replaced with
+     */
+    public Map<String,Object> fullUserInformation(String login) throws DBException {
         Map<String,Object> map =new HashMap<>();
         UsersDAO usersDAO= DaoFactory.getUsersDAO();
         UsersEntity user= usersDAO.getEntityById(login);
+        ConnectiondataDao conDao= DaoFactory.getConnectiondataDao();
+        ConnectiondataEntity connectiondata=conDao.getEntityById(login);
+        CreditInfoDAO creditDao=DaoFactory.getCreditInfoDAO();
+        CreditinfoEntity creditinfoEntity=creditDao.getEntityById(login);
         map.put("login",user.getLogin());
         map.put("name",user.getName());
         map.put("surname",user.getSurname());
         map.put("imjpath",user.getImgpath());
-        ConnectiondataDao conDao= DaoFactory.getConnectiondataDao();
-        ConnectiondataEntity connectiondata=conDao.getEntityById(login);
         map.put("email",connectiondata.geteMail());
         map.put("mobilenumb",connectiondata.getMobilenumb());
-        CreditInfoDAO creditDao=DaoFactory.getCreditInfoDAO();
-        CreditinfoEntity creditinfoEntity=creditDao.getEntityById(login);
         map.put("curdnumber",creditinfoEntity.getCardnumber());
         map.put("yamoney",creditinfoEntity.getYamoney());
         map.put("qiwi",creditinfoEntity.getQiwimobilephone());
         return map;
-
     }
+
 }
