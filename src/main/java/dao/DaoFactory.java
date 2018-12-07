@@ -11,6 +11,12 @@ public class DaoFactory {
     private static volatile DevelopersDAO developersDAO;
     private static volatile CommentsDAO commentsDAO;
 
+    private static volatile DialogDAO dialogDao;
+    private static volatile MessageDAO messageDao;
+    private static volatile UserpostDAO userPostDao;    //
+    private static volatile FollowersDAO  followersDao;
+
+
     public static UsersDAO getUsersDAO(){
         if(usersDAO == null) {
             synchronized(DaoFactory.class) {
@@ -108,5 +114,44 @@ public class DaoFactory {
         return subsDAO;
     }
 
-
+    public static DialogDAO getDialogDao(){
+        if(dialogDao == null) {
+            synchronized(DaoFactory.class) {
+                if(dialogDao == null) {
+                    dialogDao = new DialogDAO();
+                }
+            }
+        }
+        return dialogDao;
+    }
+    public static MessageDAO getMessageDao(){
+        if(messageDao == null) {
+            synchronized(DaoFactory.class) {
+                if(messageDao == null) {
+                    messageDao = new MessageDAO();
+                }
+            }
+        }
+        return messageDao;
+    }
+    public static UserpostDAO getUserPostDao(){
+        if(userPostDao == null) {
+            synchronized(DaoFactory.class) {
+                if(userPostDao == null) {
+                    userPostDao = new UserpostDAO();
+                }
+            }
+        }
+        return userPostDao;
+    }
+    public static FollowersDAO getFollowersDao(){
+        if(followersDao == null) {
+            synchronized(DaoFactory.class) {
+                if(followersDao == null) {
+                    followersDao = new FollowersDAO();
+                }
+            }
+        }
+        return followersDao;
+    }
 }

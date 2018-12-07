@@ -8,7 +8,7 @@ import java.util.Objects;
 @Table(name = "comments", schema = "public", catalog = "multhub")
 public class CommentsEntity {
     @GeneratedValue
-    private Integer id;
+    private String id;
     private String projectid;
     private String login;
     private String comment;
@@ -16,11 +16,11 @@ public class CommentsEntity {
 
     @Id
     @Column(name = "id", nullable = false)
-    public Integer getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(String id) {
         this.id = id;
     }
 

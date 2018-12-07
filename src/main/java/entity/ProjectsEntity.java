@@ -10,11 +10,10 @@ public class ProjectsEntity {
     private String projectid;
     private String name;
     private String description;
-    private Integer curbudget;
-    private Integer goalbudget;
+    private Serializable curbudget;
+    private Serializable goalbudget;
 
     @Id
-    //@GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "projectid", nullable = false)
     public String getProjectid() {
         return projectid;
@@ -46,21 +45,21 @@ public class ProjectsEntity {
 
     @Basic
     @Column(name = "curbudget", nullable = true)
-    public Integer getCurbudget() {
+    public Serializable getCurbudget() {
         return curbudget;
     }
 
-    public void setCurbudget(Integer curbudget) {
+    public void setCurbudget(Serializable curbudget) {
         this.curbudget = curbudget;
     }
 
     @Basic
     @Column(name = "goalbudget", nullable = true)
-    public Integer getGoalbudget() {
+    public Serializable getGoalbudget() {
         return goalbudget;
     }
 
-    public void setGoalbudget(Integer goalbudget) {
+    public void setGoalbudget(Serializable goalbudget) {
         this.goalbudget = goalbudget;
     }
 

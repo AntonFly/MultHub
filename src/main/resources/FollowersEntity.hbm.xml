@@ -4,13 +4,13 @@
     "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 <hibernate-mapping>
 
-    <class name="entity.SubsEntity" table="subs" schema="public" catalog="multhub">
-        <composite-id mapped="true" class="entity.SubsEntityPK">
+    <class name="entity.FollowersEntity" table="followers" schema="public" catalog="multhub">
+        <composite-id mapped="true" class="entity.FollowersEntityPK">
             <key-property name="login">
-                <column name="login" sql-type="varchar(30)" length="30"/>
+                <column name="login" sql-type="text"/>
             </key-property>
-            <key-property name="projectid">
-                <column name="projectid" sql-type="text"/>
+            <key-property name="follower">
+                <column name="follower" sql-type="text"/>
             </key-property>
         </composite-id>
     </class>

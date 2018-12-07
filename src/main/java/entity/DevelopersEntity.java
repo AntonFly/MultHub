@@ -8,7 +8,7 @@ import java.util.Objects;
 @IdClass(DevelopersEntityPK.class)
 public class DevelopersEntity {
     private String login;
-    private int projectid;
+    private String projectid;
     private Projpos projpos;
     private String description;
 
@@ -24,11 +24,11 @@ public class DevelopersEntity {
 
     @Id
     @Column(name = "projectid", nullable = false)
-    public int getProjectid() {
+    public String getProjectid() {
         return projectid;
     }
 
-    public void setProjectid(int projectid) {
+    public void setProjectid(String projectid) {
         this.projectid = projectid;
     }
 

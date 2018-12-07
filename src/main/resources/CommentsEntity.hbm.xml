@@ -6,10 +6,10 @@
 
     <class name="entity.CommentsEntity" table="comments" schema="public" catalog="multhub">
         <id name="id">
-            <column name="id" sql-type="integer"/>
+            <column name="id" sql-type="text"/>
         </id>
         <property name="projectid">
-            <column name="projectid" sql-type="integer" not-null="true"/>
+            <column name="projectid" sql-type="text" not-null="true"/>
         </property>
         <property name="login">
             <column name="login" sql-type="varchar(30)" length="30" not-null="true"/>

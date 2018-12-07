@@ -86,7 +86,7 @@ class UsersEntityTests {
         Assertions.assertEquals(newPassword,usersEntity.getPassword());
     }
     @Test
-    void signUp(){
+    void signUp() throws DBException {
         UsersEntity usersEntity = new UsersEntity();
         usersEntity.setLogin("4d");
         usersEntity.setName("dipidor");
@@ -100,12 +100,13 @@ class UsersEntityTests {
         Assertions.assertTrue(ds.signUp(usersEntity,con));
         ds.delete(usersEntity.getLogin());
         }catch (DBException e){
+            ds.delete(usersEntity.getLogin());
             e.printStackTrace();
             Assertions.fail("Ошибка регистрации");
         }
      }
     @Test
-    void signIn(){
+    void signIn() throws DBException {
         UsersEntity usersEntity = new UsersEntity();
         usersEntity.setLogin("4d");
         usersEntity.setName("dipidor");
@@ -116,12 +117,15 @@ class UsersEntityTests {
             Assertions.assertTrue(ds.signIn(usersEntity.getLogin(),usersEntity.getPassword()));
             ds.delete(usersEntity.getLogin());
         } catch (DBException e) {
+            ds.delete(usersEntity.getLogin());
+            Assertions.fail("Ошибка входа");
             e.printStackTrace();
+
 
         }
     }
     @Test
-    void sub(){
+    void sub() throws DBException {
         UsersEntity usersEntity = new UsersEntity();
         usersEntity.setLogin("4d");
         usersEntity.setName("dipidor");
@@ -134,12 +138,13 @@ class UsersEntityTests {
             ds.sub(usersEntity,projectsEntity);
             ds.delete(usersEntity.getLogin());
         }catch (DBException e) {
+            ds.delete(usersEntity.getLogin());
             e.printStackTrace();
             Assertions.fail("Ошибка подписки");
         }
     }
     @Test
-    void unsub(){
+    void unsub() throws DBException {
         UsersEntity usersEntity = new UsersEntity();
         usersEntity.setLogin("4d");
         usersEntity.setName("dipidor");
@@ -154,12 +159,13 @@ class UsersEntityTests {
             ds.delete(usersEntity.getLogin());
         }catch (DBException e) {
             e.printStackTrace();
+            ds.delete(usersEntity.getLogin());
             Assertions.fail("Ошибка отписки");
         }
     }
 
     @Test
-    void doComment() throws DBException { //проблема с ключом коммента, поэтому херь с удалением
+    void do_deleteComment() throws DBException { //проблема с ключом коммента, поэтому херь с удалением
 
         UsersEntity usersEntity = new UsersEntity();
         usersEntity.setLogin("4d");
@@ -172,8 +178,8 @@ class UsersEntityTests {
         commentsEntity.setId(null);
         commentsEntity.setLogin(usersEntity.getLogin());
         commentsEntity.setProjectid(projectsEntity.getProjectid());
-        commentsEntity.setComment("skfnhsdghfjds"); //нужно переименовать в коммент
-        commentsEntity.setTime(new Timestamp(System.currentTimeMillis()));   //могут быть косяки со временем у клиента, тип время с сервака указывается
+        commentsEntity.setComment("skfnhsdghfjds");
+        commentsEntity.setTime(new Timestamp(System.currentTimeMillis()));
          try {
             ds.create(usersEntity);
             ds.doComment(commentsEntity);
@@ -182,9 +188,10 @@ class UsersEntityTests {
         }catch (DBException e) {
             e.printStackTrace();
             ds.delete(usersEntity.getLogin());
-            Assertions.fail("Ошибка отписки");
+            Assertions.fail("Ошибка удаления комментария");
         }
-
     }
+
+
 }
 
