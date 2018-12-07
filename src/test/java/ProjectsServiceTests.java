@@ -30,7 +30,7 @@ class ProjectsServiceTests {
     }
 
     @Test
-    void addUser() {
+    void addProject() {
         ProjectsEntity pe = new ProjectsEntity();
         pe.setProjectid(null);
         pe.setCurbudget(12);
@@ -39,6 +39,7 @@ class ProjectsServiceTests {
         pe.setName("Vosstanie mashine");
         try {
             ps.create(pe);
+            System.out.println(pe.getProjectid());
             System.out.println(ps.get(pe.getProjectid()).getName());
         } catch (DBException e) {
             e.printStackTrace();

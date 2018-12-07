@@ -9,7 +9,7 @@ import java.util.Objects;
 public class CommentsEntity {
     @GeneratedValue
     private Integer id;
-    private Integer projectid;
+    private String projectid;
     private String login;
     private String comment;
     private Timestamp time;
@@ -26,11 +26,11 @@ public class CommentsEntity {
 
     @Basic
     @Column(name = "projectid", nullable = true)
-    public Integer getProjectid() {
+    public String getProjectid() {
         return projectid;
     }
 
-    public void setProjectid(Integer projectid) {
+    public void setProjectid(String projectid) {
         this.projectid = projectid;
     }
 

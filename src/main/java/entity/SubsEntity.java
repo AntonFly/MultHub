@@ -8,7 +8,7 @@ import java.util.Objects;
 @IdClass(SubsEntityPK.class)
 public class SubsEntity {
     private String login;
-    private int projectid;
+    private String projectid;
 
     @Id
     @Column(name = "login", nullable = false, length = 30)
@@ -22,11 +22,11 @@ public class SubsEntity {
 
     @Id
     @Column(name = "projectid", nullable = false)
-    public int getProjectid() {
+    public String getProjectid() {
         return projectid;
     }
 
-    public void setProjectid(int projectid) {
+    public void setProjectid(String projectid) {
         this.projectid = projectid;
     }
 

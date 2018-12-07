@@ -14,7 +14,7 @@ import java.util.List;
 
 
 
-public class ProjectService extends AbstractService<ProjectsEntity,Integer>{
+public class ProjectService extends AbstractService<ProjectsEntity,String>{
     @Override
     public List<ProjectsEntity> getAll() throws DBException {
         Transaction transaction = DBService.getTransaction();
@@ -77,7 +77,7 @@ public class ProjectService extends AbstractService<ProjectsEntity,Integer>{
 
 
     @Override
-    public ProjectsEntity get(Integer id) throws DBException {
+    public ProjectsEntity get(String id) throws DBException {
         Transaction transaction =DBService.getTransaction();
         try {
             ProjectsDAO dao = DaoFactory.getProjectsDAO();
@@ -91,7 +91,7 @@ public class ProjectService extends AbstractService<ProjectsEntity,Integer>{
     }
 
     @Override
-    public boolean delete(Integer id) throws DBException {
+    public boolean delete(String id) throws DBException {
         Transaction transaction = DBService.getTransaction();
         try{
             ProjectsDAO dao= DaoFactory.getProjectsDAO();

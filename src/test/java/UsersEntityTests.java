@@ -128,7 +128,7 @@ class UsersEntityTests {
         usersEntity.setSurname("ffkgf");
         usersEntity.setPassword("danxyi");
         ProjectsEntity projectsEntity = new ProjectsEntity();
-        projectsEntity.setProjectid(1);
+        projectsEntity.setProjectid("1");
         try {
             ds.create(usersEntity);
             ds.sub(usersEntity,projectsEntity);
@@ -146,7 +146,7 @@ class UsersEntityTests {
         usersEntity.setSurname("ffkgf");
         usersEntity.setPassword("danxyi");
         ProjectsEntity projectsEntity = new ProjectsEntity();
-        projectsEntity.setProjectid(1);
+        projectsEntity.setProjectid("1");
         try {
             ds.create(usersEntity);
             ds.sub(usersEntity,projectsEntity);
@@ -167,7 +167,7 @@ class UsersEntityTests {
         usersEntity.setSurname("ffkgf");
         usersEntity.setPassword("danxyi");
         ProjectsEntity projectsEntity = new ProjectsEntity();
-        projectsEntity.setProjectid(1);
+        projectsEntity.setProjectid("1");
         CommentsEntity commentsEntity = new CommentsEntity();
         commentsEntity.setId(null);
         commentsEntity.setLogin(usersEntity.getLogin());

@@ -7,7 +7,7 @@ import java.util.Objects;
 @Entity
 @Table(name = "projects", schema = "public", catalog = "multhub")
 public class ProjectsEntity {
-    private Integer projectid;
+    private String projectid;
     private String name;
     private String description;
     private Integer curbudget;
@@ -16,11 +16,11 @@ public class ProjectsEntity {
     @Id
     //@GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "projectid", nullable = false)
-    public Integer getProjectid() {
+    public String getProjectid() {
         return projectid;
     }
 
-    public void setProjectid(Integer projectid) {
+    public void setProjectid(String projectid) {
         this.projectid = projectid;
     }
 

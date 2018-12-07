@@ -7,7 +7,7 @@ import java.util.Objects;
 
 public class SubsEntityPK implements Serializable {
     private String login;
-    private int projectid;
+    private String projectid;
 
     @Column(name = "login", nullable = false, length = 30)
     @Id
@@ -21,11 +21,11 @@ public class SubsEntityPK implements Serializable {
 
     @Column(name = "projectid", nullable = false)
     @Id
-    public int getProjectid() {
+    public String getProjectid() {
         return projectid;
     }
 
-    public void setProjectid(int projectid) {
+    public void setProjectid(String projectid) {
         this.projectid = projectid;
     }
 
