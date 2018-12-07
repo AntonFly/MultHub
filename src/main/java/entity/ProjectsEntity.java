@@ -7,19 +7,20 @@ import java.util.Objects;
 @Entity
 @Table(name = "projects", schema = "public", catalog = "multhub")
 public class ProjectsEntity {
-    private int projectid;
+    private Integer projectid;
     private String name;
     private String description;
-    private Serializable curbudget;
-    private Serializable goalbudget;
+    private Integer curbudget;
+    private Integer goalbudget;
 
     @Id
+    //@GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "projectid", nullable = false)
-    public int getProjectid() {
+    public Integer getProjectid() {
         return projectid;
     }
 
-    public void setProjectid(int projectid) {
+    public void setProjectid(Integer projectid) {
         this.projectid = projectid;
     }
 
@@ -45,21 +46,21 @@ public class ProjectsEntity {
 
     @Basic
     @Column(name = "curbudget", nullable = true)
-    public Serializable getCurbudget() {
+    public Integer getCurbudget() {
         return curbudget;
     }
 
-    public void setCurbudget(Serializable curbudget) {
+    public void setCurbudget(Integer curbudget) {
         this.curbudget = curbudget;
     }
 
     @Basic
     @Column(name = "goalbudget", nullable = true)
-    public Serializable getGoalbudget() {
+    public Integer getGoalbudget() {
         return goalbudget;
     }
 
-    public void setGoalbudget(Serializable goalbudget) {
+    public void setGoalbudget(Integer goalbudget) {
         this.goalbudget = goalbudget;
     }
 

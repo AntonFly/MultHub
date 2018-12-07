@@ -6,7 +6,7 @@ import util.DBService;
 
 import java.util.List;
 
-public class ProjectsDAO extends AbstractDao<ProjectsEntity,String> {
+public class ProjectsDAO extends AbstractDao<ProjectsEntity,Integer> {
     public ProjectsDAO(){}
 
     @Override
@@ -17,7 +17,7 @@ public class ProjectsDAO extends AbstractDao<ProjectsEntity,String> {
     }
 
     @Override
-    public ProjectsEntity getEntityById(String id) {
+    public ProjectsEntity getEntityById(Integer id) {
         return DBService.getSessionFactory()
                 .getCurrentSession()
                 .get(ProjectsEntity.class, id, LockMode.PESSIMISTIC_READ);

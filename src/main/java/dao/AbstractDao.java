@@ -15,20 +15,20 @@ abstract class AbstractDao<E, K> {
                 DBService.getSessionFactory()
                         .getCurrentSession()
                         .update(entity);
-        };
+        }
 
         public  void delete(K id){
                 E entity= getEntityById(id);
                 DBService.getSessionFactory()
                         .getCurrentSession()
                         .delete(entity);
-        };
+        }
 
         public  Serializable create(E entity){
                 return  DBService.getSessionFactory()
                         .getCurrentSession()
                         .save(entity);
-        };
+        }
 
 
 }
