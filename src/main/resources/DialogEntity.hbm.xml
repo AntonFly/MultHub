@@ -1,0 +1,18 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+
+    <class name="entity.DialogEntity" table="dialog" schema="public" catalog="multhub">
+        <id name="id">
+            <column name="id" sql-type="text"/>
+        </id>
+        <property name="oneUserId">
+            <column name="one_user_id" sql-type="text" not-null="true"/>
+        </property>
+        <property name="twoUserId">
+            <column name="two_user_id" sql-type="text" not-null="true"/>
+        </property>
+    </class>
+</hibernate-mapping>

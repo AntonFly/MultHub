@@ -1,0 +1,30 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+
+    <class name="entity.MassageEntity" table="massage" schema="public" catalog="multhub">
+        <id name="id">
+            <column name="id" sql-type="text"/>
+        </id>
+        <property name="text">
+            <column name="text" sql-type="text" not-null="true"/>
+        </property>
+        <property name="dialogId">
+            <column name="dialog_id" sql-type="text" not-null="true"/>
+        </property>
+        <property name="userId">
+            <column name="user_id" sql-type="text" not-null="true"/>
+        </property>
+        <property name="toUserId">
+            <column name="to_user_id" sql-type="text" not-null="true"/>
+        </property>
+        <property name="isread">
+            <column name="isread" sql-type="boolean" not-null="true"/>
+        </property>
+        <property name="time">
+            <column name="time" sql-type="timestamp" not-null="true"/>
+        </property>
+    </class>
+</hibernate-mapping>

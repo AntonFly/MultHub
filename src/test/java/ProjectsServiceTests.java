@@ -29,22 +29,22 @@ class ProjectsServiceTests {
         ps = new ProjectService();
     }
 
-    @Test
-    void addUser() {
-        ProjectsEntity pe = new ProjectsEntity();
-        pe.setProjectid(null);
-        pe.setCurbudget(12);
-        pe.setDescription("V 1999 GODU rodilsa divan i vosstal");
-        pe.setGoalbudget(13);
-        pe.setName("Vosstanie mashine");
-        try {
-            ps.create(pe);
-            System.out.println(ps.get(pe.getProjectid()).getName());
-        } catch (DBException e) {
-            e.printStackTrace();
-            Assertions.fail("Ошибка добавления объекта");
-        }
-
-    }
+//    @Test
+//    void addProject() {
+//        ProjectsEntity pe = new ProjectsEntity();
+//        pe.setProjectid(null);
+//        pe.setCurbudget(12);
+//        pe.setDescription("V 1999 GODU rodilsa divan i vosstal");
+//        pe.setGoalbudget(13);
+//        pe.setName("Vosstanie mashine");
+//        try {
+//            ps.create(pe);
+//            System.out.println(ps.get(pe.getProjectid()).getName());
+//        } catch (DBException e) {
+//            e.printStackTrace();
+//            Assertions.fail("Ошибка добавления объекта");
+//        }
+//
+//    }
 
 }
