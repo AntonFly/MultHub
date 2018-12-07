@@ -1,0 +1,24 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+
+    <class name="entity.UserpostEntity" table="userpost" schema="public" catalog="multhub">
+        <id name="id">
+            <column name="id" sql-type="text"/>
+        </id>
+        <property name="userId">
+            <column name="user_id" sql-type="text" not-null="true"/>
+        </property>
+        <property name="text">
+            <column name="text" sql-type="text" not-null="true"/>
+        </property>
+        <property name="filepath">
+            <column name="filepath" sql-type="text" not-null="true"/>
+        </property>
+        <property name="time">
+            <column name="time" sql-type="timestamp" not-null="true"/>
+        </property>
+    </class>
+</hibernate-mapping>
