@@ -119,6 +119,7 @@ class UsersEntityTests {
             ds.delete(usersEntity.getLogin());
         } catch (DBException e) {
             e.printStackTrace();
+
         }
     }
     @Test

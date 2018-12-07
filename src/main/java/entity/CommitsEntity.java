@@ -13,7 +13,6 @@ public class CommitsEntity {
     private String filedirectory;
     private Timestamp time;
     private Object approved;
-    private ProjectsEntity projectsByProjectid;
 
     @Id
     @Column(name = "projectid", nullable = false)
@@ -82,13 +81,4 @@ public class CommitsEntity {
         return Objects.hash(projectid, developer, filedirectory, time, approved);
     }
 
-    @ManyToOne
-    @JoinColumn(name = "projectid", referencedColumnName = "projectid", nullable = false)
-    public ProjectsEntity getProjectsByProjectid() {
-        return projectsByProjectid;
-    }
-
-    public void setProjectsByProjectid(ProjectsEntity projectsByProjectid) {
-        this.projectsByProjectid = projectsByProjectid;
-    }
 }

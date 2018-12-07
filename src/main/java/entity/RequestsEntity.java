@@ -11,7 +11,6 @@ public class RequestsEntity {
     private int projectid;
     private Projpos projpos;
     private Boolean isrequest;
-    private ProjectsEntity projectsByProjectid;
 
     @Id
     @Column(name = "login", nullable = false, length = 30)
@@ -69,13 +68,4 @@ public class RequestsEntity {
         return Objects.hash(login, projectid, projpos, isrequest);
     }
 
-    @ManyToOne
-    @JoinColumn(name = "projectid", referencedColumnName = "projectid", nullable = false)
-    public ProjectsEntity getProjectsByProjectid() {
-        return projectsByProjectid;
-    }
-
-    public void setProjectsByProjectid(ProjectsEntity projectsByProjectid) {
-        this.projectsByProjectid = projectsByProjectid;
-    }
 }
