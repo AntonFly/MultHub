@@ -17,6 +17,5 @@
         <property name="password">
             <column name="password" sql-type="text" not-null="true"/>
         </property>
-        <one-to-one name="connectiondataByLogin" class="entity.ConnectiondataEntity"/>
     </class>
 </hibernate-mapping>

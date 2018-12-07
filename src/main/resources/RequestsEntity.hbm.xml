@@ -19,8 +19,5 @@
         <property name="isrequest">
             <column name="isrequest" sql-type="boolean" not-null="true"/>
         </property>
-        <many-to-one name="projectsByProjectid" class="entity.ProjectsEntity">
-            <column name="projectid"/>
-        </many-to-one>
     </class>
 </hibernate-mapping>

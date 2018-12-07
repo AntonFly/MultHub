@@ -22,8 +22,5 @@
         <property name="approved">
             <column name="approved" sql-type="approved" not-null="true"/>
         </property>
-        <many-to-one name="projectsByProjectid" class="entity.ProjectsEntity">
-            <column name="projectid"/>
-        </many-to-one>
     </class>
 </hibernate-mapping>

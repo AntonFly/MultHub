@@ -158,26 +158,33 @@ class UsersEntityTests {
         }
     }
 
-//    @Test
-//    void doComment(){ //проблема с ключом коммента, поэтому херь с удалением
-//        UsersEntity usersEntity = new UsersEntity();
-//        usersEntity.setLogin("4d");
-//        usersEntity.setName("dipidor");
-//        usersEntity.setSurname("ffkgf");
-//        usersEntity.setPassword("danxyi");
-//        ProjectsEntity projectsEntity = new ProjectsEntity();
-//        projectsEntity.setProjectid(1);
-//         try {
-//            ds.create(usersEntity);
-//            ds.doComment(usersEntity,projectsEntity,"LOL COOL");
-//            ds.deleteComment();
-//             //DaoFactory.getCommentsDAO().delete("0");
-//            ds.delete(usersEntity.getLogin());
-//        }catch (DBException e) {
-//            e.printStackTrace();
-//            Assertions.fail("Ошибка отписки");
-//        }
-//
-//    }
+    @Test
+    void doComment() throws DBException { //проблема с ключом коммента, поэтому херь с удалением
+
+        UsersEntity usersEntity = new UsersEntity();
+        usersEntity.setLogin("4d");
+        usersEntity.setName("dipidor");
+        usersEntity.setSurname("ffkgf");
+        usersEntity.setPassword("danxyi");
+        ProjectsEntity projectsEntity = new ProjectsEntity();
+        projectsEntity.setProjectid(1);
+        CommentsEntity commentsEntity = new CommentsEntity();
+        commentsEntity.setId(null);
+        commentsEntity.setLogin(usersEntity.getLogin());
+        commentsEntity.setProjectid(projectsEntity.getProjectid());
+        commentsEntity.setComment("skfnhsdghfjds"); //нужно переименовать в коммент
+        commentsEntity.setTime(new Timestamp(System.currentTimeMillis()));   //могут быть косяки со временем у клиента, тип время с сервака указывается
+         try {
+            ds.create(usersEntity);
+            ds.doComment(commentsEntity);
+            ds.deleteComment(commentsEntity);
+            ds.delete(usersEntity.getLogin());
+        }catch (DBException e) {
+            e.printStackTrace();
+            ds.delete(usersEntity.getLogin());
+            Assertions.fail("Ошибка отписки");
+        }
+
+    }
 }
 

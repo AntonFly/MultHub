@@ -14,14 +14,11 @@
         <property name="login">
             <column name="login" sql-type="varchar(30)" length="30" not-null="true"/>
         </property>
-        <property name="filedirectory">
-            <column name="filedirectory" sql-type="text" not-null="true"/>
+        <property name="comment">
+            <column name="comment" sql-type="text" not-null="true"/>
         </property>
         <property name="time">
             <column name="time" sql-type="timestamp" not-null="true"/>
         </property>
-        <many-to-one name="projectsByProjectid" class="entity.ProjectsEntity">
-            <column name="projectid" not-null="true"/>
-        </many-to-one>
     </class>
 </hibernate-mapping>
