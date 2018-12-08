@@ -13,7 +13,7 @@ public class CommitsDao extends AbstractDao<CommitsEntity,String> {
     public List<CommitsEntity> getAll() {
         return  DBService.getSessionFactory()
                 .getCurrentSession()
-                .createQuery("from CommitsEntity  ", CommitsEntity.class).list();
+                .createQuery("from CommitsEntity ", CommitsEntity.class).list();
     }
 
     /**

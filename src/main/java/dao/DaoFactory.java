@@ -10,11 +10,14 @@ public class DaoFactory {
     private static volatile ProjectsDAO projectsDAO;
     private static volatile DevelopersDAO developersDAO;
     private static volatile CommentsDAO commentsDAO;
-
     private static volatile DialogDAO dialogDao;
     private static volatile MessageDAO messageDao;
-    private static volatile UserpostDAO userPostDao;    //
+    private static volatile UserpostDAO userPostDao;
     private static volatile FollowersDAO  followersDao;
+    private static volatile CommitsfileDAO commitsfileDAO;
+    private static volatile DonatersDAO donatersDAO;
+    private static volatile ProjectspostsDAO projectspostsDAO;
+
 
 
     public static UsersDAO getUsersDAO(){
@@ -153,5 +156,38 @@ public class DaoFactory {
             }
         }
         return followersDao;
+    }
+
+    public static CommitsfileDAO getCommitsfileDAO(){
+        if(commitsfileDAO == null) {
+            synchronized(DaoFactory.class) {
+                if(commitsfileDAO == null) {
+                    commitsfileDAO = new CommitsfileDAO();
+                }
+            }
+        }
+        return commitsfileDAO;
+    }
+
+    public static DonatersDAO getDonatersDAO(){
+        if(donatersDAO == null) {
+            synchronized(DaoFactory.class) {
+                if(donatersDAO == null) {
+                    donatersDAO = new DonatersDAO();
+                }
+            }
+        }
+        return donatersDAO;
+    }
+
+    public static ProjectspostsDAO getProjectspostsDAO(){
+        if(projectspostsDAO == null) {
+            synchronized(DaoFactory.class) {
+                if(projectspostsDAO == null) {
+                    projectspostsDAO = new ProjectspostsDAO();
+                }
+            }
+        }
+        return projectspostsDAO;
     }
 }
