@@ -14,8 +14,9 @@ import java.math.BigInteger;
 import java.sql.Timestamp;
 import java.util.UUID;
 
-@FixMethodOrder(MethodSorters.NAME_ASCENDING)
+
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
+@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 class ProjectsServiceTests {
     private ProjectService ps;
     static ProjectsEntity pe;
@@ -38,7 +39,7 @@ class ProjectsServiceTests {
 
 
     @Test
-    void addProject() {
+    void stage1_addProject() {
         try {
             ps.create(pe);
         } catch (DBException e) {
@@ -47,17 +48,30 @@ class ProjectsServiceTests {
         }
     }
 
-//    @Test
-//    void deleteProject(){
-//
-//        try {
-//            ps.delete(UUID.nameUUIDFromBytes((pe.getName()+pe.getDescription()).getBytes()).toString());
-//
-//        } catch (DBException e) {
-//            e.printStackTrace();
-//            Assertions.fail("Ошибка добавления объекта");
-//        }
-//    }
+    @Test
+    void stage2_getProject() {
+        try {
+            System.out.println(pe);
+            System.out.println("UPDATED:" +ps.get(UUID.nameUUIDFromBytes((pe.getName()+pe.getDescription()).getBytes()).toString()).getName());
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            Assertions.fail("Ошибка добавления объекта");
+        }
+    }
+
+
+    @Test
+    void stage3_deleteProject(){
+
+        try {
+            ps.delete(UUID.nameUUIDFromBytes((pe.getName()+pe.getDescription()).getBytes()).toString());
+
+        } catch (DBException e) {
+            e.printStackTrace();
+            Assertions.fail("Ошибка добавления объекта");
+        }
+    }
 
 //    @Test
 //    void updateProject(){
@@ -72,16 +86,5 @@ class ProjectsServiceTests {
 //        }
 //
 //    }
-
-    @Test
-    void getProject() {
-        try {
-            System.out.println("UPDATED:" +ps.get(UUID.nameUUIDFromBytes((pe.getName()+pe.getDescription()).getBytes()).toString()).getName());
-
-        } catch (DBException e) {
-            e.printStackTrace();
-            Assertions.fail("Ошибка добавления объекта");
-        }
-    }
 
 }
