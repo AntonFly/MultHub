@@ -7,6 +7,7 @@ import org.junit.runner.Result;
 import service.ProjectService;
 import service.UserService;
 
+import java.math.BigInteger;
 import java.sql.Timestamp;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
