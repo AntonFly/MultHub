@@ -12,7 +12,7 @@ public class FollowersDAO extends AbstractDao<FollowersEntity,String>{
     public List<FollowersEntity> getAll() {
         return  DBService.getSessionFactory()
                 .getCurrentSession()
-                .createQuery("from CreditinfoEntity ", FollowersEntity.class).list();
+                .createQuery("from FollowersEntity ", FollowersEntity.class).list();
     }
 
     @Override

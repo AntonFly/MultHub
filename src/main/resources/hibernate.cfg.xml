@@ -34,7 +34,7 @@
     <mapping class="entity.MassageEntity"/>
     <mapping resource="MassageEntity.hbm.xml"/>
     <mapping class="entity.UserpostEntity"/>
-    <mapping resource="entity/UserpostEntity.hbm.xml"/>
+    <mapping resource="UserpostEntity.hbm.xml"/>
 
   </session-factory>
 </hibernate-configuration>

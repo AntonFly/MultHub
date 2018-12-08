@@ -15,7 +15,7 @@ public class ProjectsDAO extends AbstractDao<ProjectsEntity,String> {
     public List<ProjectsEntity> getAll() {
         return  DBService.getSessionFactory()
                 .getCurrentSession()
-                .createQuery("from CreditinfoEntity ", ProjectsEntity.class).list();
+                .createQuery("from ProjectsEntity ", ProjectsEntity.class).list();
     }
 
     @Override

@@ -339,5 +339,37 @@ public class UserService extends AbstractService<UsersEntity,String> {
          return true;
      }
     ////////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////
+    /**
+     * Юзер может создавать скок угодно проектов и соответственно становится в нем менеджером (картеж девелоперов )
+     * @param projectsEntity
+     * @param usersEntity
+     * @return
+     * @throws DBException
+     */
+    public boolean createProject(ProjectsEntity projectsEntity,UsersEntity usersEntity)throws  DBException{
+        Transaction transaction =DBService.getTransaction();
+        try{
+
+            transaction.commit();
+        }catch (HibernateException | NoResultException e){
+            DBService.transactionRollback(transaction);
+            throw new DBException(e);
+        }
+        return true;
+    }
+
+    public boolean deleteProject()throws DBException{
+        Transaction transaction =DBService.getTransaction();
+        try{
+
+            transaction.commit();
+        }catch (HibernateException | NoResultException e){
+            DBService.transactionRollback(transaction);
+            throw new DBException(e);
+        }
+        return true;
+    }
+////////////////////////////////////////////////////////////////////////
 
 }

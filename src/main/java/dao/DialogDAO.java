@@ -15,7 +15,7 @@ public class DialogDAO extends AbstractDao<DialogEntity,String>  {
     public List<DialogEntity> getAll() {
         return  DBService.getSessionFactory()
                 .getCurrentSession()
-                .createQuery("from CreditinfoEntity ", DialogEntity.class).list();
+                .createQuery("from DialogEntity ", DialogEntity.class).list();
     }
 
     @Override

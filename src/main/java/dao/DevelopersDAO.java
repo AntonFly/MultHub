@@ -15,7 +15,7 @@ public class DevelopersDAO extends AbstractDao<DevelopersEntity,String> {
     public List<DevelopersEntity> getAll() {
         return  DBService.getSessionFactory()
                 .getCurrentSession()
-                .createQuery("from UsersEntity ", DevelopersEntity.class).list();
+                .createQuery("from DevelopersEntity ", DevelopersEntity.class).list();
 
     }
 
