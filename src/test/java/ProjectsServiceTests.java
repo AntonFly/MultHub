@@ -12,6 +12,8 @@ import service.UserService;
 
 import java.math.BigInteger;
 import java.sql.Timestamp;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.UUID;
 
 //@FixMethodOrder(MethodSorters.NAME_ASCENDING)
@@ -19,6 +21,7 @@ import java.util.UUID;
 class ProjectsServiceTests {
     private ProjectService ps;
     static ProjectsEntity pe;
+    static CommitsEntity commitsEntity;
 
     static void main(String[] args) {
         JUnitCore runner = new JUnitCore();
@@ -34,6 +37,7 @@ class ProjectsServiceTests {
         pe.setDescription("V 1999 GODU;lkjh rodilsa divan i vosstal");
         pe.setGoalbudget(13.);
         pe.setName("Vosstanie mashine");
+
     }
 
     @Test
@@ -56,32 +60,113 @@ class ProjectsServiceTests {
         }
     }
 
-//    @Test
-//    void deleteProject(){
-//
-//        try {
-//            ps.delete(UUID.nameUUIDFromBytes((pe.getName()+pe.getDescription()).getBytes()).toString());
-//
-//        } catch (DBException e) {
-//            e.printStackTrace();
-//            Assertions.fail("Ошибка добавления объекта");
-//        }
-//    }
+    @Test
+    void deleteProject(){
 
-//    @Test
-//    void updateProject(){
-//        pe.setName("LOL CHANGED");
-//        try {
-//            ps.update(pe);
-//            System.out.println(pe.getProjectid());
-//            System.out.println(ps.get(pe.getProjectid()).getName());
-//        } catch (DBException e) {
-//            e.printStackTrace();
-//            Assertions.fail("Ошибка добавления объекта");
-//        }
-//
-//    }
+        try {
+            ps.delete(UUID.nameUUIDFromBytes((pe.getName()+pe.getDescription()).getBytes()).toString());
+
+        } catch (DBException e) {
+            e.printStackTrace();
+            Assertions.fail("Ошибка добавления объекта");
+        }
+    }
+
+    @Test
+    void commitFiles(){
+        try {
+            ps.create(pe);
+
+            commitsEntity = new CommitsEntity();
+            commitsEntity.setApproved(Approved.AWAITS);
+            commitsEntity.setDeveloper("Usherb ebanii");
+            commitsEntity.setId(null);
+            commitsEntity.setProjectid(pe.getProjectid());
+            commitsEntity.setTime(new Timestamp(System.currentTimeMillis()));
+
+            List<CommitsfileEntity> commitsfileEntities = new LinkedList<>();
+            CommitsfileEntity commitsfileEntity1 = new CommitsfileEntity();
+            commitsfileEntity1.setCommitid( UUID.nameUUIDFromBytes(   (commitsEntity.getDeveloper()+commitsEntity.getProjectid()+commitsEntity.getTime())   .getBytes()  ).toString());
+            commitsfileEntity1.setFilename("pizda ebanaya cherez rot mangusta blyat");
+            commitsfileEntity1.setFilepath("epta");
+            CommitsfileEntity commitsfileEntity2 = new CommitsfileEntity();
+            commitsfileEntity2.setCommitid( UUID.nameUUIDFromBytes(   (commitsEntity.getDeveloper()+commitsEntity.getProjectid()+commitsEntity.getTime())   .getBytes()  ).toString());
+            commitsfileEntity2.setFilename("pizda ebanaya cherez rot mangusta blyat2");
+            commitsfileEntity2.setFilepath("epta");
+            CommitsfileEntity commitsfileEntity3 = new CommitsfileEntity();
+            commitsfileEntity3.setCommitid( UUID.nameUUIDFromBytes(   (commitsEntity.getDeveloper()+commitsEntity.getProjectid()+commitsEntity.getTime())   .getBytes()  ).toString());
+            commitsfileEntity3.setFilename("pizda ebanaya cherez rot mangusta blyat3");
+            commitsfileEntity3.setFilepath("epta");
+            commitsfileEntities.add(commitsfileEntity1);
+            commitsfileEntities.add(commitsfileEntity2);
+            commitsfileEntities.add(commitsfileEntity3);
+
+            ps.commitFiles(commitsEntity,commitsfileEntities);
+            //ps.deleteCommitFile(commitsfileEntity3);         IMPORTANT THING
 
 
+        } catch (DBException e) {
+            e.printStackTrace();
+            Assertions.fail("Ошибка добавления коммита");
+        }
+    }
+
+    @Test
+    void getCommits(){
+        try {
+            List<CommitsEntity> commits = ps.getUncheckedCommits();
+            for (CommitsEntity d:commits) {
+                System.out.println(d.getDeveloper());
+            }
+
+            deleteCommit();
+
+        } catch (DBException e) {
+            e.printStackTrace();
+            Assertions.fail("Ошибка получения коммитов");
+        }
+    }
+    @Test
+    void getFiles(){
+        try {
+            List<CommitsfileEntity> files = ps.getCommitFiles(commitsEntity);
+            for (CommitsfileEntity d:files) {
+                System.out.println(d.getFilename());
+            }
+        } catch (DBException e) {
+            e.printStackTrace();
+            Assertions.fail("Ошибка получения коммитов");
+        }
+    }
+
+    void aprove_rejectCommit(){
+
+    }
+
+
+    void deleteCommit(){
+        try {
+            ps.deleteCommit(commitsEntity);
+
+
+
+        } catch (DBException e) {
+            e.printStackTrace();
+            Assertions.fail("Ошибка получения коммитов");
+        }
+    }
+
+    @Test
+    void addDeveloper(){}
+
+            void deleteDeveloper(){
+
+            }
+
+            void sendInvite(){}
+
+void addPostToBlog(){}
+
+void deletePost(){}
 
 }

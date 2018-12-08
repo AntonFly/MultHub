@@ -165,7 +165,7 @@ public class ProjectService extends AbstractService<ProjectsEntity,String>{
 
     /**
      *
-     * @param projectpostsEntity post obj without key
+     * @param projectpostsEntity post obj without a key
      * @return
      * @throws DBException
      */
@@ -183,20 +183,118 @@ public class ProjectService extends AbstractService<ProjectsEntity,String>{
         return true;
     }
 
-//    public List<CommitsEntity> getUncheckedCommits()throws DBException{ //непонятки с commitsEntity
-//        Transaction transaction = DBService.getTransaction();
-//        List<CommitsEntity> commits = new LinkedList<>();
-//        try{
-//            CommitsDao commitsDao = DaoFactory.getCommitsDao();
-//            commits = commitsDao.
-//            transaction.commit();
-//        } catch (HibernateException | NoResultException e) {
-//            DBService.transactionRollback(transaction);
-//            throw new DBException(e);
-//        }
-//        return true;
-//    }
 
+    //////////////////////////////////////////////////////      COMMIT       //////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    /**
+     * не уверен в параметрах от слова совсем, ибо чтобы обновить коммит нужно взять его айди
+     * а чтоб взять айди коммита нужно взять айди проекта . Получается ебала костыльная as usual
+     *
+     * реализовано так что айди проекта сетится на уровень выше))))00 а айди коммита здесь
+     * должно работать
+     * @return
+     * @throws DBException
+     */
+    public boolean approveCommit( CommitsEntity commitsEntity)throws DBException{
+        Transaction transaction = DBService.getTransaction();
+        commitsEntity.setId(UUID.nameUUIDFromBytes(   (commitsEntity.getDeveloper()+commitsEntity.getProjectid()+commitsEntity.getTime())   .getBytes()  ).toString());
+        commitsEntity.setApproved(Approved.APPROVED);
+        try{
+            CommitsDao commitsDao = DaoFactory.getCommitsDao();
+            commitsDao.update(commitsEntity);
+            transaction.commit();
+        } catch (HibernateException | NoResultException e) {
+            DBService.transactionRollback(transaction);
+            throw new DBException(e);
+        }
+        return true;
+    }
+    //the same as in approve
+    public boolean rejectCommit(CommitsEntity commitsEntity)throws DBException{
+        commitsEntity.setId(UUID.nameUUIDFromBytes(   (commitsEntity.getDeveloper()+commitsEntity.getProjectid()+commitsEntity.getTime())   .getBytes()  ).toString());
+        deleteCommit(commitsEntity);
+        return true;
+    }
+
+    public boolean commitFiles(CommitsEntity commitsEntity,List<CommitsfileEntity> commitsfileEntities )throws DBException{
+        Transaction transaction = DBService.getTransaction();
+        try{
+            CommitsDao commitsDao = DaoFactory.getCommitsDao();
+            commitsDao.create(commitsEntity);
+            CommitsfileDAO commitsfileDAO = DaoFactory.getCommitsfileDAO();
+            for (CommitsfileEntity file :commitsfileEntities) {
+                commitsfileDAO.create(file);
+            }
+            transaction.commit();
+        } catch (HibernateException | NoResultException e) {
+            DBService.transactionRollback(transaction);
+            throw new DBException(e);
+        }
+
+        return true;
+    }
+
+
+
+    public List<CommitsEntity> getUncheckedCommits()throws DBException{ //непонятки с commitsEntity
+        Transaction transaction = DBService.getTransaction();
+        List<CommitsEntity> commits;
+        try{
+            CommitsDao commitsDao = DaoFactory.getCommitsDao();
+            commits = commitsDao.getUnchecked();
+            transaction.commit();
+        } catch (HibernateException | NoResultException e) {
+            DBService.transactionRollback(transaction);
+            throw new DBException(e);
+        }
+        return commits;
+    }
+
+    public List<CommitsfileEntity> getCommitFiles(CommitsEntity commitsEntity)throws DBException{
+        Transaction transaction = DBService.getTransaction();
+        List<CommitsfileEntity> commits;
+        try{
+            CommitsfileDAO commitsDao = DaoFactory.getCommitsfileDAO();
+            commits = commitsDao.getAssociatedFiles(  commitsEntity );
+            transaction.commit();
+        } catch (HibernateException | NoResultException e) {
+            DBService.transactionRollback(transaction);
+            throw new DBException(e);
+        }
+        return commits;
+    }
+
+    public boolean deleteCommit(CommitsEntity commitsEntity)throws DBException{
+        Transaction transaction = DBService.getTransaction();
+        try{
+            CommitsDao commitsDao = DaoFactory.getCommitsDao();
+            commitsDao.delete(commitsEntity.getId());
+            transaction.commit();
+        } catch (HibernateException | NoResultException e) {
+            DBService.transactionRollback(transaction);
+            throw new DBException(e);
+        }
+
+        return true;
+    }
+
+    public boolean deleteCommitFile(CommitsfileEntity commitsfileEntity)throws DBException{
+        Transaction transaction = DBService.getTransaction();
+        CommitsfileEntityPK commitsfileEntityPK = new CommitsfileEntityPK();
+        commitsfileEntityPK.setCommitid(commitsfileEntity.getCommitid());
+        commitsfileEntityPK.setFilename(commitsfileEntity.getFilename());
+        try{
+            CommitsfileDAO commitsfileDAO =DaoFactory.getCommitsfileDAO();
+            commitsfileDAO.delete(commitsfileEntityPK);
+            transaction.commit();
+        } catch (HibernateException | NoResultException e) {
+            DBService.transactionRollback(transaction);
+            throw new DBException(e);
+        }
+
+        return true;
+    }
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 }
 /*
   добавление файла в проект
@@ -205,5 +303,7 @@ public class ProjectService extends AbstractService<ProjectsEntity,String>{
   отправка приглашения в проект - done
   добавление пользователя в проект -done
   добавление поста в микроблог -done
+
+  все сделано но не все затесчено
 
 */

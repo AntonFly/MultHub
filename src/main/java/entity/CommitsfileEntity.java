@@ -8,7 +8,7 @@ import java.util.Objects;
 @IdClass(CommitsfileEntityPK.class)
 public class CommitsfileEntity {
     private String filename;
-    private Integer filepath;
+    private String filepath;
     private String commitid;
 
     @Id
@@ -23,11 +23,11 @@ public class CommitsfileEntity {
 
     @Basic
     @Column(name = "filepath", nullable = true)
-    public Integer getFilepath() {
+    public String getFilepath() {
         return filepath;
     }
 
-    public void setFilepath(Integer filepath) {
+    public void setFilepath(String filepath) {
         this.filepath = filepath;
     }
 

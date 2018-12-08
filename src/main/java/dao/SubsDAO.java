@@ -45,6 +45,7 @@ public class SubsDAO extends AbstractDao<SubsEntity,String> {
                 .createQuery("delete from SubsEntity where login = :paramLogin AND projectid = :paramProjId");
         query.setParameter("paramLogin",key.getLogin());
         query.setParameter("paramProjId",key.getProjectid());
+        query.executeUpdate();
     }
 
 
