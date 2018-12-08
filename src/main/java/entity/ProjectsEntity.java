@@ -11,10 +11,10 @@ public class ProjectsEntity {
     private String projectid;
     private String name;
     private String description;
-    private BigInteger curbudget;
-    private BigInteger goalbudget;
+    private Double curbudget;
+    private Double goalbudget;
 
-    public void setCurbudget(BigInteger curbudget) {
+    public void setCurbudget(Double curbudget) {
         this.curbudget = curbudget;
     }
 
@@ -51,18 +51,18 @@ public class ProjectsEntity {
 
     @Basic
     @Column(name = "curbudget", nullable = true, precision = 0)
-    public BigInteger getCurbudget() {
+    public Double getCurbudget() {
         return curbudget;
     }
 
 
     @Basic
     @Column(name = "goalbudget", nullable = true, precision = 0)
-    public BigInteger getGoalbudget() {
+    public Double getGoalbudget() {
         return goalbudget;
     }
 
-    public void setGoalbudget(BigInteger goalbudget) {
+    public void setGoalbudget(Double goalbudget) {
         this.goalbudget = goalbudget;
     }
 

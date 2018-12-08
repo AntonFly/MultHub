@@ -34,9 +34,9 @@ class ProjectsServiceTests {
     void addProject() {
         ProjectsEntity pe = new ProjectsEntity();
         pe.setProjectid(null);
-        pe.setCurbudget(12);
+        pe.setCurbudget(12.);
         pe.setDescription("V 1999 GODU rodilsa divan i vosstal");
-        pe.setGoalbudget(13);
+        pe.setGoalbudget(13.);
         pe.setName("Vosstanie mashine");
         try {
             ps.create(pe);

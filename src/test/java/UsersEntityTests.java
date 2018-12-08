@@ -7,6 +7,7 @@ import org.junit.runner.Result;
 import service.UserService;
 
 import java.sql.Timestamp;
+import java.util.UUID;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class UsersEntityTests {
@@ -191,7 +192,59 @@ class UsersEntityTests {
             Assertions.fail("Ошибка удаления комментария");
         }
     }
-
-
+    @Test
+    void createDialog() throws DBException{
+        UsersEntity usersEntity = new UsersEntity();
+        usersEntity.setLogin("4d");
+        usersEntity.setName("dipidor");
+        usersEntity.setSurname("ffkgf");
+        usersEntity.setPassword("danxyi");
+        UsersEntity usersEntity2 = new UsersEntity();
+        usersEntity2.setLogin("5d");
+        usersEntity2.setName("dipidor");
+        usersEntity2.setSurname("ffkgf");
+        usersEntity2.setPassword("danxyi");
+        try{
+            ds.create(usersEntity);
+            ds.create(usersEntity2);
+            ds.createDialog(usersEntity,usersEntity2);
+            ds.delete(usersEntity.getLogin());
+            ds.delete(usersEntity2.getLogin());
+        }catch (DBException e){
+            e.printStackTrace();
+            Assertions.fail("Ошибка создания диалога");
+        }
+    }
+    @Test
+    void sendMessage() throws DBException{
+        UsersEntity usersEntity = new UsersEntity();
+        usersEntity.setLogin("4d");
+        usersEntity.setName("dipidor");
+        usersEntity.setSurname("ffkgf");
+        usersEntity.setPassword("danxyi");
+        UsersEntity usersEntity2 = new UsersEntity();
+        usersEntity2.setLogin("5d");
+        usersEntity2.setName("dipidor");
+        usersEntity2.setSurname("ffkgf");
+        usersEntity2.setPassword("danxyi");
+        MessageEntity message =new MessageEntity();
+        message.setDialogId(UUID.nameUUIDFromBytes((usersEntity.getLogin()+usersEntity2.getLogin()).getBytes()).toString());
+        message.setIsread(false);
+        message.setTime(new Timestamp(System.currentTimeMillis()));
+        message.setUserId(usersEntity.getLogin());
+        message.setToUserId(usersEntity2.getLogin());
+        message.setText("horosho");
+        try{
+        ds.create(usersEntity);
+        ds.create(usersEntity2);
+        ds.createDialog(usersEntity,usersEntity2);
+        ds.addMessgae(message);
+        ds.delete(usersEntity.getLogin());
+        ds.delete(usersEntity2.getLogin());
+        }catch (DBException e){
+            e.printStackTrace();
+            Assertions.fail("Ошибка отправки сообщения");
+        }
+    }
 }
 
