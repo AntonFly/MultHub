@@ -12,7 +12,7 @@ import java.util.UUID;
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class UsersEntityTests {
     private UserService ds;
-    String login= "3d";
+    String login= "d";
     String newPassword="updated";
      static void main(String[] args) {
          JUnitCore runner = new JUnitCore();
