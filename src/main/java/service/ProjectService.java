@@ -10,8 +10,9 @@ import util.DBService;
 import java.sql.Timestamp;
 
 import javax.persistence.NoResultException;
+import java.util.LinkedList;
 import java.util.List;
-
+import java.util.UUID;
 
 
 public class ProjectService extends AbstractService<ProjectsEntity,String>{
@@ -134,4 +135,75 @@ public class ProjectService extends AbstractService<ProjectsEntity,String>{
         return true;
     }
 
+    public boolean sendInviteToProject(RequestsEntity requestsEntity)throws DBException{
+        Transaction transaction = DBService.getTransaction();
+        requestsEntity.setIsrequest(false);
+        try{
+            RequestsDAO requestsDAO = DaoFactory.getRequestsDAO();
+            requestsDAO.create(requestsEntity);
+            transaction.commit();
+        } catch (HibernateException | NoResultException e) {
+            DBService.transactionRollback(transaction);
+            throw new DBException(e);
+        }
+        return true;
+    }
+//шляпа с айдюком проекта
+    public boolean addPostToBlog(ProjectpostsEntity projectpostsEntity)throws DBException{
+        Transaction transaction = DBService.getTransaction();
+
+        try{
+            ProjectspostsDAO projectspostsDAO = DaoFactory.getProjectspostsDAO();
+            projectspostsDAO.create(projectpostsEntity);
+            transaction.commit();
+        } catch (HibernateException | NoResultException e) {
+            DBService.transactionRollback(transaction);
+            throw new DBException(e);
+        }
+        return true;
+    }
+
+    /**
+     *
+     * @param projectpostsEntity post obj without key
+     * @return
+     * @throws DBException
+     */
+    public boolean deletePostInBlog(ProjectpostsEntity projectpostsEntity) throws DBException{
+        Transaction transaction = DBService.getTransaction();
+        try{
+            ProjectspostsDAO projectspostsDAO = DaoFactory.getProjectspostsDAO();
+            projectspostsDAO.delete(UUID.nameUUIDFromBytes(projectpostsEntity.getText().getBytes()).toString());
+
+            transaction.commit();
+        } catch (HibernateException | NoResultException e) {
+            DBService.transactionRollback(transaction);
+            throw new DBException(e);
+        }
+        return true;
+    }
+
+//    public List<CommitsEntity> getUncheckedCommits()throws DBException{ //непонятки с commitsEntity
+//        Transaction transaction = DBService.getTransaction();
+//        List<CommitsEntity> commits = new LinkedList<>();
+//        try{
+//            CommitsDao commitsDao = DaoFactory.getCommitsDao();
+//            commits = commitsDao.
+//            transaction.commit();
+//        } catch (HibernateException | NoResultException e) {
+//            DBService.transactionRollback(transaction);
+//            throw new DBException(e);
+//        }
+//        return true;
+//    }
+
 }
+/*
+  добавление файла в проект
+  приминение коммита
+  рассмотрение администратором коммита
+  отправка приглашения в проект - done
+  добавление пользователя в проект -done
+  добавление поста в микроблог -done
+
+*/
