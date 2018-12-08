@@ -1,54 +1,49 @@
 import com.jcraft.jsch.JSch;
 import com.jcraft.jsch.JSchException;
 import com.jcraft.jsch.Session;
-import entity.CommitsEntity;
-import entity.CommitsEntityPK;
 import entity.ConnectiondataEntity;
 import entity.UsersEntity;
 import service.UserService;
 
 import java.sql.SQLException;
 import java.sql.Timestamp;
-import java.util.Date;
-import java.util.List;
 import java.util.Properties;
 
 public class Main {
-    public static void main(String... args) throws SQLException {
-        UsersEntity usersEntity = new UsersEntity();
-        usersEntity.setLogin("xxddddd");
-        usersEntity.setName("dipidor");
-        usersEntity.setSurname("ffkgf");
-        usersEntity.setPassword("danxyi");
-        UserService ds= new UserService();
-        Timestamp date= new Timestamp(1970-1-1 );
-        CommitsEntityPK cPK= new CommitsEntityPK(1,"1d",date);
-        ConnectiondataEntity con = new ConnectiondataEntity();
-        con.setLogin("3d");
-        con.seteMail("@mail.com");
-        con.setMobilenumb(4452);
-        try{
-            System.out.println(ds.signUp(usersEntity,con));
-//            List<UsersEntity> list =ds.getAll();
-//            for (UsersEntity us:list
-//                 ) {
-//                System.out.println(us.getLogin()+" "+us.getName()+" "+ us.getSurname());}
-//            List<CommitsEntity> list= ds.getProgectCommit(cPK);
-//                    CommitsEntity ce=ds.getProgectCommit(cPK);
-
-//            ds.create(usersEntity);
-//            UsersEntity us= ds.get("1d");
-//            System.out.println(ce.getDeveloper()+" "+ce.getProjectid()+" "+ ce.getFiledirectory()+" "+ce.getTime());
-        }catch (Exception e){
-            e.printStackTrace();
-        }
-
+//    public static void main(String... args) throws SQLException {
+//        UsersEntity usersEntity = new UsersEntity();
+//        usersEntity.setLogin("xxddddd");
+//        usersEntity.setName("dipidor");
+//        usersEntity.setSurname("ffkgf");
+//        usersEntity.setPassword("danxyi");
+//        UserService ds= new UserService();
+//        Timestamp date= new Timestamp(1970-1-1 );
+//        ConnectiondataEntity con = new ConnectiondataEntity();
+//        con.setLogin("3d");
+//        con.seteMail("@mail.com");
+//        con.setMobilenumb(4452);
+//        try{
+//            System.out.println(ds.signUp(usersEntity,con));
+////            List<UsersEntity> list =ds.getAll();
+////            for (UsersEntity us:list
+////                 ) {
+////                System.out.println(us.getLogin()+" "+us.getName()+" "+ us.getSurname());}
+////            List<CommitsEntity> list= ds.getProgectCommit(cPK);
+////                    CommitsEntity ce=ds.getProgectCommit(cPK);
+//
+////            ds.create(usersEntity);
+////            UsersEntity us= ds.get("1d");
+////            System.out.println(ce.getDeveloper()+" "+ce.getProjectid()+" "+ ce.getFiledirectory()+" "+ce.getTime());
+//        }catch (Exception e){
+//            e.printStackTrace();
+//        }
 
 
 
 
 
-    }
+
+//    }
     public static void connectBd()
     {
         try

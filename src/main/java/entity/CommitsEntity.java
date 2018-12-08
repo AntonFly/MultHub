@@ -6,16 +6,14 @@ import java.util.Objects;
 
 @Entity
 @Table(name = "commits", schema = "public", catalog = "multhub")
-@IdClass(CommitsEntityPK.class)
 public class CommitsEntity {
     private String projectid;
     private String developer;
-//    private String filedirectory;
     private Timestamp time;
-    private Approved approved;
+    private Object approved;
     private String id;
 
-    @Id
+    @Basic
     @Column(name = "projectid", nullable = false, length = -1)
     public String getProjectid() {
         return projectid;
@@ -25,7 +23,7 @@ public class CommitsEntity {
         this.projectid = projectid;
     }
 
-    @Id
+    @Basic
     @Column(name = "developer", nullable = false, length = 30)
     public String getDeveloper() {
         return developer;
@@ -34,18 +32,8 @@ public class CommitsEntity {
     public void setDeveloper(String developer) {
         this.developer = developer;
     }
-//
-//    @Basic
-//    @Column(name = "filedirectory", nullable = true, length = -1)
-//    public String getFiledirectory() {
-//        return filedirectory;
-//    }
-//
-//    public void setFiledirectory(String filedirectory) {
-//        this.filedirectory = filedirectory;
-//    }
 
-    @Id
+    @Basic
     @Column(name = "time", nullable = false)
     public Timestamp getTime() {
         return time;
@@ -57,29 +45,12 @@ public class CommitsEntity {
 
     @Basic
     @Column(name = "approved", nullable = true)
-    public Approved getApproved() {
+    public Object getApproved() {
         return approved;
     }
 
-    public void setApproved(Approved approved) {
+    public void setApproved(Object approved) {
         this.approved = approved;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        CommitsEntity that = (CommitsEntity) o;
-        return projectid == that.projectid &&
-                Objects.equals(developer, that.developer) &&
-//                Objects.equals(filedirectory, that.filedirectory) &&
-                Objects.equals(time, that.time) &&
-                Objects.equals(approved, that.approved);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(projectid, developer, /*filedirectory,*/ time, approved);
     }
 
     @Id
@@ -90,5 +61,22 @@ public class CommitsEntity {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        CommitsEntity that = (CommitsEntity) o;
+        return Objects.equals(projectid, that.projectid) &&
+                Objects.equals(developer, that.developer) &&
+                Objects.equals(time, that.time) &&
+                Objects.equals(approved, that.approved) &&
+                Objects.equals(id, that.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(projectid, developer, time, approved, id);
     }
 }

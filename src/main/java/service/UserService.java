@@ -367,21 +367,27 @@ public class UserService extends AbstractService<UsersEntity,String> {
      *@return in case of success TRUE
      *@throws DBException Hiber exceptions replaced with
      */
-    public boolean createProject(ProjectsEntity projectsEntity)throws  DBException{
+    public boolean createProject(ProjectsEntity projectsEntity,UsersEntity usersEntity)throws  DBException{
         ProjectService service= ServiceFactory.getProjectService();
         service.create(projectsEntity);
+        DevelopersEntity dev= new DevelopersEntity();
+        dev.setLogin(usersEntity.getLogin());
+        dev.setProjectid(projectsEntity.getProjectid());
+        dev.setProjpos(Projpos.MANAGER);
+        dev.setDescription(null);
+        service.addDeveloper(dev);
         return true;
     }
 
-    public boolean deleteProject()throws DBException{
-        Transaction transaction =DBService.getTransaction();
-        try{
-
-            transaction.commit();
-        }catch (HibernateException | NoResultException e){
-            DBService.transactionRollback(transaction);
-            throw new DBException(e);
-        }
+    /**
+     * Delete project, manager of which is user
+     * @param entity
+     * @return
+     * @throws DBException
+     */
+    public boolean deleteProject(ProjectsEntity entity)throws DBException{
+        ProjectService service=ServiceFactory.getProjectService();
+        service.delete(entity.getProjectid());
         return true;
     }
 ////////////////////////////////////////////////////////////////////////
