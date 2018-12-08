@@ -1,7 +1,9 @@
 package dao;
 
 import entity.FollowersEntity;
+import entity.FollowersEntityPK;
 import org.hibernate.LockMode;
+import org.hibernate.query.Query;
 import util.DBService;
 
 import java.util.List;
@@ -20,5 +22,14 @@ public class FollowersDAO extends AbstractDao<FollowersEntity,String>{
         return DBService.getSessionFactory()
                 .getCurrentSession()
                 .get(FollowersEntity.class, id, LockMode.PESSIMISTIC_READ);
+    }
+
+    public void delete(FollowersEntityPK key)
+    {
+        Query query = DBService.getSessionFactory()
+                .getCurrentSession()
+                .createQuery("delete from FollowersEntity where login = :paramLogin AND follower = :paramProjId");
+        query.setParameter("paramLogin",key.getLogin());
+        query.setParameter("paramProjId",key.getFollower());
     }
 }

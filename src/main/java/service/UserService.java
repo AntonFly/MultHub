@@ -8,6 +8,7 @@ import org.hibernate.Transaction;
 import util.DBService;
 
 import javax.persistence.NoResultException;
+import javax.xml.ws.Service;
 import java.util.List;
 
 public class UserService extends AbstractService<UsersEntity,String> {
@@ -265,11 +266,11 @@ public class UserService extends AbstractService<UsersEntity,String> {
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     /**
-     *
-     * @param user1  how it's better to do(2 users or dialogEnt(imho via users))
-     * @param user2
-     * @return
-     * @throws DBException
+     *  Create dialog between two users
+     * @param user1  object of first user (may contain only login)
+     * @param user2  object of second user (same)
+     * @return in case of success TRUE
+     * @throws DBException Hiber exceptions replaced with
      */
      public boolean createDialog(UsersEntity user1,UsersEntity user2)throws DBException{
          Transaction transaction =DBService.getTransaction();
@@ -289,10 +290,10 @@ public class UserService extends AbstractService<UsersEntity,String> {
      }
 
     /**
-     * Create message in db
-     * @param message
-     * @return
-     * @throws DBException
+     * Create message in database
+     * @param message obj where dialogId is UUID of bytes of "login1+login2"
+     * @return in case of success TRUE
+     * @throws DBException Hiber exceptions replaced with
      */
      public boolean addMessgae(MessageEntity message)throws DBException{
          Transaction transaction =DBService.getTransaction();
@@ -307,61 +308,68 @@ public class UserService extends AbstractService<UsersEntity,String> {
          return true;
      }
 
-     public boolean deleteMessage()throws DBException{
-         Transaction transaction =DBService.getTransaction();
-         try{
+//     public boolean deleteMessage()throws DBException{
+//         Transaction transaction =DBService.getTransaction();
+//         try{
+//
+//             transaction.commit();
+//         }catch (HibernateException | NoResultException e){
+//             DBService.transactionRollback(transaction);
+//             throw new DBException(e);
+//         }
+//         return true;
+//     }
 
-             transaction.commit();
-         }catch (HibernateException | NoResultException e){
-             DBService.transactionRollback(transaction);
-             throw new DBException(e);
-         }
-         return true;
-     }
-    ////////////////////////////////////////////////////////////////////////
-
-
-     ////////////////////////////////////////////////////////////////////////
-     public boolean followUser()throws DBException {
-         Transaction transaction =DBService.getTransaction();
-         try{
-
-             transaction.commit();
-         }catch (HibernateException | NoResultException e){
-             DBService.transactionRollback(transaction);
-             throw new DBException(e);
-         }
-         return true;
-     }
-     public boolean unfollowUser()throws DBException{
-         Transaction transaction =DBService.getTransaction();
-         try{
-
-             transaction.commit();
-         }catch (HibernateException | NoResultException e){
-             DBService.transactionRollback(transaction);
-             throw new DBException(e);
-         }
-         return true;
-     }
-    ////////////////////////////////////////////////////////////////////////
-    ////////////////////////////////////////////////////////////////////////
     /**
-     * Юзер может создавать скок угодно проектов и соответственно становится в нем менеджером (картеж девелоперов )
-     * @param projectsEntity
-     * @param usersEntity
-     * @return
-     * @throws DBException
+     *  Following the user's posts
+     * @param follow obj which contain two login of user and of writer
+     * @return in case of success TRUE
+     * @throws DBException Hiber exceptions replaced with
      */
-    public boolean createProject(ProjectsEntity projectsEntity,UsersEntity usersEntity)throws  DBException{
-        Transaction transaction =DBService.getTransaction();
-        try{
+     public boolean followUser(FollowersEntity follow)throws DBException {
+         Transaction transaction =DBService.getTransaction();
+         try{
+             FollowersDAO dao = DaoFactory.getFollowersDao();
+             dao.create(follow);
+             transaction.commit();
+         }catch (HibernateException | NoResultException e){
+             DBService.transactionRollback(transaction);
+             throw new DBException(e);
+         }
+         return true;
+     }
 
-            transaction.commit();
-        }catch (HibernateException | NoResultException e){
-            DBService.transactionRollback(transaction);
-            throw new DBException(e);
-        }
+    /**
+     * Disable the following
+     * @param follow  obj which contain two login of user and of writer
+     * @return in case of success TRUE
+     * @throws DBException Hiber exceptions replaced with
+     */
+     public boolean unfollowUser(FollowersEntity follow)throws DBException{
+         Transaction transaction =DBService.getTransaction();
+         try{
+             FollowersDAO dao=DaoFactory.getFollowersDao();
+             FollowersEntityPK followersEntityPK= new FollowersEntityPK();
+             followersEntityPK.setLogin(follow.getLogin());
+             followersEntityPK.setFollower(follow.getFollower());
+             dao.delete(followersEntityPK);
+             transaction.commit();
+         }catch (HibernateException | NoResultException e){
+             DBService.transactionRollback(transaction);
+             throw new DBException(e);
+         }
+         return true;
+     }
+
+    /**
+     * Creating project by user
+     * @param projectsEntity obj of the project
+     *@return in case of success TRUE
+     *@throws DBException Hiber exceptions replaced with
+     */
+    public boolean createProject(ProjectsEntity projectsEntity)throws  DBException{
+        ProjectService service= ServiceFactory.getProjectService();
+        service.create(projectsEntity);
         return true;
     }
 
