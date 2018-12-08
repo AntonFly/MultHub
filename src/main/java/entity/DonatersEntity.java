@@ -10,7 +10,7 @@ import java.util.Objects;
 public class DonatersEntity {
     private String login;
     private String projectid;
-    private BigInteger value;
+    private Double value;
     private String text;
 
     @Id
@@ -35,11 +35,11 @@ public class DonatersEntity {
 
     @Basic
     @Column(name = "value", nullable = true, precision = 0)
-    public BigInteger getValue() {
+    public Double getValue() {
         return value;
     }
 
-    public void setValue(BigInteger value) {
+    public void setValue(Double value) {
         this.value = value;
     }
 

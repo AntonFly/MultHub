@@ -33,12 +33,13 @@ public class DevelopersEntity {
     }
 
     @Basic
+    @Enumerated(EnumType.STRING)
     @Column(name = "projpos", nullable = true)
     public Projpos getProjpos() {
         return projpos;
     }
 
-    public void setProjpos(Projpos projpos) {
+    public void setProjpos(Projpos  projpos) {
         this.projpos = projpos;
     }
 

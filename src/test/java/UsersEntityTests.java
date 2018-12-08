@@ -7,15 +7,17 @@ import org.junit.runner.Result;
 import service.ServiceFactory;
 import service.UserService;
 
+import java.math.BigInteger;
 import java.sql.Timestamp;
 import java.util.UUID;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class UsersEntityTests {
     private UserService ds;
-    String login= "d";
-    String newPassword="updated";
-     static void main(String[] args) {
+    private String login= "d";
+    UsersEntity user;
+
+    static void main(String[] args) {
          JUnitCore runner = new JUnitCore();
          Result result = runner.run(UsersEntityTests.class);
 //         System.out.println("run tests: " + result.getRunCount());
@@ -26,16 +28,17 @@ class UsersEntityTests {
     @BeforeAll
     void init(){
          ds= ServiceFactory.getUserService();
+        user = new UsersEntity();
+        user.setLogin(login);
+        user.setName("smth");
+        user.setSurname("smth");
+        user.setPassword("smth");
     }
     @Test
     void addUser(){
-        UsersEntity usersEntity = new UsersEntity();
-        usersEntity.setLogin(login);
-        usersEntity.setName("smth");
-        usersEntity.setSurname("smth");
-        usersEntity.setPassword("smth");
+
         try {
-            ds.create(usersEntity);
+            ds.create(user);
         } catch (DBException e) {
             e.printStackTrace();
             Assertions.fail("Ошибка добавления объекта");
@@ -44,10 +47,10 @@ class UsersEntityTests {
     }
     @Test
     void deleteUser(){
-        UsersEntity usersEntity = new UsersEntity();
-        usersEntity.setLogin(login);
+//        UsersEntity usersEntity = new UsersEntity();
+//        usersEntity.setLogin(login);
         try {
-            ds.delete(usersEntity.getLogin());
+            ds.delete(user.getLogin());
         } catch (DBException e) {
             e.printStackTrace();
             Assertions.fail("Ошибка удаления объекта");
@@ -72,6 +75,7 @@ class UsersEntityTests {
         usersEntity.setLogin(login);
         usersEntity.setName("smth");
         usersEntity.setSurname("smth");
+        String newPassword = "updated";
         usersEntity.setPassword(newPassword);
         try {
             ds.update(usersEntity);
@@ -245,6 +249,103 @@ class UsersEntityTests {
         }catch (DBException e){
             e.printStackTrace();
             Assertions.fail("Ошибка отправки сообщения");
+        }
+    }
+
+    @Test
+    void follow_unfollow() throws DBException{
+        UsersEntity usersEntity = new UsersEntity();
+        usersEntity.setLogin("4d");
+        usersEntity.setName("dipidor");
+        usersEntity.setSurname("ffkgf");
+        usersEntity.setPassword("danxyi");
+        UsersEntity usersEntity2 = new UsersEntity();
+        usersEntity2.setLogin("5d");
+        usersEntity2.setName("dipidor");
+        usersEntity2.setSurname("ffkgf");
+        usersEntity2.setPassword("danxyi");
+        FollowersEntity follow= new FollowersEntity();
+        follow.setLogin(usersEntity.getLogin());
+        follow.setFollower(usersEntity2.getLogin());
+        try {
+            ds.create(usersEntity);
+            ds.create(usersEntity2);
+            ds.followUser(follow);
+            ds.unfollowUser(follow);
+            ds.delete(usersEntity.getLogin());
+            ds.delete(usersEntity2.getLogin());
+        } catch (DBException e) {
+            e.printStackTrace();
+            Assertions.fail("Ошибка подписки/отписки");
+        }
+    }
+
+    @Test
+    void create_delete_project(){
+        UsersEntity usersEntity = new UsersEntity();
+        usersEntity.setLogin("4d");
+        usersEntity.setName("dipidor");
+        usersEntity.setSurname("ffkgf");
+        usersEntity.setPassword("danxyi");
+        ProjectsEntity proj= new ProjectsEntity();
+        proj.setDescription("dfsdf");
+        proj.setName("car");
+        proj.setProjectid(UUID.nameUUIDFromBytes((proj.getName()+proj.getDescription()).getBytes()).toString());
+        proj.setCurbudget(2.);
+        proj.setGoalbudget(3.);
+        try{
+            ds.create(usersEntity);
+        ds.createProject(proj,usersEntity);
+        ds.deleteProject(proj);
+        ds.delete(usersEntity.getLogin());
+        } catch (DBException e) {
+            e.printStackTrace();
+            Assertions.fail("Ошибка создания/удаления проекта пользователя");
+        }
+
+    }
+
+    @Test
+    void request(){
+        UsersEntity usersEntity = new UsersEntity();
+        usersEntity.setLogin("4d");
+        usersEntity.setName("dipidor");
+        usersEntity.setSurname("ffkgf");
+        usersEntity.setPassword("danxyi");
+        ProjectsEntity projectsEntity = new ProjectsEntity();
+        projectsEntity.setProjectid("1");
+        try{
+            ds.create(usersEntity);
+            ds.requestProj(projectsEntity,usersEntity);
+            ds.delete(usersEntity.getLogin());
+
+        } catch (DBException e) {
+            e.printStackTrace();
+            Assertions.fail("Ошибка создания/удаления проекта пользователя");
+        }
+    }
+
+    @Test
+    void donate(){
+        UsersEntity usersEntity = new UsersEntity();
+        usersEntity.setLogin("4d");
+        usersEntity.setName("dipidor");
+        usersEntity.setSurname("ffkgf");
+        usersEntity.setPassword("danxyi");
+        ProjectsEntity projectsEntity = new ProjectsEntity();
+        projectsEntity.setProjectid("1");
+        DonatersEntity donate= new DonatersEntity();
+        donate.setLogin(usersEntity.getLogin());
+        donate.setProjectid(projectsEntity.getProjectid());
+        donate.setText("spasibo");
+        donate.setValue(5.);
+        try {
+            ds.create(usersEntity);
+            ds.donate(donate);
+            ds.delete(usersEntity.getLogin());
+        } catch (DBException e) {
+            e.printStackTrace();
+            Assertions.fail("Ошибка доната");
         }
     }
 }
