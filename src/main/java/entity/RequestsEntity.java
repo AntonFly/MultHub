@@ -33,6 +33,7 @@ public class RequestsEntity {
     }
 
     @Basic
+    @Enumerated(EnumType.STRING)
     @Column(name = "projpos", nullable = true)
     public Projpos getProjpos() {
         return projpos;

@@ -10,7 +10,7 @@ public class CommitsEntity {
     private String projectid;
     private String developer;
     private Timestamp time;
-    private Object approved;
+    private Approved approved;
     private String id;
 
     @Basic
@@ -45,11 +45,11 @@ public class CommitsEntity {
 
     @Basic
     @Column(name = "approved", nullable = true)
-    public Object getApproved() {
+    public Approved getApproved() {
         return approved;
     }
 
-    public void setApproved(Object approved) {
+    public void setApproved(Approved approved) {
         this.approved = approved;
     }
 

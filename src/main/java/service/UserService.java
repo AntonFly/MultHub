@@ -360,8 +360,7 @@ public class UserService extends AbstractService<UsersEntity,String> {
          }
          return true;
      }
-///////////////////////////////////////////////////////////////////////////////////////////
-    /** Дороботать
+    /**
      * Creating project by user
      * @param projectsEntity obj of the project
      *@return in case of success TRUE
@@ -381,16 +380,23 @@ public class UserService extends AbstractService<UsersEntity,String> {
 
     /**
      * Delete project, manager of which is user
-     * @param entity
-     * @return
-     * @throws DBException
+     * @param entity object of project which need to delete
+     *@return in case of success TRUE
+     *@throws DBException Hiber exceptions replaced with
      */
     public boolean deleteProject(ProjectsEntity entity)throws DBException{
         ProjectService service=ServiceFactory.getProjectService();
         service.delete(entity.getProjectid());
         return true;
     }
-////////////////////////////////////////////////////////////////////////
+
+    /**
+     * Send request to join project's developers
+     * @param proj  goal project
+     * @param user  user who want to join
+     *@return in case of success TRUE
+     *@throws DBException Hiber exceptions replaced with
+     */
     public boolean requestProj(ProjectsEntity proj,UsersEntity user) throws DBException{
         Transaction transaction =DBService.getTransaction();
         RequestsEntity req= new RequestsEntity();
@@ -407,5 +413,19 @@ public class UserService extends AbstractService<UsersEntity,String> {
             throw new DBException(e);
         }
         return true;
+    }
+
+
+    public  boolean donate(DonatersEntity donate) throws DBException{
+        Transaction transaction= DBService.getTransaction();
+        try{
+            DonatersDAO dao=DaoFactory.getDonatersDAO();
+            dao.create(donate);
+            transaction.commit();
+        }catch (HibernateException | NoResultException e){
+            DBService.transactionRollback(transaction);
+            throw new DBException(e);
+        }
+    return true;
     }
 }
