@@ -26,14 +26,23 @@ public class DevelopersDAO extends AbstractDao<DevelopersEntity,String> {
                 .get(DevelopersEntity.class, id, LockMode.PESSIMISTIC_READ);
     }
 
-    public List<DevelopersEntity> getEntityById(DevelopersEntityPK key)
+    public DevelopersEntity getEntityById(DevelopersEntityPK key)
+    {
+         Query query = DBService.getSessionFactory()
+            .getCurrentSession()
+            .createQuery("from SubsEntity where login = :paramLogin AND projectid = :paramProjId");
+        query.setParameter("paramLogin",key.getLogin());
+        query.setParameter("paramProjId",key.getProjectid());
+        return (DevelopersEntity) query.uniqueResult();
+    }
+
+    public void delete(DevelopersEntityPK key)
     {
         Query query = DBService.getSessionFactory()
                 .getCurrentSession()
-                .createSQLQuery("select * " /*login, projectid, projpos,description */+ "from developers where login =\'" +key.getLogin()+ /*:paramLogin*/"\' AND projectid =\'"+ key.getProjectid()+"\'"); //:paramProjId");
-        //query.setParameter("paramLogin",key.getLogin());
-        //query.setParameter("paramProjId",key.getProjectid());
-        return query.list();
-
+                .createQuery("delete from DevelopersEntity where login = :paramLogin AND projectid = :paramProjId");
+        query.setParameter("paramLogin",key.getLogin());
+        query.setParameter("paramProjId",key.getProjectid());
     }
+
 }

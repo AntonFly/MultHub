@@ -4,7 +4,9 @@ import entity.ProjectpostsEntity;
 import org.hibernate.LockMode;
 import util.DBService;
 
+import java.io.Serializable;
 import java.util.List;
+import java.util.UUID;
 
 public class ProjectspostsDAO extends AbstractDao<ProjectpostsEntity,String> {
     @Override
@@ -23,5 +25,12 @@ public class ProjectspostsDAO extends AbstractDao<ProjectpostsEntity,String> {
         return DBService.getSessionFactory()
                 .getCurrentSession()
                 .get(ProjectpostsEntity.class,id,LockMode.PESSIMISTIC_READ);
+    }
+
+    public Serializable create(ProjectpostsEntity entity){
+        entity.setId( UUID.nameUUIDFromBytes(entity.getText().getBytes()).toString());
+        return  DBService.getSessionFactory()
+                .getCurrentSession()
+                .save(entity);
     }
 }
