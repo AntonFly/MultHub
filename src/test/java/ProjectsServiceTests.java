@@ -14,7 +14,7 @@ import java.math.BigInteger;
 import java.sql.Timestamp;
 import java.util.UUID;
 
-@FixMethodOrder(MethodSorters.NAME_ASCENDING)
+//@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class ProjectsServiceTests {
     private ProjectService ps;
@@ -31,12 +31,21 @@ class ProjectsServiceTests {
         pe = new ProjectsEntity();
         pe.setProjectid(null);
         pe.setCurbudget(12.);
-        pe.setDescription("V 1999 GODU rodilsa divan i vosstal");
+        pe.setDescription("V 1999 GODU;lkjh rodilsa divan i vosstal");
         pe.setGoalbudget(13.);
         pe.setName("Vosstanie mashine");
     }
 
+    @Test
+    void getProject() {
+        try {
+            System.out.println("UPDATED:" +ps.get(UUID.nameUUIDFromBytes((pe.getName()+pe.getDescription()).getBytes()).toString()).getName());
 
+        } catch (DBException e) {
+            e.printStackTrace();
+            Assertions.fail("Ошибка добавления объекта");
+        }
+    }
     @Test
     void addProject() {
         try {
@@ -73,15 +82,6 @@ class ProjectsServiceTests {
 //
 //    }
 
-    @Test
-    void getProject() {
-        try {
-            System.out.println("UPDATED:" +ps.get(UUID.nameUUIDFromBytes((pe.getName()+pe.getDescription()).getBytes()).toString()).getName());
 
-        } catch (DBException e) {
-            e.printStackTrace();
-            Assertions.fail("Ошибка добавления объекта");
-        }
-    }
 
 }

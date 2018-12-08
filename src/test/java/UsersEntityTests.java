@@ -4,6 +4,7 @@ import exception.DBException;
 import org.junit.jupiter.api.*;
 import org.junit.runner.JUnitCore;
 import org.junit.runner.Result;
+import service.ServiceFactory;
 import service.UserService;
 
 import java.sql.Timestamp;
@@ -24,7 +25,7 @@ class UsersEntityTests {
     }
     @BeforeAll
     void init(){
-         ds= new UserService();
+         ds= ServiceFactory.getUserService();
     }
     @Test
     void addUser(){

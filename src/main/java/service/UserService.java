@@ -360,8 +360,8 @@ public class UserService extends AbstractService<UsersEntity,String> {
          }
          return true;
      }
-
-    /**
+///////////////////////////////////////////////////////////////////////////////////////////
+    /** Дороботать
      * Creating project by user
      * @param projectsEntity obj of the project
      *@return in case of success TRUE
@@ -385,5 +385,21 @@ public class UserService extends AbstractService<UsersEntity,String> {
         return true;
     }
 ////////////////////////////////////////////////////////////////////////
-
+    public boolean requestProj(ProjectsEntity proj,UsersEntity user) throws DBException{
+        Transaction transaction =DBService.getTransaction();
+        RequestsEntity req= new RequestsEntity();
+        req.setLogin(user.getLogin());
+        req.setProjectid(proj.getProjectid());
+        req.setProjpos(Projpos.DEVELOPER);
+        req.setIsrequest(false);
+        try{
+            RequestsDAO dao = DaoFactory.getRequestsDAO();
+            dao.create(req);
+            transaction.commit();
+        }catch (HibernateException | NoResultException e){
+            DBService.transactionRollback(transaction);
+            throw new DBException(e);
+        }
+        return true;
+    }
 }
