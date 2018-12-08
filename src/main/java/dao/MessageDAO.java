@@ -1,24 +1,24 @@
 package dao;
 
-import entity.MassageEntity;
+import entity.MessageEntity;
 import org.hibernate.LockMode;
 import util.DBService;
 
 import java.util.List;
 
-public class MessageDAO extends AbstractDao<MassageEntity,String>{
+public class MessageDAO extends AbstractDao<MessageEntity,String>{
 
     @Override
-    public List<MassageEntity> getAll() {
+    public List<MessageEntity> getAll() {
         return  DBService.getSessionFactory()
                 .getCurrentSession()
-                .createQuery("from MassageEntity ", MassageEntity.class).list();
+                .createQuery("from MessageEntity ", MessageEntity.class).list();
     }
 
     @Override
-    public MassageEntity getEntityById(String id) {
+    public MessageEntity getEntityById(String id) {
         return DBService.getSessionFactory()
                 .getCurrentSession()
-                .get(MassageEntity.class, id, LockMode.PESSIMISTIC_READ);
+                .get(MessageEntity.class, id, LockMode.PESSIMISTIC_READ);
     }
 }

@@ -16,10 +16,10 @@ class UsersEntityTests {
      static void main(String[] args) {
          JUnitCore runner = new JUnitCore();
          Result result = runner.run(UsersEntityTests.class);
-         System.out.println("run tests: " + result.getRunCount());
-         System.out.println("failed tests: " + result.getFailureCount());
-         System.out.println("ignored tests: " + result.getIgnoreCount());
-         System.out.println("success: " + result.wasSuccessful());
+//         System.out.println("run tests: " + result.getRunCount());
+//         System.out.println("failed tests: " + result.getFailureCount());
+//         System.out.println("ignored tests: " + result.getIgnoreCount());
+//         System.out.println("success: " + result.wasSuccessful());
     }
     @BeforeAll
     void init(){
@@ -93,7 +93,7 @@ class UsersEntityTests {
         usersEntity.setSurname("ffkgf");
         usersEntity.setPassword("danxyi");
         ConnectiondataEntity con = new ConnectiondataEntity();
-        con.setLogin("3d");
+        con.setLogin("4d");
         con.seteMail("@mail.com");
         con.setMobilenumb(4452);
         try{

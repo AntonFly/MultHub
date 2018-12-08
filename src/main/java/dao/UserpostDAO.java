@@ -1,6 +1,5 @@
 package dao;
 
-import entity.MassageEntity;
 import entity.UserpostEntity;
 import org.hibernate.LockMode;
 import util.DBService;

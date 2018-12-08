@@ -1,0 +1,20 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+
+    <class name="entity.CommitsfileEntity" table="commitsfile" schema="public" catalog="multhub">
+        <composite-id mapped="true" class="entity.CommitsfileEntityPK">
+            <key-property name="filename">
+                <column name="filename" sql-type="text"/>
+            </key-property>
+            <key-property name="commitid">
+                <column name="commitid" sql-type="text"/>
+            </key-property>
+        </composite-id>
+        <property name="filepath">
+            <column name="filepath" sql-type="integer" not-null="true"/>
+        </property>
+    </class>
+</hibernate-mapping>

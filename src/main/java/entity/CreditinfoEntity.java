@@ -12,7 +12,7 @@ public class CreditinfoEntity {
     private Long yamoney;
 
     @Id
-    @Column(name = "login", nullable = false, length = 30)
+    @Column(name = "progectid", nullable = false, length = 30)
     public String getLogin() {
         return login;
     }

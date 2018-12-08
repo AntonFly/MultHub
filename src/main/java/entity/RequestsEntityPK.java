@@ -7,7 +7,11 @@ import java.util.Objects;
 
 public class RequestsEntityPK implements Serializable {
     private String login;
-    private int projectid;
+    private String projectid;
+
+    public void setProjectid(String projectid) {
+        this.projectid = projectid;
+    }
 
     @Column(name = "login", nullable = false, length = 30)
     @Id
@@ -21,13 +25,10 @@ public class RequestsEntityPK implements Serializable {
 
     @Column(name = "projectid", nullable = false, length = -1)
     @Id
-    public int getProjectid() {
+    public String getProjectid() {
         return projectid;
     }
 
-    public void setProjectid(int projectid) {
-        this.projectid = projectid;
-    }
 
     @Override
     public boolean equals(Object o) {

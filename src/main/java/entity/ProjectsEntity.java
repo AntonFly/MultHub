@@ -2,6 +2,7 @@ package entity;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.math.BigInteger;
 import java.util.Objects;
 
 @Entity
@@ -10,11 +11,16 @@ public class ProjectsEntity {
     private String projectid;
     private String name;
     private String description;
-    private Serializable curbudget;
-    private Serializable goalbudget;
+    private BigInteger curbudget;
+    private BigInteger goalbudget;
+
+    public void setCurbudget(BigInteger curbudget) {
+        this.curbudget = curbudget;
+    }
+
 
     @Id
-    @Column(name = "projectid", nullable = false)
+    @Column(name = "projectid", nullable = false, length = -1)
     public String getProjectid() {
         return projectid;
     }
@@ -44,22 +50,19 @@ public class ProjectsEntity {
     }
 
     @Basic
-    @Column(name = "curbudget", nullable = true)
-    public Serializable getCurbudget() {
+    @Column(name = "curbudget", nullable = true, precision = 0)
+    public BigInteger getCurbudget() {
         return curbudget;
     }
 
-    public void setCurbudget(Serializable curbudget) {
-        this.curbudget = curbudget;
-    }
 
     @Basic
-    @Column(name = "goalbudget", nullable = true)
-    public Serializable getGoalbudget() {
+    @Column(name = "goalbudget", nullable = true, precision = 0)
+    public BigInteger getGoalbudget() {
         return goalbudget;
     }
 
-    public void setGoalbudget(Serializable goalbudget) {
+    public void setGoalbudget(BigInteger goalbudget) {
         this.goalbudget = goalbudget;
     }
 

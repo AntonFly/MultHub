@@ -5,11 +5,11 @@ import javax.persistence.Id;
 import java.io.Serializable;
 import java.util.Objects;
 
-public class SubsEntityPK implements Serializable {
+public class DonatersEntityPK implements Serializable {
     private String login;
     private String projectid;
 
-    @Column(name = "login", nullable = false, length = 30)
+    @Column(name = "login", nullable = false, length = -1)
     @Id
     public String getLogin() {
         return login;
@@ -33,9 +33,9 @@ public class SubsEntityPK implements Serializable {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        SubsEntityPK that = (SubsEntityPK) o;
-        return projectid == that.projectid &&
-                Objects.equals(login, that.login);
+        DonatersEntityPK that = (DonatersEntityPK) o;
+        return Objects.equals(login, that.login) &&
+                Objects.equals(projectid, that.projectid);
     }
 
     @Override

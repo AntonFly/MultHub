@@ -23,7 +23,7 @@ public class DevelopersEntity {
     }
 
     @Id
-    @Column(name = "projectid", nullable = false)
+    @Column(name = "projectid", nullable = false, length = -1)
     public String getProjectid() {
         return projectid;
     }

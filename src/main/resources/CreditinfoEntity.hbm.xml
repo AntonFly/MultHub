@@ -6,7 +6,7 @@
 
     <class name="entity.CreditinfoEntity" table="creditinfo" schema="public" catalog="multhub">
         <id name="login">
-            <column name="login" sql-type="varchar(30)" length="30"/>
+            <column name="progectid" sql-type="varchar(30)" length="30"/>
         </id>
         <property name="cardnumber">
             <column name="cardnumber" sql-type="integer" not-null="true"/>

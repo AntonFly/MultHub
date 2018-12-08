@@ -5,23 +5,25 @@ import java.sql.Timestamp;
 import java.util.Objects;
 
 @Entity
-@Table(name = "massage", schema = "public", catalog = "multhub")
-public class MassageEntity {
-    private String id;
+@Table(name = "message", schema = "public", catalog = "multhub")
+public class MessageEntity {
+    private Integer id;
     private String text;
     private String dialogId;
     private String userId;
     private String toUserId;
     private Boolean isread;
     private Timestamp time;
+    private DialogEntity dialogByDialogId;
+
 
     @Id
     @Column(name = "id", nullable = false, length = -1)
-    public String getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -89,7 +91,7 @@ public class MassageEntity {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        MassageEntity that = (MassageEntity) o;
+        MessageEntity that = (MessageEntity) o;
         return Objects.equals(id, that.id) &&
                 Objects.equals(text, that.text) &&
                 Objects.equals(dialogId, that.dialogId) &&
@@ -102,5 +104,15 @@ public class MassageEntity {
     @Override
     public int hashCode() {
         return Objects.hash(id, text, dialogId, userId, toUserId, isread, time);
+    }
+
+    @ManyToOne
+    @JoinColumn(name = "dialog_id", referencedColumnName = "id")
+    public DialogEntity getDialogByDialogId() {
+        return dialogByDialogId;
+    }
+
+    public void setDialogByDialogId(DialogEntity dialogByDialogId) {
+        this.dialogByDialogId = dialogByDialogId;
     }
 }

@@ -33,10 +33,29 @@
     <mapping resource="DialogEntity.hbm.xml"/>
     <mapping class="entity.FollowersEntity"/>
     <mapping resource="FollowersEntity.hbm.xml"/>
-    <mapping class="entity.MassageEntity"/>
-    <mapping resource="MassageEntity.hbm.xml"/>
+    <mapping class="entity.MessageEntity"/>
+    <mapping resource="MessageEntity.hbm.xml"/>
     <mapping class="entity.UserpostEntity"/>
     <mapping resource="UserpostEntity.hbm.xml"/>
+    <mapping resource="CommentsEntity.hbm.xml"/>
+    <mapping resource="CommitsEntity.hbm.xml"/>
+    <mapping resource="CommitsfileEntity.hbm.xml"/>
+    <mapping class="entity.CommitsfileEntity"/>
+    <mapping resource="ConnectiondataEntity.hbm.xml"/>
+    <mapping resource="CreditinfoEntity.hbm.xml"/>
+    <mapping resource="DevelopersEntity.hbm.xml"/>
+    <mapping resource="DialogEntity.hbm.xml"/>
+    <mapping resource="DonatersEntity.hbm.xml"/>
+    <mapping class="entity.DonatersEntity"/>
+    <mapping resource="FollowersEntity.hbm.xml"/>
+    <mapping resource="MessageEntity.hbm.xml"/>
+    <mapping resource="ProjectpostsEntity.hbm.xml"/>
+    <mapping class="entity.ProjectpostsEntity"/>
+    <mapping resource="ProjectsEntity.hbm.xml"/>
+    <mapping resource="RequestsEntity.hbm.xml"/>
+    <mapping resource="SubsEntity.hbm.xml"/>
+    <mapping resource="UserpostEntity.hbm.xml"/>
+    <mapping resource="UsersEntity.hbm.xml"/>
 
   </session-factory>
 </hibernate-configuration>

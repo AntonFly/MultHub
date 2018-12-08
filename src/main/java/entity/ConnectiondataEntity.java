@@ -9,6 +9,7 @@ public class ConnectiondataEntity {
     private String login;
     private String eMail;
     private Integer mobilenumb;
+//    private String email;
 
     @Id
     @Column(name = "login", nullable = false, length = 30)
@@ -56,4 +57,13 @@ public class ConnectiondataEntity {
         return Objects.hash(login, eMail, mobilenumb);
     }
 
+//    @Basic
+//    @Column(name = "email", nullable = false, length = -1)
+//    public String getEmail() {
+//        return email;
+//    }
+//
+//    public void setEmail(String email) {
+//        this.email = email;
+//    }
 }

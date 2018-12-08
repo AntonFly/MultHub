@@ -4,21 +4,21 @@
     "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 <hibernate-mapping>
 
-    <class name="entity.CommitsEntity" table="commits" schema="public" catalog="multhub">
+    <class name="entity.ProjectpostsEntity" table="projectposts" schema="public" catalog="multhub">
         <id name="id">
             <column name="id" sql-type="text"/>
         </id>
         <property name="projectid">
-            <column name="projectid" sql-type="text"/>
+            <column name="projectid" sql-type="text" not-null="true"/>
         </property>
-        <property name="developer">
-            <column name="developer" sql-type="varchar(30)" length="30"/>
+        <property name="text">
+            <column name="text" sql-type="text" not-null="true"/>
         </property>
         <property name="time">
-            <column name="time" sql-type="timestamp"/>
+            <column name="time" sql-type="timestamp" not-null="true"/>
         </property>
-        <property name="approved">
-            <column name="approved" sql-type="approved" not-null="true"/>
+        <property name="filepath">
+            <column name="filepath" sql-type="text" not-null="true"/>
         </property>
     </class>
 </hibernate-mapping>

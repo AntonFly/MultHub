@@ -10,12 +10,13 @@ import java.util.Objects;
 public class CommitsEntity {
     private String projectid;
     private String developer;
-    private String filedirectory;
+//    private String filedirectory;
     private Timestamp time;
     private Approved approved;
+    private String id;
 
     @Id
-    @Column(name = "projectid", nullable = false)
+    @Column(name = "projectid", nullable = false, length = -1)
     public String getProjectid() {
         return projectid;
     }
@@ -33,16 +34,16 @@ public class CommitsEntity {
     public void setDeveloper(String developer) {
         this.developer = developer;
     }
-
-    @Basic
-    @Column(name = "filedirectory", nullable = true, length = -1)
-    public String getFiledirectory() {
-        return filedirectory;
-    }
-
-    public void setFiledirectory(String filedirectory) {
-        this.filedirectory = filedirectory;
-    }
+//
+//    @Basic
+//    @Column(name = "filedirectory", nullable = true, length = -1)
+//    public String getFiledirectory() {
+//        return filedirectory;
+//    }
+//
+//    public void setFiledirectory(String filedirectory) {
+//        this.filedirectory = filedirectory;
+//    }
 
     @Id
     @Column(name = "time", nullable = false)
@@ -71,14 +72,23 @@ public class CommitsEntity {
         CommitsEntity that = (CommitsEntity) o;
         return projectid == that.projectid &&
                 Objects.equals(developer, that.developer) &&
-                Objects.equals(filedirectory, that.filedirectory) &&
+//                Objects.equals(filedirectory, that.filedirectory) &&
                 Objects.equals(time, that.time) &&
                 Objects.equals(approved, that.approved);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(projectid, developer, filedirectory, time, approved);
+        return Objects.hash(projectid, developer, /*filedirectory,*/ time, approved);
     }
 
+    @Id
+    @Column(name = "id", nullable = false, length = -1)
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 }

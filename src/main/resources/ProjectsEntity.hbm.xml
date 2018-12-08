@@ -15,10 +15,10 @@
             <column name="description" sql-type="text" not-null="true"/>
         </property>
         <property name="curbudget">
-            <column name="curbudget" sql-type="money" not-null="true"/>
+            <column name="curbudget" sql-type="numeric" precision="-1" not-null="true"/>
         </property>
         <property name="goalbudget">
-            <column name="goalbudget" sql-type="money" not-null="true"/>
+            <column name="goalbudget" sql-type="numeric" precision="-1" not-null="true"/>
         </property>
     </class>
 </hibernate-mapping>

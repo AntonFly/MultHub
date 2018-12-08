@@ -4,9 +4,9 @@
     "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 <hibernate-mapping>
 
-    <class name="entity.MassageEntity" table="massage" schema="public" catalog="multhub">
+    <class name="entity.MessageEntity" table="message" schema="public" catalog="multhub">
         <id name="id">
-            <column name="id" sql-type="text"/>
+            <column name="id" sql-type="integer"/>
         </id>
         <property name="text">
             <column name="text" sql-type="text" not-null="true"/>
@@ -26,5 +26,8 @@
         <property name="time">
             <column name="time" sql-type="timestamp" not-null="true"/>
         </property>
+        <many-to-one name="dialogByDialogId" class="entity.DialogEntity">
+            <column name="dialog_id" not-null="true"/>
+        </many-to-one>
     </class>
 </hibernate-mapping>
