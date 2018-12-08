@@ -64,7 +64,15 @@ public class DBService {
             .addAnnotatedClass(ProjectsEntity.class)
             .addAnnotatedClass(RequestsEntity.class)
             .addAnnotatedClass(DevelopersEntity.class)
-            .addAnnotatedClass(CreditinfoEntity.class);
+            .addAnnotatedClass(CreditinfoEntity.class)
+            .addAnnotatedClass(DialogEntity.class)
+            .addAnnotatedClass(MessageEntity.class)
+            .addAnnotatedClass(DonatersEntity.class)
+            .addAnnotatedClass(CommitsfileEntity.class)
+            .addAnnotatedClass(FollowersEntity.class)
+            .addAnnotatedClass(UserpostEntity.class)
+            .addAnnotatedClass(ProjectpostsEntity.class);
+
 
     }
 

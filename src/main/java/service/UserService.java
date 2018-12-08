@@ -288,11 +288,17 @@ public class UserService extends AbstractService<UsersEntity,String> {
          return true;
      }
 
-    ////////////////////////////////////////////////////////////////////////
-     public boolean addMessgae()throws DBException{
+    /**
+     * Create message in db
+     * @param message
+     * @return
+     * @throws DBException
+     */
+     public boolean addMessgae(MessageEntity message)throws DBException{
          Transaction transaction =DBService.getTransaction();
          try{
-
+             MessageDAO dao=DaoFactory.getMessageDao();
+             dao.create(message);
              transaction.commit();
          }catch (HibernateException | NoResultException e){
              DBService.transactionRollback(transaction);

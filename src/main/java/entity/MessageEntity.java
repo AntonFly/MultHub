@@ -14,10 +14,10 @@ public class MessageEntity {
     private String toUserId;
     private Boolean isread;
     private Timestamp time;
-    private DialogEntity dialogByDialogId;
 
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false, length = -1)
     public Integer getId() {
         return id;
@@ -106,13 +106,4 @@ public class MessageEntity {
         return Objects.hash(id, text, dialogId, userId, toUserId, isread, time);
     }
 
-    @ManyToOne
-    @JoinColumn(name = "dialog_id", referencedColumnName = "id")
-    public DialogEntity getDialogByDialogId() {
-        return dialogByDialogId;
-    }
-
-    public void setDialogByDialogId(DialogEntity dialogByDialogId) {
-        this.dialogByDialogId = dialogByDialogId;
-    }
 }
