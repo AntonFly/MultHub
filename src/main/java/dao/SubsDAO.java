@@ -16,7 +16,7 @@ public class SubsDAO extends AbstractDao<SubsEntity,String> {
     public List<SubsEntity> getAll() {
         return  DBService.getSessionFactory()
                 .getCurrentSession()
-                .createQuery("from UsersEntity ", SubsEntity.class).list();
+                .createQuery("from SubsEntity ", SubsEntity.class).list();
 
     }
 

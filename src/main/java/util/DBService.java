@@ -65,6 +65,7 @@ public class DBService {
             .addAnnotatedClass(RequestsEntity.class)
             .addAnnotatedClass(DevelopersEntity.class)
             .addAnnotatedClass(CreditinfoEntity.class);
+
     }
 
     public static void close(){

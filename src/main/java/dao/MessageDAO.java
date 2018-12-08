@@ -12,7 +12,7 @@ public class MessageDAO extends AbstractDao<MassageEntity,String>{
     public List<MassageEntity> getAll() {
         return  DBService.getSessionFactory()
                 .getCurrentSession()
-                .createQuery("from CreditinfoEntity ", MassageEntity.class).list();
+                .createQuery("from MassageEntity ", MassageEntity.class).list();
     }
 
     @Override

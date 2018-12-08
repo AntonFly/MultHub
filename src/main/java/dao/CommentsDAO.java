@@ -18,7 +18,7 @@ public class CommentsDAO extends AbstractDao<CommentsEntity,String> {
     public List<CommentsEntity> getAll() {
         return DBService.getSessionFactory()
                 .getCurrentSession()
-                .createQuery("from CreditinfoEntity ", CommentsEntity.class).list();
+                .createQuery("from CommentsEntity ", CommentsEntity.class).list();
     }
 
     @Override

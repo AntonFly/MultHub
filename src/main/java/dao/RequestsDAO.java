@@ -16,7 +16,7 @@ public class RequestsDAO extends AbstractDao<RequestsEntity,String> {
     public List<RequestsEntity> getAll() {
         return  DBService.getSessionFactory()
                 .getCurrentSession()
-                .createQuery("from UsersEntity ", RequestsEntity.class).list();
+                .createQuery("from RequestsEntity ", RequestsEntity.class).list();
 
     }
 
