@@ -3,10 +3,14 @@ package service;
 import dao.*;
 import entity.*;
 import exception.DBException;
+import org.hibernate.LockMode;
 import org.hibernate.Transaction;
 import util.DBService;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class ViewService  {
 //    public List<UsersEntity> getProjDevelopers(ProjectsEntity proj){
@@ -32,21 +36,42 @@ public class ViewService  {
      * @throws DBException Hiber exceptions replaced with
      */
     public Map<String,Object> UserPageInformation(String login) throws DBException {
+        Transaction transaction=DBService.getTransaction();
         Map<String,Object> map =new HashMap<>();
+
         UsersDAO usersDAO= DaoFactory.getUsersDAO();
-        UsersEntity user= usersDAO.getEntityById(login);
         ConnectiondataDao conDao= DaoFactory.getConnectiondataDao();
-        ConnectiondataEntity connectiondata=conDao.getEntityById(login);
         UserpostDAO postsDao= DaoFactory.getUserPostDao();
+        DevelopersDAO devDao= DaoFactory.getDevelopersDAO();
+        ProjectsDAO projDao=DaoFactory.getProjectsDAO();
+        FollowersDAO followDao=DaoFactory.getFollowersDao();
+
+        UsersEntity user= usersDAO.getEntityById(login);
+        ConnectiondataEntity connectiondata=conDao.getEntityById(login);
         List<UserpostEntity> posts= postsDao.getUserPosts(user.getLogin());
-        
+        List<DevelopersEntity> devEnt=devDao.getUserProject(login);
+        List<ProjectsEntity> proj = new ArrayList<>();
+        List<FollowersEntity> followers= followDao.getUserFollowers(login);
+
+        transaction.commit();
+        transaction=DBService.getTransaction();
+
+        for (DevelopersEntity dev:
+                devEnt) {
+            proj.add(projDao.getEntityById(dev.getProjectid()));
+
+        }
+        transaction.commit();
         map.put("login",user.getLogin());
         map.put("name",user.getName());
         map.put("surname",user.getSurname());
-        map.put("imjpath",user.getImgpath());
+        map.put("imjPath",user.getImgpath());
         map.put("email",connectiondata.geteMail());
         map.put("mobilenumb",connectiondata.getMobilenumb());
+        map.put("satus",user.getStatus());
         map.put("posts",posts);
+        map.put("projects",proj);
+        map.put("followers",followers);
 
         return map;
     }
@@ -102,4 +127,42 @@ public class ViewService  {
         return mapa;
     }
 
+    public  List<Map<String,Object>> getDialogs(String login) throws DBException {
+        List<Map<String,Object>> result= new ArrayList<>();
+        Transaction transaction= DBService.getTransaction();
+
+        UsersDAO userDao= DaoFactory.getUsersDAO();
+        DialogDAO dialogDAO =DaoFactory.getDialogDao();
+        MessageDAO messageDao=DaoFactory.getMessageDao();
+
+        List<DialogEntity> dialogs=dialogDAO.getUserDialogs(login);
+        transaction.commit();
+        for (DialogEntity dialog:dialogs
+             ) {
+            UsersEntity other;
+            transaction=DBService.getTransaction();
+            Map<String,Object> map=new HashMap<>();
+            if (dialog.getOneUserId().equals(login)){
+                map.put("other",dialog.getTwoUserId());
+             other=userDao.getEntityById(dialog.getTwoUserId());
+            }else{
+                map.put("other",dialog.getOneUserId());
+                other=userDao.getEntityById(dialog.getOneUserId());
+            }
+            MessageEntity message =messageDao.getLastMessage(login);
+            map.put("otherImage",other.getImgpath());
+            map.put("text",message.getText());
+            map.put("time",message.getTime());
+            result.add(map);
+        }
+        return result;
+    }
+
+
+    public List<MessageEntity> getDialogMessages(String id){
+        Transaction transaction= DBService.getTransaction();
+        List<MessageEntity> result=DBService.getSessionFactory()
+                .getCurrentSession()
+                .createQuery("from MessageEntity  where = :Loginparam  or twoUserId =:Loginparam\");");
+    }
 }

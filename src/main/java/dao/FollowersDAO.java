@@ -32,4 +32,12 @@ public class FollowersDAO extends AbstractDao<FollowersEntity,String>{
         query.setParameter("paramLogin",key.getLogin());
         query.setParameter("paramProjId",key.getFollower());
     }
+    public List<FollowersEntity> getUserFollowers(String login) {
+
+        Query query = DBService.getSessionFactory()
+                .getCurrentSession()
+                .createQuery("from FollowersEntity  where login= :Loginparam ");
+        query.setParameter("Loginparam",login);
+        return query.list();
+    }
 }
