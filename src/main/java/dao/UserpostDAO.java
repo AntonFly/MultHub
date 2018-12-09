@@ -1,7 +1,9 @@
 package dao;
 
 import entity.UserpostEntity;
+import entity.UsersEntity;
 import org.hibernate.LockMode;
+import org.hibernate.query.Query;
 import util.DBService;
 
 import java.util.List;
@@ -20,5 +22,14 @@ public class UserpostDAO extends AbstractDao<UserpostEntity,String>{
         return DBService.getSessionFactory()
                 .getCurrentSession()
                 .get(UserpostEntity.class, id, LockMode.PESSIMISTIC_READ);
+    }
+
+    public List<UserpostEntity> getUserPosts(String login) {
+
+        Query query = DBService.getSessionFactory()
+                .getCurrentSession()
+                .createQuery("from UserpostEntity  where userId= :Loginparam ");
+        query.setParameter("Loginparam",login);
+        return query.list();
     }
 }
