@@ -432,7 +432,7 @@ public class UserService extends AbstractService<UsersEntity,String> {
     }
 
     public boolean approveInvite(RequestsEntity entity) throws DBException{
-        Transaction transaction= DBService.getTransaction();
+        Transaction transaction=null;
         try{
             DevelopersEntity dev= new DevelopersEntity();
             dev.setDescription("null");
@@ -441,6 +441,7 @@ public class UserService extends AbstractService<UsersEntity,String> {
             dev.setProjectid(entity.getProjectid());
             ProjectService ps=ServiceFactory.getProjectService();
             ps.addDeveloper(dev);
+            transaction= DBService.getTransaction();
             RequestsDAO dao= DaoFactory.getRequestsDAO();
             RequestsEntityPK pk=new RequestsEntityPK();
             pk.setLogin(entity.getLogin());
@@ -456,12 +457,13 @@ public class UserService extends AbstractService<UsersEntity,String> {
     }
 
     public boolean rejectInvite(RequestsEntity entity) throws DBException{
-        Transaction transaction= DBService.getTransaction();
+        Transaction transaction= null;
         try{
             RequestsDAO dao= DaoFactory.getRequestsDAO();
             RequestsEntityPK pk=new RequestsEntityPK();
             pk.setLogin(entity.getLogin());
             pk.setProjectid(entity.getProjectid());
+            transaction= DBService.getTransaction();
             dao.delete(pk);
             transaction.commit();
         }catch (HibernateException | NoResultException e){
