@@ -1,11 +1,14 @@
 import dao.DaoFactory;
+import dao.RequestsDAO;
 import entity.*;
 import exception.DBException;
+import org.hibernate.Transaction;
 import org.junit.jupiter.api.*;
 import org.junit.runner.JUnitCore;
 import org.junit.runner.Result;
 import service.ServiceFactory;
 import service.UserService;
+import util.DBService;
 
 import java.math.BigInteger;
 import java.sql.Timestamp;
@@ -343,6 +346,58 @@ class UsersEntityTests {
             ds.create(usersEntity);
             ds.donate(donate);
             ds.delete(usersEntity.getLogin());
+        } catch (DBException e) {
+            e.printStackTrace();
+            Assertions.fail("Ошибка доната");
+        }
+    }
+
+    @Test
+    void rejectInvite(){
+        UsersEntity usersEntity = new UsersEntity();
+        usersEntity.setLogin("4d");
+        usersEntity.setName("dipidor");
+        usersEntity.setSurname("ffkgf");
+        usersEntity.setPassword("danxyi");
+        ProjectsEntity projectsEntity = new ProjectsEntity();
+        projectsEntity.setProjectid("1");
+        RequestsEntity req= new RequestsEntity();
+        req.setIsrequest(false);
+        req.setProjpos(Projpos.DEVELOPER);
+        req.setProjectid(projectsEntity.getProjectid());
+        req.setLogin(usersEntity.getLogin());
+        try {
+            ds.create(usersEntity);
+            Transaction transaction= DBService.getTransaction();
+            RequestsDAO dao= DaoFactory.getRequestsDAO();
+            dao.create(req);
+            transaction.commit();
+            ds.rejectInvite(req);
+        } catch (DBException e) {
+            e.printStackTrace();
+            Assertions.fail("Ошибка доната");
+        }
+
+    }
+
+    @Test
+    void approveInvite(){
+        UsersEntity usersEntity = new UsersEntity();
+        usersEntity.setLogin("4d");
+        usersEntity.setName("dipidor");
+        usersEntity.setSurname("ffkgf");
+        usersEntity.setPassword("danxyi");
+        ProjectsEntity projectsEntity = new ProjectsEntity();
+        projectsEntity.setProjectid("1");
+        RequestsEntity req= new RequestsEntity();
+        req.setIsrequest(false);
+        req.setProjpos(Projpos.DEVELOPER);
+        req.setProjectid(projectsEntity.getProjectid());
+        req.setLogin(usersEntity.getLogin());
+        try {
+            ds.create(usersEntity);
+            
+            ds.approveInvite(req);
         } catch (DBException e) {
             e.printStackTrace();
             Assertions.fail("Ошибка доната");

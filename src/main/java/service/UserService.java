@@ -5,6 +5,8 @@ import entity.*;
 import exception.DBException;
 import org.hibernate.HibernateException;
 import org.hibernate.Transaction;
+import org.omg.CORBA.DATA_CONVERSION;
+import sun.security.pkcs11.Secmod;
 import util.DBService;
 
 import javax.persistence.NoResultException;
@@ -403,7 +405,7 @@ public class UserService extends AbstractService<UsersEntity,String> {
         req.setLogin(user.getLogin());
         req.setProjectid(proj.getProjectid());
         req.setProjpos(Projpos.DEVELOPER);
-        req.setIsrequest(false);
+        req.setIsrequest(true);
         try{
             RequestsDAO dao = DaoFactory.getRequestsDAO();
             dao.create(req);
@@ -427,5 +429,45 @@ public class UserService extends AbstractService<UsersEntity,String> {
             throw new DBException(e);
         }
     return true;
+    }
+
+    public boolean approveInvite(RequestsEntity entity) throws DBException{
+        Transaction transaction= DBService.getTransaction();
+        try{
+            DevelopersEntity dev= new DevelopersEntity();
+            dev.setDescription("null");
+            dev.setProjpos(Projpos.DEVELOPER);
+            dev.setLogin(entity.getLogin());
+            dev.setProjectid(entity.getProjectid());
+            ProjectService ps=ServiceFactory.getProjectService();
+            ps.addDeveloper(dev);
+            RequestsDAO dao= DaoFactory.getRequestsDAO();
+            RequestsEntityPK pk=new RequestsEntityPK();
+            pk.setLogin(entity.getLogin());
+            pk.setProjectid(entity.getProjectid());
+            dao.delete(pk);
+            transaction.commit();
+
+        }catch (HibernateException | NoResultException e){
+            DBService.transactionRollback(transaction);
+            throw new DBException(e);
+        }
+        return true;
+    }
+
+    public boolean rejectInvite(RequestsEntity entity) throws DBException{
+        Transaction transaction= DBService.getTransaction();
+        try{
+            RequestsDAO dao= DaoFactory.getRequestsDAO();
+            RequestsEntityPK pk=new RequestsEntityPK();
+            pk.setLogin(entity.getLogin());
+            pk.setProjectid(entity.getProjectid());
+            dao.delete(pk);
+            transaction.commit();
+        }catch (HibernateException | NoResultException e){
+            DBService.transactionRollback(transaction);
+            throw new DBException(e);
+        }
+        return true;
     }
 }

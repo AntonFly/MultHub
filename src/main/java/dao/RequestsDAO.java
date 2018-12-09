@@ -34,15 +34,20 @@ public class RequestsDAO extends AbstractDao<RequestsEntity,String> {
                 .createQuery("from DevelopersEntity where login = :paramLogin AND projectid = :paramProjId");
         query.setParameter("paramLogin",key.getLogin());
         query.setParameter("paramProjId",key.getProjectid());
+        query.executeUpdate();
         return (RequestsEntity) query.uniqueResult();
     }
 
     public void delete(RequestsEntityPK key)
     {
+
         Query query = DBService.getSessionFactory()
                 .getCurrentSession()
                 .createQuery("delete from RequestsEntity where login = :paramLogin AND projectid = :paramProjId");
+        System.out.println(key.getLogin()+key.getProjectid());
         query.setParameter("paramLogin",key.getLogin());
         query.setParameter("paramProjId",key.getProjectid());
+        query.executeUpdate();
     }
+
 }
