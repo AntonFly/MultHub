@@ -36,5 +36,16 @@ public class DonatersDAO extends AbstractDao<DonatersEntity,String> {
 
         return (DonatersEntity) query.uniqueResult();
     }
+
+    public List<DonatersEntity> getProjectDonaters(String projectid)
+    {
+        Query query = DBService.getSessionFactory()
+                .getCurrentSession()
+                .createQuery("from DonatersEntity where projectid =:paramId ");
+        query.setParameter("paramId",projectid);
+
+        return query.getResultList();
+    }
+
 }
 

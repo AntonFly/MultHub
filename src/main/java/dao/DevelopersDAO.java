@@ -46,4 +46,12 @@ public class DevelopersDAO extends AbstractDao<DevelopersEntity,String> {
         query.executeUpdate();
     }
 
+    public List<DevelopersEntity> getProjectDevs(String projectid){
+        Query query = DBService.getSessionFactory()
+                .getCurrentSession()
+                .createQuery("from DevelopersEntity where projectid =:paramId ");
+        query.setParameter("paramId",projectid);
+
+        return query.getResultList();
+    }
 }

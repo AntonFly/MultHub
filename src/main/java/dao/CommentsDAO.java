@@ -40,4 +40,15 @@ public class CommentsDAO extends AbstractDao<CommentsEntity,String> {
         entity.setId(UUID.nameUUIDFromBytes((entity.getComment()+entity.getLogin()).getBytes()).toString());
         return super.create(entity);
     }
+
+    public List<CommentsEntity> getProjectComments(String projectid)
+    {
+        Query query = DBService.getSessionFactory()
+                .getCurrentSession()
+                .createQuery("from CommentsEntity where projectid =:paramId ");
+        query.setParameter("paramId",projectid);
+
+        return query.getResultList();
+    }
+
 }

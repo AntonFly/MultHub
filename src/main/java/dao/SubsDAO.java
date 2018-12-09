@@ -48,5 +48,15 @@ public class SubsDAO extends AbstractDao<SubsEntity,String> {
         query.executeUpdate();
     }
 
+    public List<SubsEntity> getProjectSubs(String projectid)
+    {
+        Query query = DBService.getSessionFactory()
+                .getCurrentSession()
+                .createQuery("from SubsEntity where projectid =:paramId ");
+        query.setParameter("paramId",projectid);
+
+        return query.getResultList();
+    }
+
 
 }

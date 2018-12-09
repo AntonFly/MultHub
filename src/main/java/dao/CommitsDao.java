@@ -3,7 +3,9 @@ package dao;
 import entity.Approved;
 import entity.CommitsEntity;
 import entity.CommitsfileEntity;
+import entity.ProjectsEntity;
 import org.hibernate.LockMode;
+import org.hibernate.SQLQuery;
 import org.hibernate.query.Query;
 import util.DBService;
 
@@ -55,5 +57,38 @@ public class CommitsDao extends AbstractDao<CommitsEntity,String> {
 
         return query.getResultList();
     }
+
+    public List<CommitsEntity> getCommits(String projectid){
+        Query query = DBService.getSessionFactory()
+                .getCurrentSession()
+                .createQuery("from CommitsEntity where projectid =:paramId AND approved =:paramAp");
+        query.setParameter("paramId",projectid);
+        query.setParameter("paramAp",Approved.APPROVED);
+
+        return query.getResultList();
+    }
+
+    public List getCommitsFiles(ProjectsEntity projectsEntity){
+            SQLQuery query=DBService.getSessionFactory()
+                    .getCurrentSession()
+                    .createSQLQuery("select developer,time,filename,commitsfile.filepath from commits inner join projects on commits.projectid ="+projectsEntity.getProjectid()+" inner join\n" +
+                            "  commitsfile on commits.id = commitsfile.commitid inner join\n" +
+                            "  (SELECT max(time),filepath from commits inner join commitsfile on commits.id = commitsfile.commitid group by filepath) as A on time = A.max AND A.filepath = commitsfile.filepath");
+            //query.setParametr("paramID",projectsEntity.getProjectid());
+            query.addEntity(ProjectsEntity.class);
+            query.addEntity(CommitsEntity.class);
+            query.addEntity(CommitsfileEntity.class);
+
+            return query.list();
+        }
+
+        //        Query query = DBService.getSessionFactory()
+//                .getCurrentSession()
+//                .createQuery("select developer,time,filename,commitsfile.filepath from commits inner join commitsfile on commits.id = commitsfile.commitid inner join (SELECT max(time),filepath from commits inner join commitsfile on commits.id = commitsfile.commitid group by filepath) as A on time = A.max AND A.filepath = commitsfile.filepath");
+//        query.setParameter("paramId",projectid);
+//        query.setParameter("paramAp",Approved.APPROVED);
+//
+//        return query.getResultList();
+ //   }
 
 }

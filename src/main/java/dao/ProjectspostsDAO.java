@@ -2,6 +2,7 @@ package dao;
 
 import entity.ProjectpostsEntity;
 import org.hibernate.LockMode;
+import org.hibernate.query.Query;
 import util.DBService;
 
 import java.io.Serializable;
@@ -32,5 +33,13 @@ public class ProjectspostsDAO extends AbstractDao<ProjectpostsEntity,String> {
         return  DBService.getSessionFactory()
                 .getCurrentSession()
                 .save(entity);
+    }
+    public List<ProjectpostsEntity> getProjectPosts(String id){
+        Query query = DBService.getSessionFactory()
+                .getCurrentSession()
+                .createQuery("from ProjectpostsEntity where projectid =:paramId ");
+        query.setParameter("paramId",id);
+
+        return query.getResultList();
     }
 }
