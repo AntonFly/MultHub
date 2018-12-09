@@ -95,4 +95,16 @@ public class CommitsDao extends AbstractDao<CommitsEntity,String> {
         return query.list();
     }
 
+//    public void getCommitsOnly(String filedirectory){
+//        SQLQuery query=DBService.getSessionFactory()
+//                .getCurrentSession()
+//                .createSQLQuery("");
+//
+//        query.addEntity(ProjectsEntity.class);
+//        query.addEntity(CommitsEntity.class);
+//        query.addEntity(CommitsfileEntity.class);
+//
+//        return query.list();
+//    }
+
 }

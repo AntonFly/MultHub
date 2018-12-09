@@ -91,30 +91,37 @@ public class ViewService  {
      * @throws DBException
      */
     public Map<String,Object> mainPageProjectInfo(ProjectsEntity projectsEntity) throws DBException{
+        Transaction transaction= DBService.getTransaction();
         Map<String,Object> mapa = new HashMap<>();
-        //posts
-        ProjectspostsDAO projectspostsDAO = DaoFactory.getProjectspostsDAO();
-        List<ProjectpostsEntity> posts = projectspostsDAO.getProjectPosts(projectsEntity.getProjectid());
-        //donaters
-        DonatersDAO donatersDAO = DaoFactory.getDonatersDAO();
-        List<DonatersEntity> donaters = donatersDAO.getProjectDonaters(projectsEntity.getProjectid());
-        //comments
-        CommentsDAO commentsDAO = DaoFactory.getCommentsDAO();
-        List<CommentsEntity> comments = commentsDAO.getProjectComments(projectsEntity.getProjectid());
-        //followers
-        SubsDAO subsDAO = DaoFactory.getSubsDAO();
-        UsersDAO usersDAO = DaoFactory.getUsersDAO();
-        List<SubsEntity> subsEntities = subsDAO.getProjectSubs(projectsEntity.getProjectid());
-        List<UsersEntity> users = new LinkedList<>();
-        for (SubsEntity sub: subsEntities) {
-            users.add(usersDAO.getEntityById(sub.getLogin()));
-        }
-        mapa.put("ProjectEntity",projectsEntity);
-        mapa.put("Posts",posts);
-        mapa.put("Subs",users);
-        mapa.put("Comments",comments);
-        mapa.put("Donaters",donaters);
+        try {
+            //posts
+            ProjectspostsDAO projectspostsDAO = DaoFactory.getProjectspostsDAO();
+            List<ProjectpostsEntity> posts = projectspostsDAO.getProjectPosts(projectsEntity.getProjectid());
+            //donaters
+            DonatersDAO donatersDAO = DaoFactory.getDonatersDAO();
+            List<DonatersEntity> donaters = donatersDAO.getProjectDonaters(projectsEntity.getProjectid());
+            //comments
+            CommentsDAO commentsDAO = DaoFactory.getCommentsDAO();
+            List<CommentsEntity> comments = commentsDAO.getProjectComments(projectsEntity.getProjectid());
+            //followers
+            SubsDAO subsDAO = DaoFactory.getSubsDAO();
+            UsersDAO usersDAO = DaoFactory.getUsersDAO();
+            List<SubsEntity> subsEntities = subsDAO.getProjectSubs(projectsEntity.getProjectid());
+            List<UsersEntity> users = new LinkedList<>();
+            for (SubsEntity sub: subsEntities) {
+                users.add(usersDAO.getEntityById(sub.getLogin()));
+            }
+            mapa.put("ProjectEntity",projectsEntity);
+            mapa.put("Posts",posts);
+            mapa.put("Subs",users);
+            mapa.put("Comments",comments);
+            mapa.put("Donaters",donaters);
 
+            transaction.commit();
+        } catch (HibernateException | NoResultException e) {
+            DBService.transactionRollback(transaction);
+            throw new DBException(e);
+        }
         return mapa;
     }
 
@@ -146,13 +153,18 @@ public class ViewService  {
      * @throws DBException
      */
     public Map<String, Object> developersPageProjectInfo(ProjectsEntity projectsEntity) throws DBException{
-
+        Transaction transaction= DBService.getTransaction();
         Map<String,Object> mapa = new HashMap<>();
+        try {
+            DevelopersDAO developersDAO = DaoFactory.getDevelopersDAO();
+            mapa.put("ProjectEntity",projectsEntity);
+            mapa.put("Devs",developersDAO.getProjectDevs(projectsEntity.getProjectid()));
+            transaction.commit();
 
-        DevelopersDAO developersDAO = DaoFactory.getDevelopersDAO();
-        mapa.put("ProjectEntity",projectsEntity);
-        mapa.put("Devs",developersDAO.getProjectDevs(projectsEntity.getProjectid()));
-
+        } catch (HibernateException | NoResultException e) {
+            DBService.transactionRollback(transaction);
+            throw new DBException(e);
+        }
         return mapa;
     }
 
@@ -176,26 +188,34 @@ public class ViewService  {
         }
         return list;
     }
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    public void getFilecommits(ProjectsEntity projectsEntity,String fileDirectory) throws DBException {
+    /**
+     *
+     * @param fileDirectory
+     * @return
+     * @throws DBException
+     */
+    public Map<CommitsEntity, CommitsfileEntity> getFilecommits(String fileDirectory) throws DBException {
         Transaction transaction= DBService.getTransaction();
-        List<Object[]> list;
+        Map<CommitsEntity,CommitsfileEntity> map = new HashMap<>();
         try {
-            CommitsDao commitsDao = DaoFactory.getCommitsDao();
-            list = commitsDao.getCommitsOnly(projectsEntity);
+            CommitsfileDAO commitsfileDAO = DaoFactory.getCommitsfileDAO();
+            List<CommitsfileEntity> files = commitsfileDAO.getFilesByPath(fileDirectory);
             transaction.commit();
+            //List<CommitsEntity> commits = new LinkedList<>();
+            CommitsDao commitsDao = DaoFactory.getCommitsDao();
+            for (CommitsfileEntity file: files) {
+                transaction = DBService.getTransaction();
+                map.put(commitsDao.getEntityById(file.getCommitid()),file);
+              //      commits.add(commitsDao.getEntityById(file.getCommitid()));
+                transaction.commit();
+            }
 
         } catch (HibernateException | NoResultException e) {
             DBService.transactionRollback(transaction);
             throw new DBException(e);
         }
-        return list;
+        return map;
     }
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     /////////////////////////////////////////
 

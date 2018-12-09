@@ -3,6 +3,7 @@ package dao;
 import entity.SubsEntity;
 import entity.SubsEntityPK;
 import org.hibernate.LockMode;
+import org.hibernate.SQLQuery;
 import org.hibernate.query.Query;
 import util.DBService;
 

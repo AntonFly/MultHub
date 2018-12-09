@@ -46,7 +46,7 @@ public class ProjectspostsDAO extends AbstractDao<ProjectpostsEntity,String> {
 
         return (ProjectpostsEntity) query.list().get(0);
         }
-    }
+
 
     public List<ProjectpostsEntity> getProjectPosts(String id){
         Query query = DBService.getSessionFactory()
