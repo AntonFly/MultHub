@@ -190,22 +190,25 @@ public class ViewService  {
     }
     /**
      *
-     * @param fileDirectory
+     * @param fileName
      * @return
      * @throws DBException
      */
-    public Map<CommitsEntity, CommitsfileEntity> getFilecommits(String fileDirectory) throws DBException {
+    public Map<CommitsEntity, CommitsfileEntity> getFilecommits(String fileName) throws DBException {
         Transaction transaction= DBService.getTransaction();
         Map<CommitsEntity,CommitsfileEntity> map = new HashMap<>();
         try {
             CommitsfileDAO commitsfileDAO = DaoFactory.getCommitsfileDAO();
-            List<CommitsfileEntity> files = commitsfileDAO.getFilesByPath(fileDirectory);
+            List<CommitsfileEntity> files = commitsfileDAO.getFilesByPath(fileName);
+            System.out.println(files.size()+"   "+fileName);
             transaction.commit();
             //List<CommitsEntity> commits = new LinkedList<>();
             CommitsDao commitsDao = DaoFactory.getCommitsDao();
             for (CommitsfileEntity file: files) {
                 transaction = DBService.getTransaction();
-                map.put(commitsDao.getEntityById(file.getCommitid()),file);
+                CommitsEntity commit= commitsDao.getEntityById(file.getCommitid());
+                if(commit.getApproved().equals(Approved.APPROVED))
+                map.put(commit,file);
               //      commits.add(commitsDao.getEntityById(file.getCommitid()));
                 transaction.commit();
             }

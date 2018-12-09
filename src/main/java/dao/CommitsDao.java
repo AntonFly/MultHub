@@ -72,7 +72,14 @@ public class CommitsDao extends AbstractDao<CommitsEntity,String> {
     public List<Object[]> getCommitsFiles(ProjectsEntity projectsEntity){
             SQLQuery query=DBService.getSessionFactory()
                     .getCurrentSession()
-                    .createSQLQuery("select * from projects inner join commits on commits.projectid =projects.projectid AND projects.projectid='"+projectsEntity.getProjectid()+"' and commits.approved LIKE 'APPROVED' inner join commitsfile on commits.id = commitsfile.commitid inner join (SELECT max(time),filepath from commits inner join commitsfile on commits.id = commitsfile.commitid group by filepath) as A on time = A.max AND A.filepath = commitsfile.filepath");
+                    .createSQLQuery("select * from projects " +
+                            "inner join commits on commits.projectid =projects.projectid AND projects.projectid='"+projectsEntity.getProjectid()+"' and commits.approved LIKE 'APPROVED' " +
+                            "inner join commitsfile on commits.id = commitsfile.commitid " +
+                            "inner join (" +
+                                    "SELECT max(time),filepath from projects " +
+                                        "inner join commits on (commits.projectid =projects.projectid AND projects.projectid='"+projectsEntity.getProjectid()+"' and commits.approved LIKE 'APPROVED') " +
+                                        "inner join commitsfile on commits.id = commitsfile.commitid group by filepath) " +
+                            "as A on time = A.max AND A.filepath = commitsfile.filepath");
             //query.setParametr("paramID",projectsEntity.getProjectid());
         //developer,time,filename,commitsfile.filepath
             query.addEntity(ProjectsEntity.class);
@@ -85,7 +92,14 @@ public class CommitsDao extends AbstractDao<CommitsEntity,String> {
     public List<Object[]> getUncheckCommitsFiles(ProjectsEntity projectsEntity){
         SQLQuery query=DBService.getSessionFactory()
                 .getCurrentSession()
-                .createSQLQuery("select * from projects inner join commits on commits.projectid =projects.projectid AND projects.projectid='"+projectsEntity.getProjectid()+"' and commits.approved LIKE 'AWAITS'inner join commitsfile on commits.id = commitsfile.commitid inner join (SELECT max(time),filepath from commits inner join commitsfile on commits.id = commitsfile.commitid group by filepath) as A on time = A.max AND A.filepath = commitsfile.filepath");
+                .createSQLQuery("select * from projects " +
+                        "inner join commits on commits.projectid =projects.projectid AND projects.projectid='"+projectsEntity.getProjectid()+"' and commits.approved LIKE 'AWAITS'" +
+                        "inner join commitsfile on commits.id = commitsfile.commitid " +
+                        "inner join " +
+                        "(SELECT max(time),filepath from projects " +
+                                "inner join commits on commits.projectid =projects.projectid AND projects.projectid='"+projectsEntity.getProjectid()+"' and commits.approved LIKE 'AWAITS' " +
+                                "inner join commitsfile on commits.id = commitsfile.commitid group by filepath) " +
+                        "as A on time = A.max AND A.filepath = commitsfile.filepath");
         //query.setParametr("paramID",projectsEntity.getProjectid());
         //developer,time,filename,commitsfile.filepath
         query.addEntity(ProjectsEntity.class);

@@ -65,33 +65,13 @@ class ViewServiceTest {
         for (Map<String,Object> map:
                 result) {
             System.out.println();
-            System.out.println("Собеседник: "+(String) map.get("other"));
-            System.out.println("Аватар собеседникa: "+(String) map.get("otherImage"));
-            System.out.println("Последнее сообщение: "+ (String) map.get("text"));
-            System.out.println("Время сообщения: "+(Timestamp) map.get("time"));
+            System.out.println("Собеседник: "+ map.get("other"));
+            System.out.println("Аватар собеседникa: "+ map.get("otherImage"));
+            System.out.println("Последнее сообщение: "+  map.get("text"));
+            System.out.println("Время сообщения: "+map.get("time"));
         }
     }
-    @Test
-    void getFiles(){
-        try{
-         ProjectsEntity projectsEntity = new ProjectsEntity();
-         projectsEntity.setName("LOL CHANGED");
-         projectsEntity.setDescription("V 1999 GODU rodilsa divan i vosstal");
-         projectsEntity.setCurbudget(12.);
-         projectsEntity.setGoalbudget(13.);
-         projectsEntity.setProjectid(UUID.nameUUIDFromBytes((projectsEntity.getName()+projectsEntity.getDescription()).getBytes()).toString());
-         List<Object[]> list = ServiceFactory.getViewService().filesPageProjectInfo(projectsEntity);
-         System.out.println("Commits and files connected with project:");
-         for(Object[] row:list){
-             System.out.println("CommitId: "+((CommitsEntity)row[1]).getId()+" \nDEVELOPER: "+ ((CommitsEntity)row[1]).getDeveloper()+" TIME:"+((CommitsEntity)row[1]).getTime());
-             System.out.println("FILENAME: "+((CommitsfileEntity)row[2]).getFilename() +" FILEPATH:"+((CommitsfileEntity)row[2]).getFilepath());
-         }
-
-        } catch (Exception e) {
-            e.printStackTrace();
-            Assertions.fail("Ошибка получения диалогов");
-        }
-    }
+    
     @Test
     void dialogMessages(){
         List<MessageEntity> messages= vs.getDialogMessages("1");
@@ -122,6 +102,103 @@ class ViewServiceTest {
         }
     }
 
-    
+    @Test
+    void getFiles(){
+        try{
+            ProjectsEntity projectsEntity = new ProjectsEntity();
+            projectsEntity.setName("LOL CHANGED");
+            projectsEntity.setDescription("V 1999 GODU rodilsa divan i vosstal");
+            projectsEntity.setCurbudget(12.);
+            projectsEntity.setGoalbudget(13.);
+            projectsEntity.setProjectid(UUID.nameUUIDFromBytes((projectsEntity.getName()+projectsEntity.getDescription()).getBytes()).toString());
+            List<Object[]> list = ServiceFactory.getViewService().filesPageProjectInfo(projectsEntity);
+            System.out.println("Commits and files connected with project:");
+            for(Object[] row:list){
+                System.out.println("CommitId: "+((CommitsEntity)row[1]).getId()+" \nDEVELOPER: "+ ((CommitsEntity)row[1]).getDeveloper()+" TIME:"+((CommitsEntity)row[1]).getTime());
+                System.out.println("FILENAME: "+((CommitsfileEntity)row[2]).getFilename() +" FILEPATH:"+((CommitsfileEntity)row[2]).getFilepath());
+            }
 
+        } catch (Exception e) {
+            e.printStackTrace();
+            Assertions.fail("Ошибка получения диалогов");
+        }
+    }
+    
+    @Test
+    void getFileCommits(){
+        try {
+            Map<CommitsEntity,CommitsfileEntity> map = ServiceFactory.getViewService().getFilecommits("kek");
+            for (Map.Entry<CommitsEntity,CommitsfileEntity> entry: map.entrySet()) {
+                System.out.println("Commit: id = "+entry.getKey().getId()+" time = "+entry.getKey().getTime()+" File: filename = "+entry.getValue().getFilename());
+            }
+            
+        } catch (Exception e) {
+        e.printStackTrace();
+        Assertions.fail("Ошибка получения комитов");
+        }
+    }
+
+    @Test
+    void mainPageInfo(){
+        try {
+            ProjectsEntity projectsEntity = new ProjectsEntity();
+            projectsEntity.setName("LOL CHANGED");
+            projectsEntity.setDescription("V 1999 GODU rodilsa divan i vosstal");
+            projectsEntity.setCurbudget(12.);
+            projectsEntity.setGoalbudget(13.);
+            projectsEntity.setProjectid(UUID.nameUUIDFromBytes((projectsEntity.getName()+projectsEntity.getDescription()).getBytes()).toString());
+
+            Map<String,Object> map = ServiceFactory.getViewService().mainPageProjectInfo(projectsEntity);
+            System.out.println("posts text: "+((List<ProjectpostsEntity>)map.get("Posts")).get(0).getText());
+            System.out.println("subs: "+((List<SubsEntity>)map.get("Subs")).get(0).getLogin());
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            Assertions.fail("Ошибка получения инфы");
+        }
+    }
+
+    @Test
+    void developersPageProjectInfo(){
+        try {
+            ProjectsEntity projectsEntity = new ProjectsEntity();
+            projectsEntity.setName("LOL CHANGED");
+            projectsEntity.setDescription("V 1999 GODU rodilsa divan i vosstal");
+            projectsEntity.setCurbudget(12.);
+            projectsEntity.setGoalbudget(13.);
+            projectsEntity.setProjectid(UUID.nameUUIDFromBytes((projectsEntity.getName()+projectsEntity.getDescription()).getBytes()).toString());
+
+            Map<String,Object> map = ServiceFactory.getViewService().developersPageProjectInfo(projectsEntity);
+            System.out.println("developers: login = "+((List<DevelopersEntity>)map.get("Devs")).get(0).getLogin() +" description = "+((List<DevelopersEntity>)map.get("Devs")).get(0).getDescription());
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            Assertions.fail("Ошибка получения инфы");
+        }
+    }
+
+    @Test
+    void uncheckedfilesPageProjectInfo(){
+        try {
+
+            ProjectsEntity projectsEntity = new ProjectsEntity();
+            projectsEntity.setName("LOL CHANGED");
+            projectsEntity.setDescription("V 1999 GODU rodilsa divan i vosstal");
+            projectsEntity.setCurbudget(12.);
+            projectsEntity.setGoalbudget(13.);
+            projectsEntity.setProjectid(UUID.nameUUIDFromBytes((projectsEntity.getName()+projectsEntity.getDescription()).getBytes()).toString());
+
+
+            List<Object[]> list = ServiceFactory.getViewService().uncheckedfilesPageProjectInfo(projectsEntity);
+            System.out.println("Waiting commits:");
+            for(Object[] row:list){
+                System.out.println("CommitId: "+((CommitsEntity)row[1]).getId()+" \nDEVELOPER: "+ ((CommitsEntity)row[1]).getDeveloper()+" TIME:"+((CommitsEntity)row[1]).getTime());
+                System.out.println("FILENAME: "+((CommitsfileEntity)row[2]).getFilename() +" FILEPATH:"+((CommitsfileEntity)row[2]).getFilepath());
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            Assertions.fail("Ошибка получения инфы");
+        }
+    }
 }

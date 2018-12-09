@@ -78,7 +78,7 @@ public class CommitsfileDAO extends AbstractDao<CommitsfileEntity,String> {
     public List<CommitsfileEntity> getFilesByPath(String filename){
         Query query = DBService.getSessionFactory()
                 .getCurrentSession()
-                .createQuery("from CommitsfileEntity where filepath =:paramPath");
+                .createQuery("from CommitsfileEntity where filepath like :paramPath");
         query.setParameter("paramPath","%/"+filename);
         return query.getResultList();
     }
