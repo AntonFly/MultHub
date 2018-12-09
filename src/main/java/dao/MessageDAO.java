@@ -4,6 +4,7 @@ import entity.MessageEntity;
 import org.hibernate.Criteria;
 import org.hibernate.LockMode;
 import org.hibernate.SQLQuery;
+import org.hibernate.query.Query;
 import util.DBService;
 
 import java.util.List;
@@ -31,5 +32,13 @@ public class MessageDAO extends AbstractDao<MessageEntity,String>{
          query.addEntity(MessageEntity.class);
 
          return (MessageEntity)query.list().get(0);
+    }
+
+    public List<MessageEntity> getDialogMessages(String id){
+        Query query = DBService.getSessionFactory()
+                .getCurrentSession()
+                .createQuery("from MessageEntity  where dialogId= :Loginparam ");
+        query.setParameter("Loginparam",id);
+        return  query.list();
     }
 }

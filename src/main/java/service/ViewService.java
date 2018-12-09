@@ -5,12 +5,14 @@ import entity.*;
 import exception.DBException;
 import org.hibernate.LockMode;
 import org.hibernate.Transaction;
+import org.hibernate.query.Query;
 import util.DBService;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Stream;
 
 public class ViewService  {
 //    public List<UsersEntity> getProjDevelopers(ProjectsEntity proj){
@@ -110,8 +112,46 @@ public class ViewService  {
 
     public List<MessageEntity> getDialogMessages(String id){
         Transaction transaction= DBService.getTransaction();
-        List<MessageEntity> result=DBService.getSessionFactory()
-                .getCurrentSession()
-                .createQuery("from MessageEntity  where = :Loginparam  or twoUserId =:Loginparam\");");
+        List<MessageEntity> result;
+        MessageDAO messageDAO=DaoFactory.getMessageDao();
+        result =messageDAO.getDialogMessages(id);
+        transaction.commit();
+        return  result;
+    }
+
+    public  List<Map<String,Object>> mainPage(){
+        List<Map<String,Object>> result= new ArrayList<>();
+        Transaction transaction= DBService.getTransaction();
+
+        SubsDAO subsDao=DaoFactory.getSubsDAO();
+        ProjectsDAO projectsDao=DaoFactory.getProjectsDAO();
+        ProjectspostsDAO postDao= DaoFactory.getProjectspostsDAO();
+        CommitsDao commitsDao=DaoFactory.getCommitsDao();
+        CommitsfileDAO commitsfileDao=DaoFactory.getCommitsfileDAO();
+        List<Object[]> subs=subsDao.getMostPopular();
+        transaction.commit();
+        for (Object[] sub: subs
+             ) {
+            transaction=DBService.getTransaction();
+            ProjectsEntity proj=projectsDao.getEntityById((String) sub[0]);
+            ProjectpostsEntity post=postDao.getProjLastPost(proj.getProjectid());
+            List<CommitsfileEntity> latestMedia=commitsfileDao.getLatestMedea(proj.getProjectid());
+            transaction.commit();
+            Map<String,Object> map=new HashMap<>();
+            map.put("followers",sub[1]);
+            map.put("prjName", proj.getName());
+            map.put("description",proj.getDescription());
+            map.put("lastPost",post.getText());
+            map.put("lastMedia",latestMedia);
+            result.add(map);
+//            System.out.println(post.getText());
+//           for (Object media: latestMedia
+//            ) {
+//                System.out.println((String) media);
+//               System.out.println("1");
+//            }
+
+        }
+        return result;
     }
 }

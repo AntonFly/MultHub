@@ -1,9 +1,11 @@
 package dao;
 
+import entity.CommentsEntity;
 import entity.CommitsEntity;
 import entity.CommitsfileEntity;
 import entity.CommitsfileEntityPK;
 import org.hibernate.LockMode;
+import org.hibernate.SQLQuery;
 import org.hibernate.query.Query;
 import util.DBService;
 
@@ -58,6 +60,19 @@ public class CommitsfileDAO extends AbstractDao<CommitsfileEntity,String> {
         query.setParameter("paramId",key.getCommitid());
         query.setParameter("paramFile",key.getFilename());
         query.executeUpdate();
+    }
+
+    public List<CommitsfileEntity> getLatestMedea(String projId){
+        SQLQuery query=DBService.getSessionFactory()
+                .getCurrentSession()
+                .createSQLQuery("SELECT * from (Select * from  commits where projectid='"+projId+"') as A    where A.time in ( Select max(time) from  commits where projectid='"+projId+"' ) ");
+        query.addEntity(CommitsEntity.class);
+        CommitsEntity commit= (CommitsEntity) query.list().get(0);
+        Query query1=DBService.getSessionFactory()
+                .getCurrentSession()
+                .createQuery("from CommitsfileEntity where commitid=:commitIdparemetr");
+        query1.setParameter("commitIdparemetr",commit.getId());
+        return query1.list();
     }
 
 }

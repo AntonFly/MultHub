@@ -3,9 +3,11 @@ package dao;
 import entity.SubsEntity;
 import entity.SubsEntityPK;
 import org.hibernate.LockMode;
+import org.hibernate.SQLQuery;
 import org.hibernate.query.Query;
 import util.DBService;
 
+import java.math.BigInteger;
 import java.util.List;
 
 public class SubsDAO extends AbstractDao<SubsEntity,String> {
@@ -48,5 +50,27 @@ public class SubsDAO extends AbstractDao<SubsEntity,String> {
         query.executeUpdate();
     }
 
+    public  List<SubsEntity> getUserSubs(String login){
+        Query query = DBService.getSessionFactory()
+                .getCurrentSession()
+                .createQuery(" from SubsEntity where login = :paramLogin ");
+        query.setParameter("paramLogin",login);
+        return query.list();
+    }
 
+    public List<Object[]> getMostPopular(){
+        SQLQuery query=DBService.getSessionFactory()
+                .getCurrentSession()
+                .createSQLQuery("select projectid,count(projectid) from subs group by projectid;");
+
+
+        List<Object[]> rows = query.list();
+//        for(Object[] row : rows){
+//            String id =(String) row[0];
+//            BigInteger count= (BigInteger) row[1];
+//            System.out.println(id+" "+count);
+        return rows;
+    }
 }
+
+

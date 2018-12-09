@@ -1,16 +1,24 @@
 import com.jcraft.jsch.JSch;
 import com.jcraft.jsch.JSchException;
 import com.jcraft.jsch.Session;
+import dao.DaoFactory;
+import dao.SubsDAO;
 import entity.ConnectiondataEntity;
 import entity.UsersEntity;
+import org.hibernate.Transaction;
 import service.UserService;
+import util.DBService;
 
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.Properties;
 
 public class Main {
-//    public static void main(String... args) throws SQLException {
+    public static void main(String... args) throws SQLException {
+        Transaction transaction= DBService.getTransaction();
+        SubsDAO subsDAO= DaoFactory.getSubsDAO();
+        subsDAO.getMostPopular();
+        transaction.commit();
 //        UsersEntity usersEntity = new UsersEntity();
 //        usersEntity.setLogin("xxddddd");
 //        usersEntity.setName("dipidor");
@@ -36,7 +44,7 @@ public class Main {
 ////            System.out.println(ce.getDeveloper()+" "+ce.getProjectid()+" "+ ce.getFiledirectory()+" "+ce.getTime());
 //        }catch (Exception e){
 //            e.printStackTrace();
-//        }
+        }
 
 
 
