@@ -6,6 +6,7 @@ import org.hibernate.Transaction;
 import org.junit.jupiter.api.*;
 import org.junit.runner.JUnitCore;
 import org.junit.runner.Result;
+import service.ProjectService;
 import service.ServiceFactory;
 import service.UserService;
 import util.DBService;
@@ -368,11 +369,10 @@ class UsersEntityTests {
         req.setLogin(usersEntity.getLogin());
         try {
             ds.create(usersEntity);
-            Transaction transaction= DBService.getTransaction();
-            RequestsDAO dao= DaoFactory.getRequestsDAO();
-            dao.create(req);
-            transaction.commit();
+            ProjectService service=ServiceFactory.getProjectService();
+            service.sendInviteToProject(req);
             ds.rejectInvite(req);
+            ds.delete(usersEntity.getLogin());
         } catch (DBException e) {
             e.printStackTrace();
             Assertions.fail("Ошибка доната");
@@ -396,8 +396,10 @@ class UsersEntityTests {
         req.setLogin(usersEntity.getLogin());
         try {
             ds.create(usersEntity);
-            
+            ProjectService service=ServiceFactory.getProjectService();
+            service.sendInviteToProject(req);
             ds.approveInvite(req);
+            ds.delete(usersEntity.getLogin());
         } catch (DBException e) {
             e.printStackTrace();
             Assertions.fail("Ошибка доната");
