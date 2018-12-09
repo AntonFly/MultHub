@@ -2,6 +2,7 @@ package dao;
 
 import entity.DialogEntity;
 import org.hibernate.LockMode;
+import org.hibernate.query.Query;
 import util.DBService;
 
 import java.io.Serializable;
@@ -30,5 +31,14 @@ public class DialogDAO extends AbstractDao<DialogEntity,String>  {
         return  DBService.getSessionFactory()
                 .getCurrentSession()
                 .save(entity);
+    }
+
+    public List<DialogEntity> getUserDialogs(String login) {
+
+        Query query = DBService.getSessionFactory()
+                .getCurrentSession()
+                .createQuery("from DialogEntity  where oneUserId= :Loginparam  or twoUserId =:Loginparam");
+        query.setParameter("Loginparam",login);
+        return query.list();
     }
 }

@@ -1,6 +1,7 @@
 package service;
 
 import entity.FollowersEntity;
+import entity.MessageEntity;
 import entity.ProjectsEntity;
 import entity.UserpostEntity;
 import exception.DBException;
@@ -8,6 +9,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.sql.Timestamp;
 import java.util.List;
 import java.util.Map;
 
@@ -48,5 +50,25 @@ class ViewServiceTest {
         }
 //        System.out.println("Followers: "+user_data.get("projects"));
 
+    }
+
+
+    @Test
+    void userDialog(){
+        List<Map<String,Object>> result=null;
+        try{
+            result=vs.getDialogs("5d");
+        } catch (DBException e) {
+            e.printStackTrace();
+            Assertions.fail("Ошибка получения диалогов");
+        }
+        for (Map<String,Object> map:
+                result) {
+            System.out.println();
+            System.out.println("Собеседник: "+(String) map.get("other"));
+            System.out.println("Аватар собеседникa: "+(String) map.get("otherImage"));
+            System.out.println("Последнее сообщение: "+ (String) map.get("text"));
+            System.out.println("Время сообщения: "+(Timestamp) map.get("time"));
+        }
     }
 }

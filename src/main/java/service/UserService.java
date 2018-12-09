@@ -472,4 +472,19 @@ public class UserService extends AbstractService<UsersEntity,String> {
         }
         return true;
     }
+
+    public  boolean newStatus(UsersEntity user, String status) throws DBException{
+        Transaction transaction= DBService.getTransaction();
+        try{
+            UsersDAO dao=DaoFactory.getUsersDAO();
+            user.setStatus(status);
+            dao.update(user);
+            transaction.commit();
+        }catch (HibernateException | NoResultException e){
+            DBService.transactionRollback(transaction);
+            throw new DBException(e);
+
+        }
+        return true;
+    }
 }

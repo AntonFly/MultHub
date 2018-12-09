@@ -1,16 +1,20 @@
 package entity;
 
+import service.ServiceFactory;
+
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Objects;
 
 @Entity
 @Table(name = "users", schema = "public", catalog = "multhub")
-public class UsersEntity {
+public class UsersEntity  {
     private String login;
     private String name;
     private String surname;
     private String password;
     private String imgpath;
+    private String status;
 
     @Id
     @Column(name = "login", nullable = false, length = 30)
@@ -76,5 +80,16 @@ public class UsersEntity {
 
     public void setImgpath(String imgpath) {
         this.imgpath = imgpath;
+    }
+
+
+
+    @Column(name = "status", nullable = false, length = 30)
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 }

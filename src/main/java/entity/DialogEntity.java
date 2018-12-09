@@ -9,7 +9,6 @@ public class DialogEntity {
     private String id;
     private String oneUserId;
     private String twoUserId;
-
     @Id
     @Column(name = "id", nullable = false, length = -1)
     public String getId() {

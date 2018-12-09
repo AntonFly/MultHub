@@ -203,7 +203,7 @@ class UsersEntityTests {
         usersEntity.setSurname("ffkgf");
         usersEntity.setPassword("danxyi");
         UsersEntity usersEntity2 = new UsersEntity();
-        usersEntity2.setLogin("5d");
+        usersEntity2.setLogin("7d");
         usersEntity2.setName("dipidor");
         usersEntity2.setSurname("ffkgf");
         usersEntity2.setPassword("danxyi");
@@ -226,7 +226,7 @@ class UsersEntityTests {
         usersEntity.setSurname("ffkgf");
         usersEntity.setPassword("danxyi");
         UsersEntity usersEntity2 = new UsersEntity();
-        usersEntity2.setLogin("5d");
+        usersEntity2.setLogin("7d");
         usersEntity2.setName("dipidor");
         usersEntity2.setSurname("ffkgf");
         usersEntity2.setPassword("danxyi");
@@ -258,7 +258,7 @@ class UsersEntityTests {
         usersEntity.setSurname("ffkgf");
         usersEntity.setPassword("danxyi");
         UsersEntity usersEntity2 = new UsersEntity();
-        usersEntity2.setLogin("5d");
+        usersEntity2.setLogin("7d");
         usersEntity2.setName("dipidor");
         usersEntity2.setSurname("ffkgf");
         usersEntity2.setPassword("danxyi");
