@@ -35,21 +35,41 @@ public class ViewService  {
      * @throws DBException Hiber exceptions replaced with
      */
     public Map<String,Object> UserPageInformation(String login) throws DBException {
+        Transaction transaction=DBService.getTransaction();
         Map<String,Object> map =new HashMap<>();
+
         UsersDAO usersDAO= DaoFactory.getUsersDAO();
-        UsersEntity user= usersDAO.getEntityById(login);
         ConnectiondataDao conDao= DaoFactory.getConnectiondataDao();
-        ConnectiondataEntity connectiondata=conDao.getEntityById(login);
         UserpostDAO postsDao= DaoFactory.getUserPostDao();
+        DevelopersDAO devDao= DaoFactory.getDevelopersDAO();
+        ProjectsDAO projDao=DaoFactory.getProjectsDAO();
+        FollowersDAO followDao=DaoFactory.getFollowersDao();
+
+        UsersEntity user= usersDAO.getEntityById(login);
+        ConnectiondataEntity connectiondata=conDao.getEntityById(login);
         List<UserpostEntity> posts= postsDao.getUserPosts(user.getLogin());
-        
+        List<DevelopersEntity> devEnt=devDao.getUserProject(login);
+        List<ProjectsEntity> proj = new ArrayList<>();
+        List<FollowersEntity> followers= followDao.getUserFollowers(login);
+
+        transaction.commit();
+        transaction=DBService.getTransaction();
+
+        for (DevelopersEntity dev:
+                devEnt) {
+            proj.add(projDao.getEntityById(dev.getProjectid()));
+
+        }
+        transaction.commit();
         map.put("login",user.getLogin());
         map.put("name",user.getName());
         map.put("surname",user.getSurname());
-        map.put("imjpath",user.getImgpath());
+        map.put("imjPath",user.getImgpath());
         map.put("email",connectiondata.geteMail());
         map.put("mobilenumb",connectiondata.getMobilenumb());
         map.put("posts",posts);
+        map.put("projects",proj);
+        map.put("followers",followers);
 
         return map;
     }

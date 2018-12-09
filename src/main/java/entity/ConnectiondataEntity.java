@@ -8,7 +8,7 @@ import java.util.Objects;
 public class ConnectiondataEntity {
     private String login;
     private String eMail;
-    private Integer mobilenumb;
+    private Long mobilenumb;
 //    private String email;
 
     @Id
@@ -34,11 +34,11 @@ public class ConnectiondataEntity {
 
     @Basic
     @Column(name = "mobilenumb", nullable = true)
-    public Integer getMobilenumb() {
+    public Long getMobilenumb() {
         return mobilenumb;
     }
 
-    public void setMobilenumb(Integer mobilenumb) {
+    public void setMobilenumb(Long mobilenumb) {
         this.mobilenumb = mobilenumb;
     }
 

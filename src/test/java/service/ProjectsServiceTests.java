@@ -1,17 +1,13 @@
-import dao.DaoFactory;
+package service;
+
 import entity.*;
 import exception.DBException;
-import org.junit.Before;
 import org.junit.FixMethodOrder;
 import org.junit.jupiter.api.*;
 import org.junit.runner.JUnitCore;
 import org.junit.runner.Result;
 import org.junit.runners.MethodSorters;
-import service.ProjectService;
-import service.ServiceFactory;
-import service.UserService;
 
-import java.math.BigInteger;
 import java.sql.Timestamp;
 import java.util.LinkedList;
 import java.util.List;

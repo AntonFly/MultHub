@@ -46,4 +46,13 @@ public class DevelopersDAO extends AbstractDao<DevelopersEntity,String> {
         query.executeUpdate();
     }
 
+    public List<DevelopersEntity> getUserProject(String login) {
+
+        Query query = DBService.getSessionFactory()
+                .getCurrentSession()
+                .createQuery("from DevelopersEntity  where login= :Loginparam ");
+        query.setParameter("Loginparam",login);
+        return query.list();
+    }
+
 }

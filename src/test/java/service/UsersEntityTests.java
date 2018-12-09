@@ -1,17 +1,11 @@
-import dao.DaoFactory;
-import dao.RequestsDAO;
+package service;
+
 import entity.*;
 import exception.DBException;
-import org.hibernate.Transaction;
 import org.junit.jupiter.api.*;
 import org.junit.runner.JUnitCore;
 import org.junit.runner.Result;
-import service.ProjectService;
-import service.ServiceFactory;
-import service.UserService;
-import util.DBService;
 
-import java.math.BigInteger;
 import java.sql.Timestamp;
 import java.util.UUID;
 
@@ -105,7 +99,7 @@ class UsersEntityTests {
         ConnectiondataEntity con = new ConnectiondataEntity();
         con.setLogin("4d");
         con.seteMail("@mail.com");
-        con.setMobilenumb(4452);
+        con.setMobilenumb(Long.valueOf(4452));
         try{
         Assertions.assertTrue(ds.signUp(usersEntity,con));
         ds.delete(usersEntity.getLogin());
