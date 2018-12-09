@@ -58,5 +58,27 @@ public class SubsDAO extends AbstractDao<SubsEntity,String> {
         return query.getResultList();
     }
 
+    public  List<SubsEntity> getUserSubs(String login){
+        Query query = DBService.getSessionFactory()
+                .getCurrentSession()
+                .createQuery(" from SubsEntity where login = :paramLogin ");
+        query.setParameter("paramLogin",login);
+        return query.list();
+    }
 
+    public List<Object[]> getMostPopular(){
+        SQLQuery query=DBService.getSessionFactory()
+                .getCurrentSession()
+                .createSQLQuery("select projectid,count(projectid) from subs group by projectid;");
+
+
+        List<Object[]> rows = query.list();
+//        for(Object[] row : rows){
+//            String id =(String) row[0];
+//            BigInteger count= (BigInteger) row[1];
+//            System.out.println(id+" "+count);
+        return rows;
+    }
 }
+
+

@@ -6,10 +6,12 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.math.BigInteger;
 import java.sql.Timestamp;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -88,6 +90,35 @@ class ViewServiceTest {
         } catch (Exception e) {
             e.printStackTrace();
             Assertions.fail("Ошибка получения диалогов");
+        }
+    }
+    @Test
+    void dialogMessages(){
+        List<MessageEntity> messages= vs.getDialogMessages("1");
+        for (MessageEntity mes:
+                messages) {
+            System.out.println();
+            System.out.println("Cообщение: "+  mes.getText());
+            System.out.println("Время сообщения: "+ mes.getTime());
+        }
+    }
+
+    @Test
+    void mainPage(){
+        List<Map<String,Object>> result=vs.mainPage();
+        for (Map<String,Object> map:
+                result) {
+            System.out.println("\nПодписчиков: "+(BigInteger)map.get("followers"));
+            System.out.println("Название проекта: " +(String) map.get("prjName"));
+            System.out.println("Описание проекта: "+(String) map.get("description"));
+            System.out.println("Последний пост: "+(String) map.get("lastPost"));
+            List<CommitsfileEntity> latestMedia=(List<CommitsfileEntity>)map.get("lastMedia");
+            System.out.print("Последние медиа файлы: ");
+            for (CommitsfileEntity media: latestMedia
+                 ) {
+                System.out.println(( media).getFilename());
+
+            }
         }
     }
 }

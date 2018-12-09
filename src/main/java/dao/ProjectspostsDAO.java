@@ -1,7 +1,10 @@
 package dao;
 
+import entity.MessageEntity;
 import entity.ProjectpostsEntity;
 import org.hibernate.LockMode;
+import org.hibernate.SQLQuery;
+import org.hibernate.query.Query;
 import org.hibernate.query.Query;
 import util.DBService;
 
@@ -34,6 +37,17 @@ public class ProjectspostsDAO extends AbstractDao<ProjectpostsEntity,String> {
                 .getCurrentSession()
                 .save(entity);
     }
+
+    public ProjectpostsEntity getProjLastPost(String projId){
+        SQLQuery query=DBService.getSessionFactory()
+                .getCurrentSession()
+                .createSQLQuery("Select * from projectposts where projectid='"+projId+"' and time in(SELECT max(time ) from projectposts );");
+        query.addEntity(ProjectpostsEntity.class);
+
+        return (ProjectpostsEntity) query.list().get(0);
+        }
+    }
+
     public List<ProjectpostsEntity> getProjectPosts(String id){
         Query query = DBService.getSessionFactory()
                 .getCurrentSession()
