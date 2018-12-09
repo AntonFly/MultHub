@@ -65,10 +65,10 @@ class ViewServiceTest {
         for (Map<String,Object> map:
                 result) {
             System.out.println();
-            System.out.println("Собеседник: "+(String) map.get("other"));
-            System.out.println("Аватар собеседникa: "+(String) map.get("otherImage"));
-            System.out.println("Последнее сообщение: "+ (String) map.get("text"));
-            System.out.println("Время сообщения: "+(Timestamp) map.get("time"));
+            System.out.println("Собеседник: "+ map.get("other"));
+            System.out.println("Аватар собеседникa: "+ map.get("otherImage"));
+            System.out.println("Последнее сообщение: "+  map.get("text"));
+            System.out.println("Время сообщения: "+ map.get("time"));
         }
     }
     @Test
@@ -93,7 +93,7 @@ class ViewServiceTest {
         }
     }
     @Test
-    void dialogMessages(){
+    void dialogMessages() throws DBException {
         List<MessageEntity> messages= vs.getDialogMessages("1");
         for (MessageEntity mes:
                 messages) {
@@ -104,7 +104,7 @@ class ViewServiceTest {
     }
 
     @Test
-    void mainPage(){
+    void mainPage() throws DBException {
         List<Map<String,Object>> result=vs.mainPage();
         for (Map<String,Object> map:
                 result) {
