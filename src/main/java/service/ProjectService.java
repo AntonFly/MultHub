@@ -173,14 +173,13 @@ public class ProjectService extends AbstractService<ProjectsEntity,String>{
         }
         return true;
     }
-//шляпа с айдюком проекта
 
     /**
      * adds new row in project posts entity
      * shifts the responsibility of proj obj init to the upper level
-     * @param projectpostsEntity
-     * @return
-     * @throws DBException
+     * @param projectpostsEntity  projectpostsEntity object
+     * @return true in case of success
+     * @throws DBException Hiber exceptions replaced with
      */
     public boolean addPostToBlog(ProjectpostsEntity projectpostsEntity)throws DBException{
         Transaction transaction = DBService.getTransaction();
@@ -197,10 +196,10 @@ public class ProjectService extends AbstractService<ProjectsEntity,String>{
     }
 
     /**
-     *
+     * deletes row in project posts entity
      * @param projectpostsEntity post obj without a key
-     * @return
-     * @throws DBException
+     * @return true in case of success
+     * @throws DBException Hiber exceptions replaced with
      */
     public boolean deletePostInBlog(ProjectpostsEntity projectpostsEntity) throws DBException{
         Transaction transaction = DBService.getTransaction();
@@ -217,10 +216,10 @@ public class ProjectService extends AbstractService<ProjectsEntity,String>{
     }
 
     /**
-     *
-     * @param requestsEntity
-     * @return
-     * @throws DBException
+     *  deletes request row and creates new developer
+     * @param requestsEntity request object
+     * @return true in case of success
+     * @throws DBException Hiber exceptions replaced with
      */
     public boolean approveRequest(RequestsEntity requestsEntity)throws DBException{
         Transaction transaction = null;
@@ -246,10 +245,10 @@ public class ProjectService extends AbstractService<ProjectsEntity,String>{
     }
 
     /**
-     *
-     * @param requestsEntity
-     * @return
-     * @throws DBException
+     * deletes row in request entity
+     * @param requestsEntity request object
+     * @return true in case of success
+     * @throws DBException Hiber exceptions replaced with
      */
     public boolean rejectRequest(RequestsEntity requestsEntity)throws DBException{
         Transaction transaction = DBService.getTransaction();
@@ -268,10 +267,10 @@ public class ProjectService extends AbstractService<ProjectsEntity,String>{
     }
 
     /**
-     *
-     * @param developersEntity
-     * @return
-     * @throws DBException
+     * updates developer row in developers entity
+     * @param developersEntity developersEntitu object
+     * @return true in case of success
+     * @throws DBException Hiber exceptions replaced with
      */
     public boolean updateDeveloper(DevelopersEntity developersEntity)throws DBException{
         Transaction transaction = DBService.getTransaction();
@@ -287,10 +286,10 @@ public class ProjectService extends AbstractService<ProjectsEntity,String>{
     }
 
     /**
-     *
-     * @param creditinfoEntity
-     * @return
-     * @throws DBException
+     * adds new row in creditInfo entity
+     * @param creditinfoEntity creditinfoEntity object
+     * @return true in case of success
+     * @throws DBException Hiber exceptions replaced with
      */
     public boolean addCreditInfo(CreditinfoEntity creditinfoEntity)throws DBException{
         Transaction transaction = DBService.getTransaction();
@@ -306,10 +305,10 @@ public class ProjectService extends AbstractService<ProjectsEntity,String>{
     }
 
     /**
-     *
-     * @param creditinfoEntity
-     * @return
-     * @throws DBException
+     * deletes row in creditInfo entiy
+     * @param creditinfoEntity creditInfo object
+     * @return true in case of success
+     * @throws DBException Hiber exceptions replaced with
      */
     public boolean deleteCreditInfo(CreditinfoEntity creditinfoEntity)throws DBException {
         Transaction transaction = DBService.getTransaction();
@@ -326,13 +325,10 @@ public class ProjectService extends AbstractService<ProjectsEntity,String>{
     //////////////////////////////////////////////////////      COMMIT       //////////////////////////////////////////////////////////////////////////////////////////////////////
 
     /**
-     * не уверен в параметрах от слова совсем, ибо чтобы обновить коммит нужно взять его айди
-     * а чтоб взять айди коммита нужно взять айди проекта . Получается ебала костыльная as usual
-     *
-     * реализовано так что айди проекта сетится на уровень выше))))00 а айди коммита здесь
-     * должно работать
-     * @return
-     * @throws DBException
+     * sets APPROVED commit row, so it won't be shown to manager in unchecked commits
+     * @param commitsEntity commitsEntity object
+     * @return true in case of success
+     * @throws DBException Hiber exceptions replaced with
      */
     public boolean approveCommit( CommitsEntity commitsEntity)throws DBException{
         Transaction transaction = DBService.getTransaction();
@@ -351,10 +347,10 @@ public class ProjectService extends AbstractService<ProjectsEntity,String>{
     //the same as in approve
 
     /**
-     *
-     * @param commitsEntity
-     * @return
-     * @throws DBException
+     * deletes row in commit entity and connected files
+     * @param commitsEntity comitsEntity object
+     * @return true in case of success
+     * @throws DBException Hiber exceptions replaced with
      */
     public boolean rejectCommit(CommitsEntity commitsEntity)throws DBException{
         commitsEntity.setId(UUID.nameUUIDFromBytes(   (commitsEntity.getDeveloper()+commitsEntity.getProjectid()+commitsEntity.getTime())   .getBytes()  ).toString());
@@ -363,11 +359,11 @@ public class ProjectService extends AbstractService<ProjectsEntity,String>{
     }
 
     /**
-     *
-     * @param commitsEntity
-     * @param commitsfileEntities
-     * @return
-     * @throws DBException
+     * adds new commit and connected files
+     * @param commitsEntity commitsEntity obj
+     * @param commitsfileEntities list of Commitsfile objects
+     * @return true in case of success
+     * @throws DBException Hiber exceptions replaced with
      */
     public boolean commitFiles(CommitsEntity commitsEntity,List<CommitsfileEntity> commitsfileEntities )throws DBException{
         Transaction transaction = DBService.getTransaction();
@@ -389,9 +385,9 @@ public class ProjectService extends AbstractService<ProjectsEntity,String>{
 
 
     /**
-     *
-     * @return
-     * @throws DBException
+     * get new commits from commits entity
+     * @return list of not approved commits
+     * @throws DBException Hiber exceptions replaced with
      */
     public List<CommitsEntity> getUncheckedCommits()throws DBException{ //непонятки с commitsEntity
         Transaction transaction = DBService.getTransaction();
@@ -408,10 +404,10 @@ public class ProjectService extends AbstractService<ProjectsEntity,String>{
     }
 
     /**
-     *
-     * @param commitsEntity
-     * @return
-     * @throws DBException
+     * get commit's files
+     * @param commitsEntity commitEntity obect
+     * @return list of files connected with commit
+     * @throws DBException Hiber exceptions replaced with
      */
     public List<CommitsfileEntity> getCommitFiles(CommitsEntity commitsEntity)throws DBException{
         Transaction transaction = DBService.getTransaction();
@@ -428,10 +424,10 @@ public class ProjectService extends AbstractService<ProjectsEntity,String>{
     }
 
     /**
-     *
-     * @param commitsEntity
-     * @return
-     * @throws DBException
+     * deletes commit from commits entity
+     * @param commitsEntity commitsEntity object
+     * @return true in case of success
+     * @throws DBException Hiber exceptions replaced with
      */
     public boolean deleteCommit(CommitsEntity commitsEntity)throws DBException{
         Transaction transaction = DBService.getTransaction();
@@ -448,10 +444,10 @@ public class ProjectService extends AbstractService<ProjectsEntity,String>{
     }
 
     /**
-     *
-     * @param commitsfileEntity
-     * @return
-     * @throws DBException
+     * deletes certain file from db
+     * @param commitsfileEntity comitsfileEntity object
+     * @return true in case of success
+     * @throws DBException Hiber exceptions replaced with
      */
     public boolean deleteCommitFile(CommitsfileEntity commitsfileEntity)throws DBException{
         Transaction transaction = DBService.getTransaction();
@@ -472,10 +468,10 @@ public class ProjectService extends AbstractService<ProjectsEntity,String>{
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     /**
-     *
-     * @param commentsEntity
-     * @return
-     * @throws DBException
+     * deletes comment
+     * @param commentsEntity commentEntity object
+     * @return true in case of success
+     * @throws DBException Hiber exceptions replaced with
      */
     public boolean deleteComment(CommentsEntity commentsEntity)throws DBException{
         try {
@@ -488,14 +484,3 @@ public class ProjectService extends AbstractService<ProjectsEntity,String>{
     }
 
 }
-/*
-  добавление файла в проект
-  приминение коммита
-  рассмотрение администратором коммита
-  отправка приглашения в проект - done
-  добавление пользователя в проект -done
-  добавление поста в микроблог -done
-
-  все сделано но не все затесчено
-
-*/
