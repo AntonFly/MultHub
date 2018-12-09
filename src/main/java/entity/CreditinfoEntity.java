@@ -6,19 +6,19 @@ import java.util.Objects;
 @Entity
 @Table(name = "creditinfo", schema = "public", catalog = "multhub")
 public class CreditinfoEntity {
-    private String login;
+    private String projectid;
     private Integer cardnumber;
     private Integer qiwimobilephone;
     private Long yamoney;
 
     @Id
     @Column(name = "progectid", nullable = false, length = 30)
-    public String getLogin() {
-        return login;
+    public String getProjectid() {
+        return projectid;
     }
 
-    public void setLogin(String login) {
-        this.login = login;
+    public void setProjectid(String projectid) {
+        this.projectid = projectid;
     }
 
     @Basic
@@ -56,7 +56,7 @@ public class CreditinfoEntity {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         CreditinfoEntity that = (CreditinfoEntity) o;
-        return Objects.equals(login, that.login) &&
+        return Objects.equals(projectid, that.projectid) &&
                 Objects.equals(cardnumber, that.cardnumber) &&
                 Objects.equals(qiwimobilephone, that.qiwimobilephone) &&
                 Objects.equals(yamoney, that.yamoney);
@@ -64,7 +64,7 @@ public class CreditinfoEntity {
 
     @Override
     public int hashCode() {
-        return Objects.hash(login, cardnumber, qiwimobilephone, yamoney);
+        return Objects.hash(projectid, cardnumber, qiwimobilephone, yamoney);
     }
 
 }

@@ -35,7 +35,7 @@ public class ProjectService extends AbstractService<ProjectsEntity,String>{
     }
 
     /**
-     * Generate new user
+     * Generate new project
      * @param project - project obj
      * @return true in case of success
      * @throws DBException Hiber exceptions replaced with
@@ -58,6 +58,12 @@ public class ProjectService extends AbstractService<ProjectsEntity,String>{
         return true;
     }
 
+    /**
+     * @deprecated because of uuid id any change can cause errors
+     * @param item project obj
+     * @return true in case of success
+     * @throws DBException Hiber exceptions replaced with
+     */
     @Override
     @Deprecated
     public boolean update(ProjectsEntity item) throws DBException {
@@ -106,6 +112,12 @@ public class ProjectService extends AbstractService<ProjectsEntity,String>{
         return true;
     }
 
+    /**
+     *  adds new row in developers
+     * @param developersEntity Developer Entity object
+     * @return true in case of success
+     * @throws DBException Hiber exceptions replaced with
+     */
     public boolean addDeveloper(DevelopersEntity developersEntity) throws DBException{
         Transaction transaction = DBService.getTransaction();
         try{
@@ -119,7 +131,12 @@ public class ProjectService extends AbstractService<ProjectsEntity,String>{
         return true;
     }
 
-
+    /**
+     * removes row from Developers entity
+     * @param developersEntity developerEntity obkect
+     * @return true in case of success
+     * @throws DBException Hiber exceptions replaced with
+     */
     public boolean deleteDeveloper(DevelopersEntity developersEntity) throws DBException{
         Transaction transaction = DBService.getTransaction();
         DevelopersEntityPK developersEntityPK = new DevelopersEntityPK();
@@ -137,6 +154,12 @@ public class ProjectService extends AbstractService<ProjectsEntity,String>{
         return true;
     }
 
+    /**
+     * adds new request to Requests entity. isRequest = false
+     * @param requestsEntity requestEntity object
+     * @return true in case of success
+     * @throws DBException Hiber exceptions replaced with
+     */
     public boolean sendInviteToProject(RequestsEntity requestsEntity)throws DBException{
         Transaction transaction = DBService.getTransaction();
         requestsEntity.setIsrequest(false);
@@ -151,6 +174,14 @@ public class ProjectService extends AbstractService<ProjectsEntity,String>{
         return true;
     }
 //шляпа с айдюком проекта
+
+    /**
+     * adds new row in project posts entity
+     * shifts the responsibility of proj obj init to the upper level
+     * @param projectpostsEntity
+     * @return
+     * @throws DBException
+     */
     public boolean addPostToBlog(ProjectpostsEntity projectpostsEntity)throws DBException{
         Transaction transaction = DBService.getTransaction();
 
@@ -185,15 +216,111 @@ public class ProjectService extends AbstractService<ProjectsEntity,String>{
         return true;
     }
 
-    public boolean approveRequest(){
+    /**
+     *
+     * @param requestsEntity
+     * @return
+     * @throws DBException
+     */
+    public boolean approveRequest(RequestsEntity requestsEntity)throws DBException{
+        Transaction transaction = null;
+        RequestsEntityPK requestsEntityPK = new RequestsEntityPK();
+        requestsEntityPK.setLogin(requestsEntity.getLogin());
+        requestsEntityPK.setProjectid(requestsEntity.getProjectid());
+        try{
+            DevelopersEntity developersEntity = new DevelopersEntity();
+            developersEntity.setProjectid(requestsEntity.getProjectid());
+            developersEntity.setLogin(requestsEntity.getLogin());
+            developersEntity.setDescription("empty");
+            developersEntity.setProjpos(requestsEntity.getProjpos());
+            addDeveloper(developersEntity);
+            transaction = DBService.getTransaction();
+            RequestsDAO requestsDAO = DaoFactory.getRequestsDAO();
+            requestsDAO.delete(requestsEntityPK);
+            transaction.commit();
+        } catch (HibernateException | NoResultException e) {
+            DBService.transactionRollback(transaction);
+            throw new DBException(e);
+        }
         return true;
     }
 
-    public boolean addCreditInfo(){
-return true;
+    /**
+     *
+     * @param requestsEntity
+     * @return
+     * @throws DBException
+     */
+    public boolean rejectRequest(RequestsEntity requestsEntity)throws DBException{
+        Transaction transaction = DBService.getTransaction();
+        RequestsEntityPK requestsEntityPK = new RequestsEntityPK();
+        requestsEntityPK.setLogin(requestsEntity.getLogin());
+        requestsEntityPK.setProjectid(requestsEntity.getProjectid());
+        try{
+            RequestsDAO requestsDAO = DaoFactory.getRequestsDAO();
+            requestsDAO.delete(requestsEntityPK);
+            transaction.commit();
+        } catch (HibernateException | NoResultException e) {
+            DBService.transactionRollback(transaction);
+            throw new DBException(e);
+        }
+        return true;
     }
 
-    public boolean deleteCreditInfo(){
+    /**
+     *
+     * @param developersEntity
+     * @return
+     * @throws DBException
+     */
+    public boolean updateDeveloper(DevelopersEntity developersEntity)throws DBException{
+        Transaction transaction = DBService.getTransaction();
+        try{
+            DevelopersDAO developersDAO = DaoFactory.getDevelopersDAO();
+            developersDAO.update(developersEntity);
+            transaction.commit();
+        } catch (HibernateException | NoResultException e) {
+            DBService.transactionRollback(transaction);
+            throw new DBException(e);
+        }
+        return true;
+    }
+
+    /**
+     *
+     * @param creditinfoEntity
+     * @return
+     * @throws DBException
+     */
+    public boolean addCreditInfo(CreditinfoEntity creditinfoEntity)throws DBException{
+        Transaction transaction = DBService.getTransaction();
+        try{
+             CreditInfoDAO creditInfoDAO = DaoFactory.getCreditInfoDAO();
+             creditInfoDAO.create(creditinfoEntity);
+             transaction.commit();
+        } catch (HibernateException | NoResultException e) {
+            DBService.transactionRollback(transaction);
+            throw new DBException(e);
+        }
+        return true;
+    }
+
+    /**
+     *
+     * @param creditinfoEntity
+     * @return
+     * @throws DBException
+     */
+    public boolean deleteCreditInfo(CreditinfoEntity creditinfoEntity)throws DBException {
+        Transaction transaction = DBService.getTransaction();
+        try {
+            CreditInfoDAO creditInfoDAO = DaoFactory.getCreditInfoDAO();
+            creditInfoDAO.delete(creditinfoEntity.getProjectid());
+            transaction.commit();
+        } catch (HibernateException | NoResultException e) {
+            DBService.transactionRollback(transaction);
+            throw new DBException(e);
+        }
         return true;
     }
     //////////////////////////////////////////////////////      COMMIT       //////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -222,12 +349,26 @@ return true;
         return true;
     }
     //the same as in approve
+
+    /**
+     *
+     * @param commitsEntity
+     * @return
+     * @throws DBException
+     */
     public boolean rejectCommit(CommitsEntity commitsEntity)throws DBException{
         commitsEntity.setId(UUID.nameUUIDFromBytes(   (commitsEntity.getDeveloper()+commitsEntity.getProjectid()+commitsEntity.getTime())   .getBytes()  ).toString());
         deleteCommit(commitsEntity);
         return true;
     }
 
+    /**
+     *
+     * @param commitsEntity
+     * @param commitsfileEntities
+     * @return
+     * @throws DBException
+     */
     public boolean commitFiles(CommitsEntity commitsEntity,List<CommitsfileEntity> commitsfileEntities )throws DBException{
         Transaction transaction = DBService.getTransaction();
         try{
@@ -247,7 +388,11 @@ return true;
     }
 
 
-
+    /**
+     *
+     * @return
+     * @throws DBException
+     */
     public List<CommitsEntity> getUncheckedCommits()throws DBException{ //непонятки с commitsEntity
         Transaction transaction = DBService.getTransaction();
         List<CommitsEntity> commits;
@@ -262,6 +407,12 @@ return true;
         return commits;
     }
 
+    /**
+     *
+     * @param commitsEntity
+     * @return
+     * @throws DBException
+     */
     public List<CommitsfileEntity> getCommitFiles(CommitsEntity commitsEntity)throws DBException{
         Transaction transaction = DBService.getTransaction();
         List<CommitsfileEntity> commits;
@@ -276,6 +427,12 @@ return true;
         return commits;
     }
 
+    /**
+     *
+     * @param commitsEntity
+     * @return
+     * @throws DBException
+     */
     public boolean deleteCommit(CommitsEntity commitsEntity)throws DBException{
         Transaction transaction = DBService.getTransaction();
         try{
@@ -290,6 +447,12 @@ return true;
         return true;
     }
 
+    /**
+     *
+     * @param commitsfileEntity
+     * @return
+     * @throws DBException
+     */
     public boolean deleteCommitFile(CommitsfileEntity commitsfileEntity)throws DBException{
         Transaction transaction = DBService.getTransaction();
         CommitsfileEntityPK commitsfileEntityPK = new CommitsfileEntityPK();
@@ -307,6 +470,23 @@ return true;
         return true;
     }
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    /**
+     *
+     * @param commentsEntity
+     * @return
+     * @throws DBException
+     */
+    public boolean deleteComment(CommentsEntity commentsEntity)throws DBException{
+        try {
+            ServiceFactory.getUserService().deleteComment(commentsEntity);
+        }
+        catch (Exception ex){
+            throw new DBException(ex);
+        }
+        return true;
+    }
+
 }
 /*
   добавление файла в проект

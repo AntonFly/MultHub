@@ -8,6 +8,7 @@ import org.junit.runner.JUnitCore;
 import org.junit.runner.Result;
 import org.junit.runners.MethodSorters;
 import service.ProjectService;
+import service.ServiceFactory;
 import service.UserService;
 
 import java.math.BigInteger;
@@ -41,10 +42,11 @@ class ProjectsServiceTests {
     }
 
     @Test
-    void getProject() {
+    void GetProject() {
         try {
-            addProject();
+            AddProject();
             System.out.println("UPDATED:" +ps.get(UUID.nameUUIDFromBytes((pe.getName()+pe.getDescription()).getBytes()).toString()).getName());
+            //ps.delete(UUID.nameUUIDFromBytes((pe.getName()+pe.getDescription()).getBytes()).toString());
 
         } catch (DBException e) {
             e.printStackTrace();
@@ -52,7 +54,7 @@ class ProjectsServiceTests {
         }
     }
     @Test
-    void addProject() {
+    void AddProject() {  //AddProject
         try {
             ps.create(pe);
         } catch (DBException e) {
@@ -65,7 +67,7 @@ class ProjectsServiceTests {
     void deleteProject(){
 
         try {
-            addProject();
+            //AddProject();
             ps.delete(UUID.nameUUIDFromBytes((pe.getName()+pe.getDescription()).getBytes()).toString());
 
         } catch (DBException e) {
@@ -105,7 +107,7 @@ class ProjectsServiceTests {
 
             ps.commitFiles(commitsEntity,commitsfileEntities);
             //ps.deleteCommitFile(commitsfileEntity3);         IMPORTANT THING
-            ps.delete(UUID.nameUUIDFromBytes((pe.getName()+pe.getDescription()).getBytes()).toString()); //удаляет проект
+            //ps.delete(UUID.nameUUIDFromBytes((pe.getName()+pe.getDescription()).getBytes()).toString()); //удаляет проект
 
 
         } catch (DBException e) {
@@ -122,8 +124,8 @@ class ProjectsServiceTests {
                 System.out.println(d.getDeveloper());
             }
 
-            deleteCommit();
-            ps.delete(UUID.nameUUIDFromBytes((pe.getName()+pe.getDescription()).getBytes()).toString());
+            //deleteCommit();
+            //ps.delete(UUID.nameUUIDFromBytes((pe.getName()+pe.getDescription()).getBytes()).toString()); //project
 
         } catch (DBException e) {
             e.printStackTrace();
@@ -133,6 +135,7 @@ class ProjectsServiceTests {
     @Test
     void getFiles(){
         try {
+//            commitFiles();
             List<CommitsfileEntity> files = ps.getCommitFiles(commitsEntity);
             for (CommitsfileEntity d:files) {
                 System.out.println(d.getFilename());
@@ -141,10 +144,6 @@ class ProjectsServiceTests {
             e.printStackTrace();
             Assertions.fail("Ошибка получения коммитов");
         }
-    }
-
-    void aprove_rejectCommit(){
-
     }
 
 
@@ -158,21 +157,11 @@ class ProjectsServiceTests {
         }
     }
 
-    @Test
-    void addDeveloper(){
 
-    }
-
-    @Test
-    void deleteDeveloper(){
-
-    }
-    @Test
-    void sendInvite(){}
 
     static ProjectpostsEntity projectpostsEntity;
     @Test
-    void addPostToBlog(){
+    void AddPostToBlog(){  //AddPostToBlog
         try {
             //ps.create(pe);
             projectpostsEntity = new ProjectpostsEntity();
@@ -198,18 +187,141 @@ class ProjectsServiceTests {
     }
 
     @Test
+    void Commit(){
+        try {
+            ps.approveCommit(commitsEntity);
+            ps.rejectCommit(commitsEntity);
+            ps.delete(UUID.nameUUIDFromBytes((pe.getName()+pe.getDescription()).getBytes()).toString()); //project
+
+        } catch (DBException e) {
+            e.printStackTrace();
+            Assertions.fail("Ошибка получения коммитов");
+        }
+    }
+
+    @Test
+    void AddDeveloper(){
+        try {
+            ps.create(pe);
+            UserService service = ServiceFactory.getUserService();
+            UsersEntity usersEntity = new UsersEntity();
+            usersEntity.setLogin("TEST");
+            usersEntity.setPassword("TEST");
+            usersEntity.setSurname("TEST");
+            usersEntity.setName("TEST");
+            usersEntity.setImgpath("TEST");
+            service.create(usersEntity);
+            DevelopersEntity developersEntity = new DevelopersEntity();
+            developersEntity.setLogin(usersEntity.getLogin());
+            developersEntity.setProjectid(pe.getProjectid());
+            ps.addDeveloper(developersEntity);
+            //deleteDeveloper(developersEntity);
+            ps.deleteDeveloper(developersEntity);
+        }
+        catch (DBException e){
+            e.printStackTrace();
+            Assertions.fail("Ошибка получения коммитов");
+        }
+    }
+
+
+    void deleteDeveloper(DevelopersEntity developersEntity){
+        try {
+            ps.deleteDeveloper(developersEntity);
+        }
+        catch (Exception e){
+            e.printStackTrace();
+            Assertions.fail("Ошибка получения коммитов");
+        }
+    }
+
+    @Test
+    void sendInvite(){
+        try {
+            //ps.create(pe);
+            UserService service = ServiceFactory.getUserService();
+
+            RequestsEntity requestsEntity = new RequestsEntity();
+            requestsEntity.setIsrequest(false);
+            requestsEntity.setProjpos(Projpos.DEVELOPER);
+            requestsEntity.setLogin("TEST");
+            requestsEntity.setProjectid(pe.getProjectid());
+            ps.sendInviteToProject(requestsEntity);
+            service.delete("TEST");
+         //   deleteProject();
+        }
+        catch (DBException e){
+        e.printStackTrace();
+        Assertions.fail("Ошибка получения коммитов");
+        }
+    }
+
+    @Test
     void approveRequest_addDev(){
+        try {
+            UserService service = ServiceFactory.getUserService();
+            UsersEntity usersEntity = new UsersEntity();
+            usersEntity.setLogin("TEST");
+            usersEntity.setPassword("TEST");
+            usersEntity.setSurname("TEST");
+            usersEntity.setName("TEST");
+            usersEntity.setImgpath("TEST");
+            service.create(usersEntity);
 
+            service.requestProj(pe,usersEntity);
+
+            RequestsEntity requestsEntity = new RequestsEntity();
+            requestsEntity.setProjectid(pe.getProjectid());
+            requestsEntity.setLogin(usersEntity.getLogin());
+            ps.approveRequest(requestsEntity);
+            DevelopersEntity developersEntity = new DevelopersEntity();
+            developersEntity.setLogin(usersEntity.getLogin());
+            developersEntity.setProjectid(pe.getProjectid());
+            ps.deleteDeveloper(developersEntity);
+            service.delete(usersEntity.getLogin());
+        }
+        catch (DBException e){
+            e.printStackTrace();
+            Assertions.fail("Ошибка получения коммитов");
+        }
     }
 
     @Test
-    void addCredit(){
-
+    void removeCredit(){
+        try {
+            CreditinfoEntity creditinfoEntity = new CreditinfoEntity();
+            creditinfoEntity.setCardnumber(124312421);
+            creditinfoEntity.setProjectid(pe.getProjectid());
+            ps.deleteCreditInfo(creditinfoEntity);
+            ps.delete(UUID.nameUUIDFromBytes((pe.getName()+pe.getDescription()).getBytes()).toString());
+        }
+        catch (DBException e){
+            e.printStackTrace();
+            Assertions.fail("Ошибка получения коммитов");
+        }
     }
-
     @Test
-    void deleteCredit(){
-
+    void AddSOMECredit(){
+        try {
+            CreditinfoEntity creditinfoEntity = new CreditinfoEntity();
+            creditinfoEntity.setCardnumber(124312421);
+            creditinfoEntity.setProjectid(pe.getProjectid());
+            ps.addCreditInfo(creditinfoEntity);
+        }
+        catch (DBException e){
+            e.printStackTrace();
+            Assertions.fail("Ошибка получения коммитов");
+        }
     }
 
 }
+/*
+AddProject
+getProject
+commitFiles
+getCommits
+getFiles
+Commit   // approve and reject commit
+
+
+*/

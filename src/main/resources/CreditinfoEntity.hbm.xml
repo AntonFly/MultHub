@@ -5,7 +5,7 @@
 <hibernate-mapping>
 
     <class name="entity.CreditinfoEntity" table="creditinfo" schema="public" catalog="multhub">
-        <id name="login">
+        <id name="projectid">
             <column name="progectid" sql-type="varchar(30)" length="30"/>
         </id>
         <property name="cardnumber">
