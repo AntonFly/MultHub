@@ -118,6 +118,8 @@ public class ProjectService extends AbstractService<ProjectsEntity,String>{
         }
         return true;
     }
+
+
     public boolean deleteDeveloper(DevelopersEntity developersEntity) throws DBException{
         Transaction transaction = DBService.getTransaction();
         DevelopersEntityPK developersEntityPK = new DevelopersEntityPK();
@@ -183,7 +185,17 @@ public class ProjectService extends AbstractService<ProjectsEntity,String>{
         return true;
     }
 
+    public boolean approveRequest(){
+        return true;
+    }
 
+    public boolean addCreditInfo(){
+return true;
+    }
+
+    public boolean deleteCreditInfo(){
+        return true;
+    }
     //////////////////////////////////////////////////////      COMMIT       //////////////////////////////////////////////////////////////////////////////////////////////////////
 
     /**
@@ -268,7 +280,7 @@ public class ProjectService extends AbstractService<ProjectsEntity,String>{
         Transaction transaction = DBService.getTransaction();
         try{
             CommitsDao commitsDao = DaoFactory.getCommitsDao();
-            commitsDao.delete(commitsEntity.getId());
+            commitsDao.delete(commitsEntity);
             transaction.commit();
         } catch (HibernateException | NoResultException e) {
             DBService.transactionRollback(transaction);

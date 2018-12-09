@@ -38,6 +38,15 @@ public class CommitsDao extends AbstractDao<CommitsEntity,String> {
                 .save(entity);
     }
 
+    public void delete(CommitsEntity commitsEntity){
+        commitsEntity.setId(UUID.nameUUIDFromBytes((commitsEntity.getDeveloper()+commitsEntity.getProjectid()+commitsEntity.getTime()).getBytes()).toString());
+        Query query = DBService.getSessionFactory()
+                .getCurrentSession()
+                .createQuery("delete from CommitsEntity where id = :paramId");
+        query.setParameter("paramId",commitsEntity.getId());
+        query.executeUpdate();
+    }
+
     public List<CommitsEntity> getUnchecked(){
         Query query = DBService.getSessionFactory()
                 .getCurrentSession()

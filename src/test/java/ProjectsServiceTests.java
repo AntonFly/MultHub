@@ -16,7 +16,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.UUID;
 
-//@FixMethodOrder(MethodSorters.NAME_ASCENDING)
+@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class ProjectsServiceTests {
     private ProjectService ps;
@@ -34,15 +34,16 @@ class ProjectsServiceTests {
         pe = new ProjectsEntity();
         pe.setProjectid(null);
         pe.setCurbudget(12.);
-        pe.setDescription("V 1999 GODU;lkjh rodilsa divan i vosstal");
+        pe.setDescription("TEST");
         pe.setGoalbudget(13.);
-        pe.setName("Vosstanie mashine");
+        pe.setName("TEST");
 
     }
 
     @Test
     void getProject() {
         try {
+            addProject();
             System.out.println("UPDATED:" +ps.get(UUID.nameUUIDFromBytes((pe.getName()+pe.getDescription()).getBytes()).toString()).getName());
 
         } catch (DBException e) {
@@ -64,6 +65,7 @@ class ProjectsServiceTests {
     void deleteProject(){
 
         try {
+            addProject();
             ps.delete(UUID.nameUUIDFromBytes((pe.getName()+pe.getDescription()).getBytes()).toString());
 
         } catch (DBException e) {
@@ -75,7 +77,7 @@ class ProjectsServiceTests {
     @Test
     void commitFiles(){
         try {
-            ps.create(pe);
+//            ps.create(pe);
 
             commitsEntity = new CommitsEntity();
             commitsEntity.setApproved(Approved.AWAITS);
@@ -103,6 +105,7 @@ class ProjectsServiceTests {
 
             ps.commitFiles(commitsEntity,commitsfileEntities);
             //ps.deleteCommitFile(commitsfileEntity3);         IMPORTANT THING
+            ps.delete(UUID.nameUUIDFromBytes((pe.getName()+pe.getDescription()).getBytes()).toString()); //удаляет проект
 
 
         } catch (DBException e) {
@@ -120,6 +123,7 @@ class ProjectsServiceTests {
             }
 
             deleteCommit();
+            ps.delete(UUID.nameUUIDFromBytes((pe.getName()+pe.getDescription()).getBytes()).toString());
 
         } catch (DBException e) {
             e.printStackTrace();
@@ -148,8 +152,6 @@ class ProjectsServiceTests {
         try {
             ps.deleteCommit(commitsEntity);
 
-
-
         } catch (DBException e) {
             e.printStackTrace();
             Assertions.fail("Ошибка получения коммитов");
@@ -157,16 +159,57 @@ class ProjectsServiceTests {
     }
 
     @Test
-    void addDeveloper(){}
+    void addDeveloper(){
 
-            void deleteDeveloper(){
+    }
 
-            }
+    @Test
+    void deleteDeveloper(){
 
-            void sendInvite(){}
+    }
+    @Test
+    void sendInvite(){}
 
-void addPostToBlog(){}
+    static ProjectpostsEntity projectpostsEntity;
+    @Test
+    void addPostToBlog(){
+        try {
+            //ps.create(pe);
+            projectpostsEntity = new ProjectpostsEntity();
+            projectpostsEntity.setId(null);
+            projectpostsEntity.setFilepath("aaaaa");
+            projectpostsEntity.setProjectid(pe.getProjectid());
+            projectpostsEntity.setText("LOL ORU");
+            projectpostsEntity.setTime(new Timestamp(System.currentTimeMillis()));
+            ps.addPostToBlog(projectpostsEntity);
+        } catch (DBException e) {
+            e.printStackTrace();
+            Assertions.fail("Ошибка получения коммитов");
+        }
+    }
+    @Test
+    void deletePost(){
+        try {
+            ps.deletePostInBlog(projectpostsEntity);
+        } catch (DBException e) {
+            e.printStackTrace();
+            Assertions.fail("Ошибка получения коммитов");
+        }
+    }
 
-void deletePost(){}
+    @Test
+    void approveRequest_addDev(){
+
+    }
+
+    @Test
+    void addCredit(){
+
+    }
+
+    @Test
+    void deleteCredit(){
+
+    }
 
 }

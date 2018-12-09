@@ -403,7 +403,7 @@ public class UserService extends AbstractService<UsersEntity,String> {
         req.setLogin(user.getLogin());
         req.setProjectid(proj.getProjectid());
         req.setProjpos(Projpos.DEVELOPER);
-        req.setIsrequest(false);
+        req.setIsrequest(true);
         try{
             RequestsDAO dao = DaoFactory.getRequestsDAO();
             dao.create(req);
