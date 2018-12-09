@@ -1,5 +1,6 @@
 package dao;
 
+import entity.CommitsEntity;
 import entity.CommitsfileEntity;
 import entity.CommitsfileEntityPK;
 import org.hibernate.LockMode;
@@ -7,6 +8,7 @@ import org.hibernate.query.Query;
 import util.DBService;
 
 import java.util.List;
+import java.util.UUID;
 
 public class CommitsfileDAO extends AbstractDao<CommitsfileEntity,String> {
     @Override
@@ -36,5 +38,27 @@ public class CommitsfileDAO extends AbstractDao<CommitsfileEntity,String> {
 
         return (CommitsfileEntity) query.uniqueResult();
     }
+
+    public List<CommitsfileEntity> getAssociatedFiles(CommitsEntity commitsEntity){
+        commitsEntity.setId(UUID.nameUUIDFromBytes((commitsEntity.getDeveloper()+commitsEntity.getProjectid()+commitsEntity.getTime()).getBytes()).toString());
+
+        Query query = DBService.getSessionFactory()
+                .getCurrentSession()
+                .createQuery("from CommitsfileEntity where commitid =:paramApr ");
+        query.setParameter("paramApr",commitsEntity.getId());
+
+        return query.getResultList();
+    }
+
+    public void delete(CommitsfileEntityPK key)
+    {
+        Query query = DBService.getSessionFactory()
+                .getCurrentSession()
+                .createQuery("delete from CommitsfileEntity where commitid = :paramId AND filename = :paramFile");
+        query.setParameter("paramId",key.getCommitid());
+        query.setParameter("paramFile",key.getFilename());
+        query.executeUpdate();
+    }
+
 }
 

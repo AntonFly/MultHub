@@ -44,6 +44,7 @@ public class CommitsEntity {
     }
 
     @Basic
+    @Enumerated(EnumType.STRING)
     @Column(name = "approved", nullable = true)
     public Approved getApproved() {
         return approved;

@@ -14,7 +14,7 @@
             </key-property>
         </composite-id>
         <property name="filepath">
-            <column name="filepath" sql-type="integer" not-null="true"/>
+            <column name="filepath" sql-type="text" not-null="true"/>
         </property>
     </class>
 </hibernate-mapping>

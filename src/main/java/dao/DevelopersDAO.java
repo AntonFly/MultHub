@@ -43,6 +43,7 @@ public class DevelopersDAO extends AbstractDao<DevelopersEntity,String> {
                 .createQuery("delete from DevelopersEntity where login = :paramLogin AND projectid = :paramProjId");
         query.setParameter("paramLogin",key.getLogin());
         query.setParameter("paramProjId",key.getProjectid());
+        query.executeUpdate();
     }
 
 }
