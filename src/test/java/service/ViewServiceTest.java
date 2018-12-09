@@ -68,12 +68,12 @@ class ViewServiceTest {
             System.out.println("Собеседник: "+ map.get("other"));
             System.out.println("Аватар собеседникa: "+ map.get("otherImage"));
             System.out.println("Последнее сообщение: "+  map.get("text"));
-            System.out.println("Время сообщения: "+map.get("time"));
+            System.out.println("Время сообщения: "+ map.get("time"));
         }
     }
-    
+
     @Test
-    void dialogMessages(){
+    void dialogMessages() throws DBException {
         List<MessageEntity> messages= vs.getDialogMessages("1");
         for (MessageEntity mes:
                 messages) {
@@ -84,7 +84,7 @@ class ViewServiceTest {
     }
 
     @Test
-    void mainPage(){
+    void mainPage() throws DBException {
         List<Map<String,Object>> result=vs.mainPage();
         for (Map<String,Object> map:
                 result) {
@@ -123,7 +123,7 @@ class ViewServiceTest {
             Assertions.fail("Ошибка получения диалогов");
         }
     }
-    
+
     @Test
     void getFileCommits(){
         try {
@@ -131,7 +131,7 @@ class ViewServiceTest {
             for (Map.Entry<CommitsEntity,CommitsfileEntity> entry: map.entrySet()) {
                 System.out.println("Commit: id = "+entry.getKey().getId()+" time = "+entry.getKey().getTime()+" File: filename = "+entry.getValue().getFilename());
             }
-            
+
         } catch (Exception e) {
         e.printStackTrace();
         Assertions.fail("Ошибка получения комитов");

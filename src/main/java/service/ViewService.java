@@ -20,22 +20,6 @@ import java.sql.SQLException;
 import java.util.*;
 
 public class ViewService  {
-//    public List<UsersEntity> getProjDevelopers(ProjectsEntity proj){
-//        Transaction transaction= DBService.getTransaction();
-//        try{
-//            Integer goalProjId;
-//            DevelopersDAO devDao= DaoFactory.getDevelopersDAO();
-//            ProjectsDAO projDao=DaoFactory.getProjectsDAO();
-//            List<ProjectsEntity> projects= projDao.getAll();
-//            for (ProjectsEntity prj: projects
-//                 ) {
-//                if prj.
-//
-//            }
-//
-//        }
-//    }
-
     /**
      * Return user information for user profile
      * @param login request user login
@@ -82,13 +66,13 @@ public class ViewService  {
 
         return map;
     }
-/////////////////////////Project page
+
 
     /**
-     *
-     * @param projectsEntity
-     * @return
-     * @throws DBException
+     *  Return full information tu display projectpage
+     * @param projectsEntity object of project
+     * @return map of project's information
+     * @throws DBException Hiber exceptions replaced with
      */
     public Map<String,Object> mainPageProjectInfo(ProjectsEntity projectsEntity) throws DBException{
         Transaction transaction= DBService.getTransaction();
@@ -126,10 +110,10 @@ public class ViewService  {
     }
 
     /**
-     *
-     * @param projectsEntity
-     * @return
-     * @throws DBException
+     * Return full information to display file tab of project
+     * @param projectsEntity object of project
+     * @return list of project's files
+     * @throws DBException Hiber exceptions replaced withon
      */
     public List<Object[]> filesPageProjectInfo(ProjectsEntity projectsEntity) throws DBException{
         Transaction transaction= DBService.getTransaction();
@@ -147,11 +131,12 @@ public class ViewService  {
     }
 
     /**
-     *
-     * @param projectsEntity
-     * @return
-     * @throws DBException
+     * Return full information to display developer tab of project
+     * @param projectsEntity object of project
+     * @return map of projects's developers
+     * @throws DBException Hiber exceptions replaced withon
      */
+
     public Map<String, Object> developersPageProjectInfo(ProjectsEntity projectsEntity) throws DBException{
         Transaction transaction= DBService.getTransaction();
         Map<String,Object> mapa = new HashMap<>();
@@ -169,10 +154,10 @@ public class ViewService  {
     }
 
     /**
-     *
-     * @param projectsEntity
-     * @return
-     * @throws DBException
+     * Return full information to display tab with commits which is'n approved by maneger
+     * @param projectsEntity object of project
+     * @return List of priject's unapproved commits
+     * @throws DBException Hiber exceptions replaced withon
      */
     public List<Object[]> uncheckedfilesPageProjectInfo(ProjectsEntity projectsEntity) throws DBException{ //for manager approvence
         Transaction transaction= DBService.getTransaction();
@@ -189,10 +174,10 @@ public class ViewService  {
         return list;
     }
     /**
-     *
-     * @param fileName
-     * @return
-     * @throws DBException
+     * Return information about history of commits of file
+     * @param fileName directory with file
+     * @return map of file's commits
+     * @throws DBException Hiber exceptions replaced withon
      */
     public Map<CommitsEntity, CommitsfileEntity> getFilecommits(String fileName) throws DBException {
         Transaction transaction= DBService.getTransaction();
@@ -220,12 +205,17 @@ public class ViewService  {
         return map;
     }
 
-    /////////////////////////////////////////
 
+    /**
+     * Return information to display user's dialog
+     * @param login user login whose dialogs needed
+     * @return  List of each dialog information
+     * @throws DBException Hiber exceptions replaced withon
+     */
     public  List<Map<String,Object>> getDialogs(String login) throws DBException {
         List<Map<String,Object>> result= new ArrayList<>();
         Transaction transaction= DBService.getTransaction();
-
+        try{
         UsersDAO userDao= DaoFactory.getUsersDAO();
         DialogDAO dialogDAO =DaoFactory.getDialogDao();
         MessageDAO messageDao=DaoFactory.getMessageDao();
@@ -250,20 +240,39 @@ public class ViewService  {
             map.put("time",message.getTime());
             result.add(map);
         }
+        } catch (HibernateException | NoResultException e) {
+            DBService.transactionRollback(transaction);
+            throw new DBException(e);
+        }
         return result;
     }
 
-
-    public List<MessageEntity> getDialogMessages(String id){
+    /**
+     * Using for get all messages of dialog
+     * @param id dialog id
+     * @return List of messages
+     * @throws DBException Hiber exceptions replaced withon
+     */
+    public List<MessageEntity> getDialogMessages(String id) throws DBException{
         Transaction transaction= DBService.getTransaction();
         List<MessageEntity> result;
+        try{
         MessageDAO messageDAO=DaoFactory.getMessageDao();
         result =messageDAO.getDialogMessages(id);
         transaction.commit();
+        } catch (HibernateException | NoResultException e) {
+            DBService.transactionRollback(transaction);
+            throw new DBException(e);
+        }
         return  result;
     }
 
-    public  List<Map<String,Object>> mainPage(){
+    /**
+     * Using to get full information which is displayed on main page of site
+     * @return List of main page objects
+     * @throws DBException Hiber exceptions replaced witho
+     */
+    public  List<Map<String,Object>> mainPage() throws DBException{
         List<Map<String,Object>> result= new ArrayList<>();
         Transaction transaction= DBService.getTransaction();
 
@@ -288,20 +297,8 @@ public class ViewService  {
             map.put("lastPost",post.getText());
             map.put("lastMedia",latestMedia);
             result.add(map);
-//            System.out.println(post.getText());
-//           for (Object media: latestMedia
-//            ) {
-//                System.out.println((String) media);
-//               System.out.println("1");
-//            }
 
         }
         return result;
     }
-//    public List<MessageEntity> getDialogMessages(String id){
-//        Transaction transaction= DBService.getTransaction();
-//        List<MessageEntity> result=DBService.getSessionFactory()
-//                .getCurrentSession()
-//                .createQuery("from MessageEntity  where = :Loginparam  or twoUserId =:Loginparam\");");
-//    }
 }
