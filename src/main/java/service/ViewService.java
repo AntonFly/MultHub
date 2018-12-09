@@ -3,14 +3,15 @@ package service;
 import dao.*;
 import entity.*;
 import exception.DBException;
+import org.hibernate.HibernateException;
 import org.hibernate.LockMode;
 import org.hibernate.Transaction;
 import util.DBService;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import javax.persistence.NoResultException;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.*;
 
 public class ViewService  {
 //    public List<UsersEntity> getProjDevelopers(ProjectsEntity proj){
@@ -75,7 +76,14 @@ public class ViewService  {
 
         return map;
     }
+/////////////////////////Project page
 
+    /**
+     *
+     * @param projectsEntity
+     * @return
+     * @throws DBException
+     */
     public Map<String,Object> mainPageProjectInfo(ProjectsEntity projectsEntity) throws DBException{
         Map<String,Object> mapa = new HashMap<>();
         //posts
@@ -104,18 +112,33 @@ public class ViewService  {
         return mapa;
     }
 
-    public void filesPageProjectInfo(ProjectsEntity projectsEntity) throws DBException{
-        CommitsDao commitsDao = DaoFactory.getCommitsDao();
-        commitsDao.getCommitsFiles(projectsEntity);
+    /**
+     *
+     * @param projectsEntity
+     * @return
+     * @throws DBException
+     */
+    public List<Object[]> filesPageProjectInfo(ProjectsEntity projectsEntity) throws DBException{
+        Transaction transaction= DBService.getTransaction();
+        List<Object[]> list;
+        try {
+            CommitsDao commitsDao = DaoFactory.getCommitsDao();
+            list = commitsDao.getCommitsFiles(projectsEntity);
+            transaction.commit();
 
-//        CommitsfileDAO commitsfileDAO = DaoFactory.getCommitsfileDAO();
-//        List<CommitsEntity> allCommits = commitsDao.getCommits(projectsEntity.getProjectid());
-
-
-
-
+        } catch (HibernateException | NoResultException e) {
+            DBService.transactionRollback(transaction);
+            throw new DBException(e);
+        }
+        return list;
     }
 
+    /**
+     *
+     * @param projectsEntity
+     * @return
+     * @throws DBException
+     */
     public Map<String, Object> developersPageProjectInfo(ProjectsEntity projectsEntity) throws DBException{
 
         Map<String,Object> mapa = new HashMap<>();
@@ -126,6 +149,49 @@ public class ViewService  {
 
         return mapa;
     }
+
+    /**
+     *
+     * @param projectsEntity
+     * @return
+     * @throws DBException
+     */
+    public List<Object[]> uncheckedfilesPageProjectInfo(ProjectsEntity projectsEntity) throws DBException{ //for manager approvence
+        Transaction transaction= DBService.getTransaction();
+        List<Object[]> list;
+        try {
+            CommitsDao commitsDao = DaoFactory.getCommitsDao();
+            list = commitsDao.getUncheckCommitsFiles(projectsEntity);
+            transaction.commit();
+
+        } catch (HibernateException | NoResultException e) {
+            DBService.transactionRollback(transaction);
+            throw new DBException(e);
+        }
+        return list;
+    }
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    public void getFilecommits(ProjectsEntity projectsEntity,String fileDirectory) throws DBException {
+        Transaction transaction= DBService.getTransaction();
+        List<Object[]> list;
+        try {
+            CommitsDao commitsDao = DaoFactory.getCommitsDao();
+            list = commitsDao.getCommitsOnly(projectsEntity);
+            transaction.commit();
+
+        } catch (HibernateException | NoResultException e) {
+            DBService.transactionRollback(transaction);
+            throw new DBException(e);
+        }
+        return list;
+    }
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    /////////////////////////////////////////
 
     public  List<Map<String,Object>> getDialogs(String login) throws DBException {
         List<Map<String,Object>> result= new ArrayList<>();
@@ -159,10 +225,10 @@ public class ViewService  {
     }
 
 
-    public List<MessageEntity> getDialogMessages(String id){
-        Transaction transaction= DBService.getTransaction();
-        List<MessageEntity> result=DBService.getSessionFactory()
-                .getCurrentSession()
-                .createQuery("from MessageEntity  where = :Loginparam  or twoUserId =:Loginparam\");");
-    }
+//    public List<MessageEntity> getDialogMessages(String id){
+//        Transaction transaction= DBService.getTransaction();
+//        List<MessageEntity> result=DBService.getSessionFactory()
+//                .getCurrentSession()
+//                .createQuery("from MessageEntity  where = :Loginparam  or twoUserId =:Loginparam\");");
+//    }
 }
