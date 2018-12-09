@@ -150,7 +150,7 @@ class ViewServiceTest {
 
             Map<String,Object> map = ServiceFactory.getViewService().mainPageProjectInfo(projectsEntity);
             System.out.println("posts text: "+((List<ProjectpostsEntity>)map.get("Posts")).get(0).getText());
-            System.out.println("subs: "+((List<SubsEntity>)map.get("Subs")).get(0).getLogin());
+            System.out.println("subs: "+((List<UsersEntity>)map.get("Subs")).get(0).getLogin());
 
         } catch (Exception e) {
             e.printStackTrace();
